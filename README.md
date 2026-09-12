@@ -1,16 +1,29 @@
-# React + Vite
+# MarkAura - Client Web App (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project idea & description
 
-Currently, two official plugins are available:
+MarkOra is a marketing agency management platform that manages the full lifecycle of a campaign from a client's initial request, through planning and execution by agency staff, to coordination with outsourced partners. Instead of managing this back-and-forth over emails and spreadsheets, MarkOra gives each party (clients, agency staff, and outsource partners) a role-based view of exactly what they need to act on next: clients submit and track campaign requests, staff review requests and manage active campaigns, and outsource agencies handle delegated tasks all through a single, status-driven workflow.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This repository contains the **React frontend** for MarkAura.
 
-## React Compiler
+## User Stories
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Client
 
-## Expanding the ESLint configuration
+### Agency staff
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Outsource agency
+
+## Wireframes
+
+## ERD
+
+## Routing Tables
+
+### Client routes
+
+### Agency staff routes
+
+### Outsource partners routes
+
+## Component hierarchy
