@@ -12,20 +12,24 @@ This repository contains the **React frontend** for MarkAura.
 **Account & Profile**
 - As a client, I want to register and log in to the platform, so that I can access my company's campaign data securely.
 - As a client, I want to view and update my company profile, so that my contact and industry information stays accurate.
+
 **Submitting Campaign Requests**
 - As a client, I want to submit a new campaign request with my goals, budget, and preferred channels, so that the agency has everything it needs to start planning.
 - As a client, I want to edit my request while it's still awaiting review, so that I can correct or refine details before staff starts working on it.
 - As a client, I want to cancel a request I submitted, so that I'm not committed to a campaign I no longer need if it hasn't been accepted yet.
+
 **Tracking Requests**
 - As a client, I want to see a list of all my submitted requests and their statuses, so that I know where each one stands without contacting the agency directly.
 - As a client, I want to view the details of a specific request, including which staff member it's assigned to, so that I know who's handling my account.
 **Tracking Active Campaigns**
 - As a client, I want to view the progress of my active campaigns, so that I can stay informed on timeline and budget without needing a status meeting.
 - As a client, I want to see whether an outsource agency has been brought onto my campaign, so that I understand who's contributing to the work, even if I don't see their internal tasks.
+
 **Reviewing & Feedback**
 - As a client, I want to review campaign deliverables when they reach the review stage, so that I can confirm they match what I approved.
 - As a client, I want to leave comments or request changes on a campaign draft, so that the agency can revise it before it goes live.
 - As a client, I want to give final approval on a campaign, so that it can move forward to launch only once I'm satisfied.
+
 **Boundaries**
 - As a client, I want my data isolated from other clients, so that I never see requests or campaigns that aren't mine.
 - As a client, I should not be able to change a request's status myself, so that only agency staff can validate and accept work into the pipeline.
@@ -46,7 +50,6 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 ### Agent Staff WireFrames
 
 ### Outsource Partners Wireframes
-
 
 </div>
 
