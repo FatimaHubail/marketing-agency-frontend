@@ -37,9 +37,15 @@ This repository contains the **React frontend** for MarkAura.
 
 Check out the wireframes sketching out layout and flow of the app covering the screens for clients, agency staff, and outsource partners across the request → campaign → task lifecycle.
 
+### Client WireFrames
+
 <div align="center">
 
-[Open wireframes in Excalidraw](./docs/diagrams/markora_wireframes.excalidraw)
+[Open Client wireframes in Excalidraw](https://excalidraw.com/#json=HtugvHFQrEdtZtdNZ0Pr-,EjUBjAKtMfTTcD_qsOLgjA)
+
+### Agent Staff WireFrames
+
+### Outsource Partners Wireframes
 
 
 </div>
