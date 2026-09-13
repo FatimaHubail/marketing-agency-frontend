@@ -34,6 +34,25 @@ This repository contains the **React frontend** for MarkAura.
 - As a client, I want my data isolated from other clients, so that I never see requests or campaigns that aren't mine.
 - As a client, I should not be able to change a request's status myself, so that only agency staff can validate and accept work into the pipeline.
 ### Agency staff
+1. As an agency staff member, I want to view the dasboard so I can see current activities.
+
+2. As an agency staff member, I want to review client campaign requests so I can decided how to handle them. 
+
+3. As an agency staff member, I want to accept or reject campaign requests so I can manage incoming work.
+
+4. As an agency staff member, I want to manage campaigns so I can track their progress.
+
+5. As an agency staff member, I want to create and assign tasks so work is organized
+
+6. As an agency staff member, I want to view assigned tasks so I can track the work that needs to be completed.
+
+7. As an agency staff member, I want to update task status so I can keep the team informed about progress.
+
+8. As an agency staff member, I want to manage outsource requests so I can coordinate work with external partners.
+
+9. As an agency staff member, I want to view reports so I can monitor campaign performance.
+
+10. As an agency staff member, I want to view my profile so I can manage my account information.
 
 ### Outsource partners
 
@@ -48,6 +67,10 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 [Open Client wireframes in Excalidraw](https://excalidraw.com/#json=HtugvHFQrEdtZtdNZ0Pr-,EjUBjAKtMfTTcD_qsOLgjA)
 
 ### Agent Staff WireFrames
+<div align="center">
+
+[Open Client wireframes in Excalidraw](https://excalidraw.com/#json=qT5Sfgg_m7Rd2KMgV_1AX,Vmgu_loLw0MozkdcNjXsGQ
+)
 
 ### Outsource Partners Wireframes
 
@@ -79,6 +102,21 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 
 ### Agency staff routes
 
+| Path | Component | Notes |
+|---|---|---|
+| `/agency/dashboard` | `AgencyDashboard` | View agency activities and overview |
+| `/agency/campaign-requests` | `CampaignRequests` | View and manage client campaign requests |
+| `/agency/campaign-requests/:id` | `CampaignRequestDetails` | View request details and accept or reject |
+| `/agency/campaigns` | `Campaigns` | View and manage campaigns |
+| `/agency/campaigns/:id` | `CampaignDetails` | View campaign details and progress |
+| `/agency/tasks` | `Tasks` | View and manage agency tasks |
+| `/agency/tasks/:id` | `TaskDetails` | View and update task details |
+| `/agency/tasks/create` | `CreateTask` | Create and assign a task |
+| `/agency/outsource-requests` | `OutsourceRequests` | View and manage outsource requests |
+| `/agency/outsource-requests/:id` | `OutsourceRequestDetails` | View outsource request details |
+| `/agency/reports` | `Reports` | View campaign and task reports |
+| `/agency/profile` | `Profile` | View and manage agency staff profile |
+
 ### Outsource partners routes
 
 ## Component hierarchy
@@ -100,3 +138,10 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 <div align="center">
   <img src="./docs/diagrams/component-hierarchy-client-pages.png" alt="Pages branching into the six client routes" width="700">
 </div>
+
+### Agency Components
+<div align="center">
+  <img src='./docs/diagrams/component agency.png'>
+</div>
+
+
