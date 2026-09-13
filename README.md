@@ -104,18 +104,18 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 
 | Path | Component | Notes |
 |---|---|---|
-| `/agency/dashboard` | `AgencyDashboard` | View agency activities and overview |
-| `/agency/campaign-requests` | `CampaignRequests` | View and manage client campaign requests |
-| `/agency/campaign-requests/:id` | `CampaignRequestDetails` | View request details and accept or reject |
-| `/agency/campaigns` | `Campaigns` | View and manage campaigns |
-| `/agency/campaigns/:id` | `CampaignDetails` | View campaign details and progress |
-| `/agency/tasks` | `Tasks` | View and manage agency tasks |
-| `/agency/tasks/:id` | `TaskDetails` | View and update task details |
-| `/agency/tasks/create` | `CreateTask` | Create and assign a task |
-| `/agency/outsource-requests` | `OutsourceRequests` | View and manage outsource requests |
-| `/agency/outsource-requests/:id` | `OutsourceRequestDetails` | View outsource request details |
-| `/agency/reports` | `Reports` | View campaign and task reports |
-| `/agency/profile` | `Profile` | View and manage agency staff profile |
+| `/dashboard` | `AgencyDashboard` | View agency activities and overview |
+| `/campaign-requests` | `CampaignRequests` | View and manage client campaign requests |
+| `/campaign-requests/:id` | `CampaignRequestDetails` | View request details and accept or reject |
+| `/campaigns` | `Campaigns` | View and manage campaigns |
+| `/campaigns/:id` | `CampaignDetails` | View campaign details and progress |
+| `/tasks` | `Tasks` | View and manage agency tasks |
+| `/tasks/:id` | `TaskDetails` | View and update task details |
+| `/tasks/create` | `CreateTask` | Create and assign a task |
+| `/outsource-requests` | `OutsourceRequests` | View and manage outsource requests |
+| `/outsource-requests/:id` | `OutsourceRequestDetails` | View outsource request details |
+| `/reports` | `Reports` | View campaign and task reports |
+| `/profile` | `Profile` | View and manage agency staff profile |
 
 ### Outsource partners routes
 
