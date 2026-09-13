@@ -141,7 +141,7 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 
 ### Agency Components
 <div align="center">
-  <img src='./docs/diagrams/component agency.png'>
+  <img src='./docs/diagrams/component-agency.png'>
 </div>
 
 
