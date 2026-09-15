@@ -10,7 +10,8 @@ import Dashboard from './components/Dashboard/Dashboard'
 import Landing from './components/Landing/Landing'
 import AdminUserManagement from './components/AdminUserManagement/AdminUserManagement';
 import NewCampaignRequest from './components/NewCampaignRequest/NewCampaignRequest';
-import CampaignRequests from './components/CampaignRequests/CampaignRequests';
+import CampaignRequests from "./components/CampaignRequests/CampaignRequests";
+import MyCampaignRequests from "./components/MyCampaignRequests/MyCampaignRequests";
 import Tasks from "./components/Tasks/Tasks";
 import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route path='/admin/users' element={<AdminUserManagement />} />
         <Route path='/requests/new' element={<NewCampaignRequest />} />
         <Route path='/campaign-requests' element={<CampaignRequests />} />
+        <Route path='/requests' element={<MyCampaignRequests />} />
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path="/agency-dashboard" element={<AgencyDashboard />} />
         

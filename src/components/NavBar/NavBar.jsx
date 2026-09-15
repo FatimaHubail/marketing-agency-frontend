@@ -21,11 +21,22 @@ const NavBar = () => {
               <Link to="/">Dashboard</Link>
             </li>
 
-            <li>
-              <Link to="/campaign-requests">Campaign Requests</Link>
-            </li>
+            {(user.role === "staff" || user.role === "admin") && (
+              <li>
+                <Link to="/campaign-requests">
+                  Campaign Requests
+                </Link>
+              </li>
+            )}
+            {user.role === "client" && (
+              <li>
+                <Link to="/requests">
+                  Campaign Requests
+                </Link>
+              </li>
+            )}
 
-            {["admin", "staff", "campaignManager"].includes(user.role) && (
+            {["admin", "staff"].includes(user.role) && (
               <li>
                 <Link to="/tasks">Tasks</Link>
               </li>
