@@ -8,6 +8,7 @@ import SignInForm from "./components/SignInForm/SignInForm";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Landing from "./components/Landing/Landing";
 import AdminUserManagement from "./components/AdminUserManagement/AdminUserManagement";
+import CampaignRequests from "./components/CampaignRequests/CampaignRequests";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -32,6 +33,8 @@ const App = () => {
             )
           }
         />
+
+        <Route path = '/campaign-requests' element={<CampaignRequests/>}/>
       </Routes>
     </>
   );
