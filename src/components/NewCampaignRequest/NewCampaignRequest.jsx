@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { createCampaignRequest } from '../../services/campaignRequestService';
-import { CAMPAIGN_TYPES, GOALS_BY_TYPE } from '../../constants/campaignTaxonomy';
+import { CAMPAIGN_TYPES, GOALS_BY_TYPE, PREFERRED_CHANNELS } from '../../constants/campaignTaxonomy';
 
 export default function NewCampaignRequest() {
     const navigate = useNavigate();
@@ -25,9 +25,12 @@ export default function NewCampaignRequest() {
         }
     };
 
-    const handleChannelsChange = (evt) => {
-        const options = Array.from(evt.target.selectedOptions, (opt) => opt.value);
-        setFormData({ ...formData, preferredChannels: options });
+    const handleChannelToggle = (channel) => {
+        const isSelected = formData.preferredChannels.includes(channel);
+        const updated = isSelected
+            ? formData.preferredChannels.filter((c) => c !== channel)
+            : [...formData.preferredChannels, channel];
+        setFormData({ ...formData, preferredChannels: updated });
     };
 
     const validateForm = () => {
@@ -131,21 +134,20 @@ export default function NewCampaignRequest() {
                     required
                 />
 
-                <label htmlFor="preferredChannels">Preferred Channels</label>
-                <select
-                    id="preferredChannels"
-                    name="preferredChannels"
-                    multiple
-                    value={formData.preferredChannels}
-                    onChange={handleChannelsChange}
-                >
-                    <option value="instagram">Instagram</option>
-                    <option value="tiktok">TikTok</option>
-                    <option value="snapchat">Snapchat</option>
-                    <option value="email">Email</option>
-                    <option value="sms">SMS</option>
-                    <option value="google_ads">Google Ads</option>
-                </select>
+                <fieldset>
+                    <legend>Preferred Channels</legend>
+                    {PREFERRED_CHANNELS.map((channel) => (
+                        <label key={channel} htmlFor={`channel-${channel}`}>
+                            <input
+                                type="checkbox"
+                                id={`channel-${channel}`}
+                                checked={formData.preferredChannels.includes(channel)}
+                                onChange={() => handleChannelToggle(channel)}
+                            />
+                            {channel.replace(/_/g, ' ')}
+                        </label>
+                    ))}
+                </fieldset>
 
                 <label htmlFor="notes">Notes</label>
                 <textarea

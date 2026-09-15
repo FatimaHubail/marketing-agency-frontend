@@ -24,4 +24,6 @@ const GOALS_BY_TYPE = {
     pr: ['media_coverage', 'reputation', 'crisis_response'],
 };
 
-export { CAMPAIGN_TYPES, GOALS_BY_TYPE };
+const PREFERRED_CHANNELS = ['instagram', 'tiktok', 'snapchat', 'email', 'sms', 'google_ads'];
+
+export { CAMPAIGN_TYPES, GOALS_BY_TYPE, PREFERRED_CHANNELS };
