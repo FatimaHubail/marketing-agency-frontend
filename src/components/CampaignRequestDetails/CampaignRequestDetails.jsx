@@ -27,6 +27,9 @@ const CampaignRequestDetails = () => {
     if (isLoading) return <main><p>Loading...</p></main>;
     if (error) return <main><p role="alert">{error}</p></main>;
 
+    const canUpdate = request.status === 'submitted';
+    const updateDisabledReason = 'This request can no longer be edited because it has already been reviewed.';
+
     return (
         <main>
             <button onClick={() => navigate('/requests')}>← Back to My Campaign Requests</button>
@@ -43,6 +46,17 @@ const CampaignRequestDetails = () => {
                 <p><strong>Rejection Reason:</strong> {request.rejectedReason}</p>
             )}
             <p><strong>Submitted:</strong> {new Date(request.createdAt).toLocaleDateString()}</p>
+
+            <button
+                onClick={() => navigate(`/requests/${id}/edit`)}
+                disabled={!canUpdate}
+                title={canUpdate ? undefined : updateDisabledReason}
+            >
+                Update Request
+            </button>
+            {!canUpdate && (
+                <p className="update-disabled-message">{updateDisabledReason}</p>
+            )}
         </main>
     );
 };

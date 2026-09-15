@@ -54,6 +54,25 @@ const getCampaignRequestById = async (id) => {
   return data;
 };
 
+const updateMyCampaignRequest = async (id, formData) => {
+  const res = await fetch(`${REQUESTS_URL}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const data = await res.json();
+
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
+
 // staff
 const getCampaignRequests = async () => {
   const res = await fetch(CAMPAIGN_REQUESTS_URL, {
@@ -148,6 +167,7 @@ export {
   createCampaignRequest,
   getMyCampaignRequests,
   getCampaignRequestById,
+  updateMyCampaignRequest,
   getCampaignRequests,
   updateCampaignRequest,
   acceptCampaignRequest,
