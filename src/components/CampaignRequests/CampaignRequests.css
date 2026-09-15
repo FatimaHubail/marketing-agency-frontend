@@ -1,0 +1,101 @@
+.campaign-requests {
+  min-height: 100vh;
+  padding: 40px;
+  background-color: #eef8ff;
+}
+
+.campaign-requests h1 {
+  margin-bottom: 30px;
+}
+
+.campaign-requests table {
+  width: 100%;
+  background-color: white;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.campaign-requests th,
+.campaign-requests td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.campaign-requests th {
+  background-color: #f8fbff;
+}
+
+.campaign-requests select,
+.campaign-requests input {
+  padding: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.campaign-requests button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.campaign-requests button:first-of-type {
+  background-color: #4da3d9;
+  color: white;
+}
+
+.campaign-requests button:first-of-type:hover {
+  background-color: #398fc5;
+}
+
+.campaign-requests button:last-of-type {
+  background-color: #e57373;
+  color: white;
+}
+
+.campaign-requests button:last-of-type:hover {
+  background-color: #d95c5c;
+}
+
+.request-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.request-details {
+  background-color: white;
+  width: 500px;
+  max-width: 90%;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.request-details h2 {
+  margin-bottom: 20px;
+}
+
+.request-details p {
+  margin-bottom: 12px;
+}
+
+.request-details button {
+  margin-top: 15px;
+  background-color: #d9e2e8;
+  color: #333;
+}
+
+.request-details button:hover {
+  background-color: #c7d2d9;
+}
