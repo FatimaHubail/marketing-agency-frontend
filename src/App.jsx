@@ -11,6 +11,8 @@ import Landing from './components/Landing/Landing'
 import AdminUserManagement from './components/AdminUserManagement/AdminUserManagement';
 import NewCampaignRequest from './components/NewCampaignRequest/NewCampaignRequest';
 import CampaignRequests from './components/CampaignRequests/CampaignRequests';
+import MyCampaignRequests from './components/MyCampaignRequests/MyCampaignRequests';
+import CampaignRequestDetails from './components/CampaignRequestDetails/CampaignRequestDetails';
 import Tasks from "./components/Tasks/Tasks";
 import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 
@@ -31,6 +33,8 @@ const App = () => {
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/admin/users' element={<AdminUserManagement />} />
         <Route path='/requests/new' element={<NewCampaignRequest />} />
+        <Route path='/requests/:id' element={<CampaignRequestDetails />} />
+        <Route path='/requests' element={<MyCampaignRequests />} />
         <Route path='/campaign-requests' element={<CampaignRequests />} />
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path="/agency-dashboard" element={<AgencyDashboard />} />

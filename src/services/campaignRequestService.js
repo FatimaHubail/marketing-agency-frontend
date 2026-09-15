@@ -38,6 +38,22 @@ const getMyCampaignRequests = async () => {
   return data;
 };
 
+const getCampaignRequestById = async (id) => {
+  const res = await fetch(`${REQUESTS_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
+
 // staff
 const getCampaignRequests = async () => {
   const res = await fetch(CAMPAIGN_REQUESTS_URL, {
@@ -131,6 +147,7 @@ const getUsersByRole = async (role) => {
 export {
   createCampaignRequest,
   getMyCampaignRequests,
+  getCampaignRequestById,
   getCampaignRequests,
   updateCampaignRequest,
   acceptCampaignRequest,
