@@ -13,6 +13,7 @@ import NewCampaignRequest from './components/NewCampaignRequest/NewCampaignReque
 import CampaignRequests from './components/CampaignRequests/CampaignRequests';
 import MyCampaignRequests from './components/MyCampaignRequests/MyCampaignRequests';
 import CampaignRequestDetails from './components/CampaignRequestDetails/CampaignRequestDetails';
+import UpdateCampaignRequest from './components/UpdateCampaignRequest/UpdateCampaignRequest';
 import Tasks from "./components/Tasks/Tasks";
 import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 
@@ -33,10 +34,10 @@ const App = () => {
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/admin/users' element={<AdminUserManagement />} />
         <Route path='/requests/new' element={<NewCampaignRequest />} />
+        <Route path='/requests/:id/edit' element={<UpdateCampaignRequest />} />
         <Route path='/requests/:id' element={<CampaignRequestDetails />} />
         <Route path='/requests' element={<MyCampaignRequests />} />
         <Route path='/campaign-requests' element={<CampaignRequests />} />
-        <Route path='/requests' element={<MyCampaignRequests />} />
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path="/agency-dashboard" element={<AgencyDashboard />} />
         
