@@ -1,19 +1,18 @@
-import { useContext } from 'react';
-import { Link } from 'react-router';
-import { UserContext } from '../../contexts/UserContext';
+import { useContext } from "react";
+import { Link } from "react-router";
+import { UserContext } from "../../contexts/UserContext";
 
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
   };
 
   return (
     <nav>
       <ul>
-
         {user ? (
           <>
             <li>Hello {user.username}</li>
@@ -23,22 +22,30 @@ const NavBar = () => {
             </li>
 
             <li>
-              <Link to="/campaign-requests">
-                Campaign Requests
-              </Link>
+              <Link to="/campaign-requests">Campaign Requests</Link>
             </li>
 
-            {user.role === 'admin' && (
+            {["admin", "staff", "campaignManager"].includes(user.role) && (
               <li>
-                <Link to="/admin/users">
-                  User Management
-                </Link>
+                <Link to="/tasks">Tasks</Link>
               </li>
             )}
-            {user.role === 'client' && (
-              <li><Link to="/requests/new">New Campaign Request</Link></li>
+
+            {user.role === "admin" && (
+              <li>
+                <Link to="/admin/users">User Management</Link>
+              </li>
             )}
-            <li><Link to="/" onClick={handleSignOut}>Sign Out</Link></li>
+            {user.role === "client" && (
+              <li>
+                <Link to="/requests/new">New Campaign Request</Link>
+              </li>
+            )}
+            <li>
+              <Link to="/" onClick={handleSignOut}>
+                Sign Out
+              </Link>
+            </li>
           </>
         ) : (
           <>
@@ -47,25 +54,18 @@ const NavBar = () => {
             </li>
 
             <li>
-              <Link to="/register">
-                Register as Client
-              </Link>
+              <Link to="/register">Register as Client</Link>
             </li>
 
             <li>
-              <Link to="/sign-up">
-                Sign Up
-              </Link>
+              <Link to="/sign-up">Sign Up</Link>
             </li>
 
             <li>
-              <Link to="/sign-in">
-                Sign In
-              </Link>
+              <Link to="/sign-in">Sign In</Link>
             </li>
           </>
         )}
-
       </ul>
     </nav>
   );
