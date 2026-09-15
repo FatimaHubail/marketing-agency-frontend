@@ -19,6 +19,7 @@ import CampaignDetails from './components/CampaignDetails/CampaignDetails';
 import ClientProfilePage from './components/ClientProfilePage/ClientProfilePage';
 import Tasks from "./components/Tasks/Tasks";
 import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
+import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -46,7 +47,7 @@ const App = () => {
         <Route path='/profile' element={<ClientProfilePage />} />
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path="/agency-dashboard" element={<AgencyDashboard />} />
-        
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
