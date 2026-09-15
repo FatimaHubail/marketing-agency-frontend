@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router';
 // Components
 import NavBar from './components/NavBar/NavBar';
 import SignUpForm from './components/SignUpForm/SignUpForm';
+import ClientSignUpForm from './components/ClientSignUpForm/ClientSignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
 import Dashboard from './components/Dashboard/Dashboard'
 import Landing from './components/Landing/Landing'
@@ -22,6 +23,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={user ? <Dashboard /> : <Landing/> } />
         <Route path='/sign-up' element={<SignUpForm />} />
+        <Route path='/register' element={<ClientSignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/admin/users' element={<AdminUserManagement/>}/>
   
