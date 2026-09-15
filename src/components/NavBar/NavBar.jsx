@@ -35,12 +35,10 @@ const NavBar = () => {
                 </Link>
               </li>
             )}
-
-            <li>
-              <Link to="/" onClick={handleSignOut}>
-                Sign Out
-              </Link>
-            </li>
+            {user.role === 'client' && (
+              <li><Link to="/requests/new">New Campaign Request</Link></li>
+            )}
+            <li><Link to="/" onClick={handleSignOut}>Sign Out</Link></li>
           </>
         ) : (
           <>
