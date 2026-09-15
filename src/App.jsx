@@ -17,6 +17,7 @@ import UpdateCampaignRequest from './components/UpdateCampaignRequest/UpdateCamp
 import MyCampaignsPage from './components/MyCampaignsPage/MyCampaignsPage';
 import CampaignDetails from './components/CampaignDetails/CampaignDetails';
 import ClientProfilePage from './components/ClientProfilePage/ClientProfilePage';
+import ClientDashboard from './components/ClientDashboard/ClientDashboard';
 import Tasks from "./components/Tasks/Tasks";
 import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 
@@ -31,7 +32,9 @@ const App = () => {
       <NavBar />
 
       <Routes>
-        <Route path='/' element={user ? <Dashboard /> : <Landing/> } />
+        <Route path='/' element={
+          !user ? <Landing /> : user.role === 'client' ? <ClientDashboard /> : <Dashboard />
+        } />
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/register' element={<ClientSignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
