@@ -84,6 +84,7 @@ const SignUpForm = (props) => {
           <button onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
+
     </main>
   );
 };

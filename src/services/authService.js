@@ -39,6 +39,35 @@ const signUp = async (formData) => {
   }
 };
 
+const registerClient = async (formData) => {
+  try {
+    const res = await fetch(`${BASE_URL}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (data.err) {
+      throw new Error(data.err);
+    }
+
+    if (data.token) {
+      localStorage.setItem('token', data.token); // store
+      const payload = data.token.split('.')[1]; // extract payload
+      const tokenJSON = atob(payload); // decode
+      return JSON.parse(tokenJSON); // parse it back to obj
+    }
+
+    throw new Error('Invalid response from server');
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+};
+
+
 const signIn = async (formData) => {
   try {
     const res = await fetch(`${BASE_URL}/sign-in`, {
@@ -76,4 +105,5 @@ const signIn = async (formData) => {
 export {
   signUp,
   signIn,
+  registerClient,
 };
