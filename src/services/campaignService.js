@@ -16,6 +16,23 @@ const getCampaigns = async () => {
   return data;
 };
 
+const getCampaignById = async (id) => {
+  const res = await fetch(`${BASE_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
+
 export {
   getCampaigns,
+  getCampaignById,
 };
