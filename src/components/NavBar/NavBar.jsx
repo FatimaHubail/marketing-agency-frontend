@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 
 const NavBar = () => {
-
   const { user, setUser } = useContext(UserContext);
 
   const handleSignOut = () => {
@@ -50,11 +49,21 @@ const NavBar = () => {
             </li>
 
             <li>
-              <Link to="/sign-up">Sign Up</Link>
+              <Link to="/register">
+                Register as Client
+              </Link>
             </li>
 
             <li>
-              <Link to="/sign-in">Sign In</Link>
+              <Link to="/sign-up">
+                Sign Up
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/sign-in">
+                Sign In
+              </Link>
             </li>
           </>
         )}
