@@ -1,0 +1,235 @@
+.client-dashboard {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.dashboard-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    border-right: 1px solid #e2e2e2;
+    padding-right: 1rem;
+}
+
+.dashboard-logo {
+    color: #4f46e5;
+}
+
+.dashboard-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard-sidebar li {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+}
+
+.dashboard-sidebar li.active {
+    background: #eef2ff;
+}
+
+.dashboard-sidebar a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-search {
+    position: relative;
+    flex: 1;
+}
+
+.dashboard-search input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.search-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.search-result {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.6rem 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result:hover {
+    background: #f8f8fc;
+}
+
+.search-no-results {
+    padding: 0.6rem 0.75rem;
+    margin: 0;
+    color: #666;
+}
+
+.dashboard-account {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.dashboard-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ede9fe;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.stat-card {
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.stat-card p {
+    margin: 0 0 0.5rem;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.stat-card h2 {
+    margin: 0;
+}
+
+.dashboard-panels {
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-panel {
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.activity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4f46e5;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+}
+
+.status-badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    background: #f3f4f6;
+}
+
+.budget-bar {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.budget-bar-fill {
+    height: 100%;
+    background: #4f46e5;
+}
+
+.breakdown-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breakdown-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    text-transform: capitalize;
+}
+
+.breakdown-list li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 700px) {
+    .client-dashboard {
+        flex-direction: column;
+    }
+
+    .dashboard-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e2e2e2;
+        padding-right: 0;
+        padding-bottom: 1rem;
+    }
+}
