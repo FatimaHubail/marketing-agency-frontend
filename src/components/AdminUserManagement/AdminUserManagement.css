@@ -1,0 +1,99 @@
+.admin-user-management {
+  padding: 40px;
+}
+
+.admin-user-management h1 {
+  margin-bottom: 30px;
+}
+
+.admin-user-management {
+  min-height: 100vh;
+  padding: 40px;
+  background-color: #eef8ff;
+}
+
+.admin-user-management form {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.admin-user-management input,
+.admin-user-management select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-user-management form button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-user-management table {
+  width: 100%;
+  background-color: white;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admin-user-management th,
+.admin-user-management td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.admin-user-management th {
+  background-color: #f8fbff;
+}
+
+.admin-user-management button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-user-management form button[type='button'] {
+  background-color: #d9e2e8;
+  color: #333;
+}
+
+.admin-user-management form button[type='button']:hover {
+  background-color: #c7d2d9;
+}
+
+.admin-user-management form button:hover {
+  background-color: #398fc5;
+}
+
+.admin-user-management td button {
+  margin-right: 8px;
+}
+
+.admin-user-management td button:first-child {
+  background-color: #4da3d9;
+  color: white;
+}
+
+.admin-user-management td button:first-child:hover {
+  background-color: #398fc5;
+}
+
+.admin-user-management td button:last-child {
+  background-color: #e57373;
+  color: white;
+}
+
+.admin-user-management td button:last-child:hover {
+  background-color: #d95c5c;
+}
