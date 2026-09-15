@@ -23,16 +23,12 @@ const NavBar = () => {
 
             {(user.role === "staff" || user.role === "admin") && (
               <li>
-                <Link to="/campaign-requests">
-                  Campaign Requests
-                </Link>
+                <Link to="/campaign-requests">Campaign Requests</Link>
               </li>
             )}
             {user.role === "client" && (
               <li>
-                <Link to="/requests">
-                  Campaign Requests
-                </Link>
+                <Link to="/requests">Campaign Requests</Link>
               </li>
             )}
 
