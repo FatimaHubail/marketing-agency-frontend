@@ -23,6 +23,9 @@ const NavBar = () => {
             {(user.role === 'staff' || user.role === 'outsource') && (
               <li><Link to='/sign-up'>Sign Up</Link></li>
             )}
+            {user.role === 'client' && (
+              <li><Link to="/requests/new">New Campaign Request</Link></li>
+            )}
             <li><Link to="/" onClick={handleSignOut}>Sign Out</Link></li>
           </>
           :
@@ -30,11 +33,6 @@ const NavBar = () => {
             <li><Link to="/">Dashboard</Link></li>
             <li><Link to='/register'>Register as Client</Link></li>
             <li><Link to='/sign-in'>Sign In</Link></li>
-
-            {user.role === 'client' && (
-              <li><Link to="/requests/new">New Campaign Request</Link></li>
-            )}
-
           </>
         }
       </ul>
