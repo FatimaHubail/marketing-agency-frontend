@@ -12,6 +12,8 @@ import AdminUserManagement from './components/AdminUserManagement/AdminUserManag
 import NewCampaignRequest from './components/NewCampaignRequest/NewCampaignRequest';
 import CampaignRequests from "./components/CampaignRequests/CampaignRequests";
 import MyCampaignRequests from "./components/MyCampaignRequests/MyCampaignRequests";
+import Tasks from "./components/Tasks/Tasks";
+import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -32,6 +34,9 @@ const App = () => {
         <Route path='/requests/new' element={<NewCampaignRequest />} />
         <Route path='/campaign-requests' element={<CampaignRequests />} />
         <Route path='/requests' element={<MyCampaignRequests />} />
+        <Route path='/tasks' element={<Tasks/>}/>
+        <Route path="/agency-dashboard" element={<AgencyDashboard />} />
+        
       </Routes>
     </>
   );

@@ -1,17 +1,43 @@
 import { useEffect, useState } from "react";
-import { getUsers, createUser, deleteUser, updateUser } from "../../services/adminService";
-import './AdminUserManagement.css';
+import {
+  getUsers,
+  createUser,
+  deleteUser,
+  updateUser,
+} from "../../services/adminService";
+import "./AdminUserManagement.css";
+
+const campaignTypes = [
+  "social_media",
+  "sem",
+  "display",
+  "influencer",
+  "content_marketing",
+  "email_marketing",
+  "brand_awareness",
+  "print",
+  "ooh",
+  "event",
+  "broadcast",
+  "direct_mail",
+  "instore_activation",
+  "product_launch",
+  "seo",
+  "pr",
+];
 
 const AdminUserManagement = () => {
   const [users, setUsers] = useState([]);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     role: "staff",
+    specialties: [],
   });
 
-  const [editingUserId, setEditingUserId]=useState(null);
+  const [editingUserId, setEditingUserId] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -22,6 +48,7 @@ const AdminUserManagement = () => {
         console.log(err);
       }
     };
+
     fetchUsers();
   }, []);
 
@@ -33,35 +60,35 @@ const AdminUserManagement = () => {
   };
 
   const handleSubmit = async (evt) => {
-  evt.preventDefault();
+    evt.preventDefault();
 
-  try {
-    if (editingUserId) {
-      const updatedUser = await updateUser(editingUserId, formData);
+    try {
+      if (editingUserId) {
+        const updatedUser = await updateUser(editingUserId, formData);
 
-      setUsers(
-        users.map((user) =>
-          user._id === editingUserId ? updatedUser : user
-        )
-      );
+        setUsers(
+          users.map((user) =>
+            user._id === editingUserId ? updatedUser : user
+          )
+        );
 
-      setEditingUserId(null);
-    } else {
-      const newUser = await createUser(formData);
-      setUsers([...users, newUser]);
+        setEditingUserId(null);
+      } else {
+        const newUser = await createUser(formData);
+        setUsers([...users, newUser]);
+      }
+
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+        role: "staff",
+        specialties: [],
+      });
+    } catch (err) {
+      console.log(err);
     }
-
-    setFormData({
-      username: '',
-      email: '',
-      password: '',
-      role: 'staff',
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -72,19 +99,20 @@ const AdminUserManagement = () => {
     }
   };
 
-  const handleEdit = (user)=>{
+  const handleEdit = (user) => {
     setEditingUserId(user._id);
 
     setFormData({
-        username: user.username,
-        email: user.email,
-        password: '',
-        role: user.role,
-    })
-  }
+      username: user.username,
+      email: user.email,
+      password: "",
+      role: user.role,
+      specialties: user.specialties || [],
+    });
+  };
 
   return (
-    <div className='admin-user-management'>
+    <div className="admin-user-management">
       <h1>Admin User Management</h1>
 
       <h2>Add User</h2>
@@ -117,32 +145,58 @@ const AdminUserManagement = () => {
           required
         />
 
-        <select name="role" value={formData.role} onChange={handleChange}>
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+        >
           <option value="staff">Staff</option>
           <option value="campaign-manager">Campaign Manager</option>
           <option value="outsource">Outsource</option>
         </select>
 
-        <button type="submit">
-            {editingUserId ? 'Update User' : 'Add User'} 
-            </button>
-
-            {editingUserId && (
-  <button
-    type='button'
-    onClick={() => {
-      setEditingUserId(null);
+        {formData.role === "staff" && (
+  <select
+    name="specialties"
+    value={formData.specialties[0] || ""}
+    onChange={(evt) =>
       setFormData({
-        username: '',
-        email: '',
-        password: '',
-        role: 'staff',
-      });
-    }}
+        ...formData,
+        specialties: evt.target.value ? [evt.target.value] : [],
+      })
+    }
   >
-    Cancel
-  </button>
+    <option value="">Select Specialty</option>
+
+    {campaignTypes.map((type) => (
+      <option key={type} value={type}>
+        {type}
+      </option>
+    ))}
+  </select>
 )}
+
+        <button type="submit">
+          {editingUserId ? "Update User" : "Add User"}
+        </button>
+
+        {editingUserId && (
+          <button
+            type="button"
+            onClick={() => {
+              setEditingUserId(null);
+              setFormData({
+                username: "",
+                email: "",
+                password: "",
+                role: "staff",
+                specialties: [],
+              });
+            }}
+          >
+            Cancel
+          </button>
+        )}
       </form>
 
       <table>
@@ -162,12 +216,13 @@ const AdminUserManagement = () => {
               <td>{user.email}</td>
               <td>{user.role}</td>
               <td>
-                <button onClick={()=>handleEdit(user)}>
-                    Edit
-                    </button>
-                <button onClick={()=> handleDelete(user._id)}>
-                    Delete
-                    </button>
+                <button onClick={() => handleEdit(user)}>
+                  Edit
+                </button>
+
+                <button onClick={() => handleDelete(user._id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
