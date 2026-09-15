@@ -25,15 +25,6 @@ const createCampaignRequest = async (formData) => {
         console.log(err);
         throw new Error(err);
     }
-  );
-
-  const data = await res.json();
-
-  if (data.err) {
-    throw new Error(data.err);
-  }
-
-  return data;
 };
 
 const getMyCampaignRequests = async () => {
