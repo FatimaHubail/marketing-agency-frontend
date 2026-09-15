@@ -10,6 +10,8 @@ import Dashboard from './components/Dashboard/Dashboard'
 import Landing from './components/Landing/Landing'
 import AdminUserManagement from './components/AdminUserManagement/AdminUserManagement';
 import NewCampaignRequest from './components/NewCampaignRequest/NewCampaignRequest';
+import CampaignRequests from "./components/CampaignRequests/CampaignRequests";
+import MyCampaignRequests from "./components/MyCampaignRequests/MyCampaignRequests";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -28,6 +30,8 @@ const App = () => {
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/admin/users' element={<AdminUserManagement />} />
         <Route path='/requests/new' element={<NewCampaignRequest />} />
+        <Route path='/campaign-requests' element={<CampaignRequests />} />
+        <Route path='/requests' element={<MyCampaignRequests />} />
       </Routes>
     </>
   );
