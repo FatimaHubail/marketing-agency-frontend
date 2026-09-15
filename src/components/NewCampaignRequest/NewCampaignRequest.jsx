@@ -30,6 +30,45 @@ export default function NewCampaignRequest() {
         setFormData({ ...formData, preferredChannels: options });
     };
 
+    const validateForm = () => {
+        const { title, campaignType, goal, budget } = formData;
+
+        if (!title || !campaignType || !goal || budget === '') {
+            return 'Title, campaign type, goal, and budget are required';
+        }
+        if (!CAMPAIGN_TYPES.includes(campaignType)) {
+            return 'Invalid campaign type';
+        }
+        if (!GOALS_BY_TYPE[campaignType].includes(goal)) {
+            return 'Invalid goal for the selected campaign type';
+        }
+        if (Number(budget) < 0) {
+            return 'Budget must be a non-negative number';
+        }
+        return '';
+    };
+
+    const handleSubmit = async (evt) => {
+        evt.preventDefault();
+        setError('');
+
+        const validationError = validateForm();
+        if (validationError) {
+            setError(validationError);
+            return;
+        }
+
+        try {
+            await createCampaignRequest({ ...formData, budget: Number(formData.budget) });
+            navigate('/requests');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+
     return (
         <main>
             <h1>New Campaign Request</h1>
