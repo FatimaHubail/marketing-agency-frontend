@@ -15,6 +15,7 @@ import MyCampaignRequests from './components/MyCampaignRequests/MyCampaignReques
 import CampaignRequestDetails from './components/CampaignRequestDetails/CampaignRequestDetails';
 import UpdateCampaignRequest from './components/UpdateCampaignRequest/UpdateCampaignRequest';
 import MyCampaignsPage from './components/MyCampaignsPage/MyCampaignsPage';
+import CampaignDetails from './components/CampaignDetails/CampaignDetails';
 import Tasks from "./components/Tasks/Tasks";
 import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/requests/:id' element={<CampaignRequestDetails />} />
         <Route path='/requests' element={<MyCampaignRequests />} />
         <Route path='/campaign-requests' element={<CampaignRequests />} />
+        <Route path='/campaigns/:id' element={<CampaignDetails />} />
         <Route path='/campaigns' element={<MyCampaignsPage />} />
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path="/agency-dashboard" element={<AgencyDashboard />} />
