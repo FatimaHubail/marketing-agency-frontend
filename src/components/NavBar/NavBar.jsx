@@ -48,6 +48,11 @@ const NavBar = () => {
                 <Link to="/requests/new">New Campaign Request</Link>
               </li>
             )}
+            {user.role === "client" && (
+              <li>
+                <Link to="/campaigns">My Campaigns</Link>
+              </li>
+            )}
             <li>
               <Link to="/" onClick={handleSignOut}>
                 Sign Out
