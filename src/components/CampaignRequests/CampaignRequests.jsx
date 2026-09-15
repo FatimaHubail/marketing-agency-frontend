@@ -91,6 +91,7 @@ const CampaignRequests = () => {
       <table>
         <thead>
           <tr>
+            <th>Client</th>
             <th>Campaign Type</th>
             <th>Goal</th>
             <th>Budget</th>
@@ -103,6 +104,7 @@ const CampaignRequests = () => {
         <tbody>
           {requests.map((request) => (
             <tr key={request._id}>
+              <td>{request.clientId?.user?.username}</td>
               <td>{request.campaignType}</td>
 
               <td>{request.goal}</td>
@@ -158,6 +160,10 @@ const CampaignRequests = () => {
       <h2>Campaign Request Details</h2>
 
       <p>
+  <strong>Client:</strong> {selectedRequest.clientId?.user?.username}
+</p>
+
+      <p>
         <strong>Title:</strong> {selectedRequest.title}
       </p>
 
@@ -191,7 +197,7 @@ const CampaignRequests = () => {
       </p>
 
       <p>
-        <strong>Client ID:</strong> {selectedRequest.clientId}
+        <strong>Client ID:</strong> {selectedRequest.clientId?.user?.username}
       </p>
 
       <button onClick={() => setSelectedRequest(null)}>

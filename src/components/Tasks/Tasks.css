@@ -26,3 +26,24 @@
 .tasks th {
   background-color: #f8fbff;
 }
+
+.tasks button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+.tasks button:hover {
+  opacity: 0.85;
+}
+
+.tasks button:first-of-type {
+  background-color: #dbeafe;
+}
+
+.tasks button:last-of-type {
+  background-color: #fee2e2;
+}
