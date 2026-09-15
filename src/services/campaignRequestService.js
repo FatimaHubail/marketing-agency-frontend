@@ -73,6 +73,27 @@ const updateMyCampaignRequest = async (id, formData) => {
   return data;
 };
 
+const deleteMyCampaignRequest = async (id) => {
+  const res = await fetch(`${REQUESTS_URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  if (res.status === 204) {
+    return;
+  }
+
+  const data = await res.json();
+
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
+
 // staff
 const getCampaignRequests = async () => {
   const res = await fetch(CAMPAIGN_REQUESTS_URL, {
@@ -168,6 +189,7 @@ export {
   getMyCampaignRequests,
   getCampaignRequestById,
   updateMyCampaignRequest,
+  deleteMyCampaignRequest,
   getCampaignRequests,
   updateCampaignRequest,
   acceptCampaignRequest,

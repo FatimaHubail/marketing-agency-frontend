@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { getCampaignRequestById } from '../../services/campaignRequestService';
+import { getCampaignRequestById, deleteMyCampaignRequest } from '../../services/campaignRequestService';
 
 const CampaignRequestDetails = () => {
     const { id } = useParams();
@@ -8,6 +8,8 @@ const CampaignRequestDetails = () => {
     const [request, setRequest] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         const fetchRequest = async () => {
@@ -24,15 +26,30 @@ const CampaignRequestDetails = () => {
         fetchRequest();
     }, [id]);
 
-    if (isLoading) return <main><p>Loading...</p></main>;
-    if (error) return <main><p role="alert">{error}</p></main>;
+    const handleDelete = async () => {
+        setError('');
+        setIsDeleting(true);
+        try {
+            await deleteMyCampaignRequest(id);
+            navigate('/requests');
+        } catch (err) {
+            setError(err.message);
+            setIsDeleting(false);
+        }
+    };
 
-    const canUpdate = request.status === 'submitted';
+    if (isLoading) return <main><p>Loading...</p></main>;
+    if (error && !request) return <main><p role="alert">{error}</p></main>;
+
+    const canModify = request.status === 'submitted';
     const updateDisabledReason = 'This request can no longer be edited because it has already been reviewed.';
+    const deleteDisabledReason = 'This request can no longer be deleted because it has already been reviewed.';
 
     return (
         <main>
             <button onClick={() => navigate('/requests')}>← Back to My Campaign Requests</button>
+
+            {error && <p role="alert">{error}</p>}
 
             <h1>{request.title}</h1>
             <p><strong>Campaign Type:</strong> {request.campaignType.replace(/_/g, ' ')}</p>
@@ -49,13 +66,39 @@ const CampaignRequestDetails = () => {
 
             <button
                 onClick={() => navigate(`/requests/${id}/edit`)}
-                disabled={!canUpdate}
-                title={canUpdate ? undefined : updateDisabledReason}
+                disabled={!canModify}
+                title={canModify ? undefined : updateDisabledReason}
             >
                 Update Request
             </button>
-            {!canUpdate && (
-                <p className="update-disabled-message">{updateDisabledReason}</p>
+            {!canModify && (
+                <p className="action-disabled-message">{updateDisabledReason}</p>
+            )}
+
+            <button
+                onClick={() => setShowDeleteConfirm(true)}
+                disabled={!canModify}
+                title={canModify ? undefined : deleteDisabledReason}
+            >
+                Delete Request
+            </button>
+            {!canModify && (
+                <p className="action-disabled-message">{deleteDisabledReason}</p>
+            )}
+
+            {showDeleteConfirm && (
+                <div className="delete-confirm-overlay">
+                    <div className="delete-confirm-dialog">
+                        <p>Are you sure you want to delete this request?</p>
+
+                        <button onClick={handleDelete} disabled={isDeleting}>
+                            {isDeleting ? 'Deleting...' : 'Delete'}
+                        </button>
+                        <button onClick={() => setShowDeleteConfirm(false)} disabled={isDeleting}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             )}
         </main>
     );
