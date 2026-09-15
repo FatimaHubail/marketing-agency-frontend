@@ -63,8 +63,6 @@ export default function NewCampaignRequest() {
             navigate('/requests');
         } catch (err) {
             setError(err.message);
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
