@@ -71,9 +71,6 @@ const CampaignRequestDetails = () => {
             >
                 Update Request
             </button>
-            {!canModify && (
-                <p className="action-disabled-message">{updateDisabledReason}</p>
-            )}
 
             <button
                 onClick={() => setShowDeleteConfirm(true)}
@@ -82,9 +79,6 @@ const CampaignRequestDetails = () => {
             >
                 Delete Request
             </button>
-            {!canModify && (
-                <p className="action-disabled-message">{deleteDisabledReason}</p>
-            )}
 
             {showDeleteConfirm && (
                 <div className="delete-confirm-overlay">
