@@ -13,13 +13,13 @@ const createCampaignRequest = async (formData) => {
     body: JSON.stringify(formData),
   });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.err) {
-    throw new Error(data.err);
-  }
+    if (data.err) {
+        throw new Error(data.err);
+    }
 
-  return data;
+    return data;
 };
 
 const getMyCampaignRequests = async () => {
