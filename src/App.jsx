@@ -1,6 +1,5 @@
-import { useContext } from 'react';
-import { Route, Routes } from 'react-router';
-
+import { useContext } from "react";
+import { Navigate, Route, Routes } from "react-router";
 
 // Components
 import NavBar from './components/NavBar/NavBar';
@@ -12,10 +11,10 @@ import Landing from './components/Landing/Landing'
 import AdminUserManagement from './components/AdminUserManagement/AdminUserManagement';
 
 // Context
-import { UserContext } from './contexts/UserContext';
+import { UserContext } from "./contexts/UserContext";
 
 const App = () => {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
 
   return (
     <>
