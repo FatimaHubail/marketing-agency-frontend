@@ -39,6 +39,10 @@ const OUTSOURCE_ONLY_TYPES = [
   "product_launch",
 ];
 
+const STAFF_SPECIALTIES = campaignTypes.filter(
+  (type) => !OUTSOURCE_ONLY_TYPES.includes(type)
+);
+
 const AdminUserManagement = () => {
   const [users, setUsers] = useState([]);
   const [editingUserId, setEditingUserId] = useState(null);
@@ -176,10 +180,17 @@ const AdminUserManagement = () => {
     <main className="admin-page">
       <div className="admin-page-header">
         <h1>User Management</h1>
-        <p className="admin-page-subtitle">Create staff and outsource agency accounts, and manage existing users.</p>
+
+        <p className="admin-page-subtitle">
+          Create staff and outsource agency accounts, and manage existing users.
+        </p>
       </div>
 
-      {error && <p role="alert" className="admin-alert">{error}</p>}
+      {error && (
+        <p role="alert" className="admin-alert">
+          {error}
+        </p>
+      )}
 
       <div className="admin-form-card">
         <h2>{editingUserId ? "Edit User" : "Add User"}</h2>
@@ -188,6 +199,7 @@ const AdminUserManagement = () => {
           <div className="form-row">
             <div className="form-field">
               <label htmlFor="username">Username</label>
+
               <input
                 type="text"
                 id="username"
@@ -200,6 +212,7 @@ const AdminUserManagement = () => {
 
             <div className="form-field">
               <label htmlFor="email">Email</label>
+
               <input
                 type="email"
                 id="email"
@@ -212,6 +225,7 @@ const AdminUserManagement = () => {
 
             <div className="form-field">
               <label htmlFor="password">Password</label>
+
               <input
                 type="password"
                 id="password"
@@ -230,8 +244,14 @@ const AdminUserManagement = () => {
               value={formData.role}
               onChange={handleRoleChange}
               options={[
-                { value: "staff", label: "Staff" },
-                { value: "outsource", label: "Outsource Agency" },
+                {
+                  value: "staff",
+                  label: "Staff",
+                },
+                {
+                  value: "outsource",
+                  label: "Outsource Agency",
+                },
               ]}
               placeholder="Select Role"
             />
@@ -242,7 +262,7 @@ const AdminUserManagement = () => {
                 label="Specialty"
                 value={formData.specialty}
                 onChange={handleSpecialtyChange}
-                options={campaignTypes}
+                options={STAFF_SPECIALTIES}
                 placeholder="Select Specialty"
               />
             )}
@@ -252,7 +272,10 @@ const AdminUserManagement = () => {
             <>
               <div className="form-row">
                 <div className="form-field">
-                  <label htmlFor="name">Outsource Agency Name</label>
+                  <label htmlFor="name">
+                    Outsource Agency Name
+                  </label>
+
                   <input
                     type="text"
                     id="name"
@@ -265,6 +288,7 @@ const AdminUserManagement = () => {
 
                 <div className="form-field">
                   <label htmlFor="phone">Phone</label>
+
                   <input
                     type="text"
                     id="phone"
@@ -276,7 +300,10 @@ const AdminUserManagement = () => {
                 </div>
 
                 <div className="form-field">
-                  <label htmlFor="contactPerson">Contact Person</label>
+                  <label htmlFor="contactPerson">
+                    Contact Person
+                  </label>
+
                   <input
                     type="text"
                     id="contactPerson"
@@ -302,12 +329,19 @@ const AdminUserManagement = () => {
           )}
 
           <div className="form-actions">
-            <button type="submit" className="btn-primary-action">
+            <button
+              type="submit"
+              className="btn-primary-action"
+            >
               {editingUserId ? "Update User" : "Add User"}
             </button>
 
             {editingUserId && (
-              <button type="button" className="btn-secondary-action" onClick={resetForm}>
+              <button
+                type="button"
+                className="btn-secondary-action"
+                onClick={resetForm}
+              >
                 Cancel
               </button>
             )}
@@ -334,26 +368,41 @@ const AdminUserManagement = () => {
               {users.map((user) => (
                 <tr key={user._id}>
                   <td>{user.username}</td>
+
                   <td>{user.email}</td>
 
                   <td>
-                    <span className={`role-badge role-${user.role}`}>{user.role}</span>
+                    <span
+                      className={`role-badge role-${user.role}`}
+                    >
+                      {user.role}
+                    </span>
                   </td>
 
                   <td>
                     {user.role === "staff"
                       ? user.specialty?.replace(/_/g, " ") || "-"
                       : user.serviceTypes?.length > 0
-                      ? user.serviceTypes.join(", ").replace(/_/g, " ")
+                      ? user.serviceTypes
+                          .join(", ")
+                          .replace(/_/g, " ")
                       : "-"}
                   </td>
 
                   <td className="admin-table-actions">
-                    <button className="admin-edit-btn" onClick={() => handleEdit(user)}>
+                    <button
+                      className="admin-edit-btn"
+                      onClick={() => handleEdit(user)}
+                    >
                       Edit
                     </button>
 
-                    <button className="admin-delete-btn" onClick={() => handleDelete(user._id)}>
+                    <button
+                      className="admin-delete-btn"
+                      onClick={() =>
+                        handleDelete(user._id)
+                      }
+                    >
                       Delete
                     </button>
                   </td>
