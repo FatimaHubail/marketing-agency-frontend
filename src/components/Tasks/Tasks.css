@@ -61,6 +61,34 @@
     gap: 1.25rem;
 }
 
+/* ---------- active campaigns ---------- */
+
+.tasks-table-card > .tasks-page-subtitle {
+    margin-bottom: 1.25rem;
+}
+
+.active-campaigns-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.active-campaigns-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--cream);
+    border-radius: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
 /* ---------- table ---------- */
 
 .tasks-table-wrapper {
