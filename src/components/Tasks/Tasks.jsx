@@ -6,7 +6,6 @@ import {
   deleteTask,
 } from "../../services/taskService";
 import { getCampaigns } from "../../services/campaignService";
-import { getUsersByRole } from "../../services/campaignRequestService";
 import "./Tasks.css";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -15,11 +14,13 @@ const Tasks = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [staff, setStaff] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
+
   const { user } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     campaignId: "",
     assignedTo: "",
+    assignedToType: "Staff",
     title: "",
     description: "",
     dueDate: "",
@@ -31,7 +32,21 @@ const Tasks = () => {
       try {
         const tasksData = await getTasks();
         const campaignsData = await getCampaigns();
-        const staffData = await getUsersByRole("staff");
+
+        const staffResponse = await fetch(
+          `${import.meta.env.VITE_BACK_END_SERVER_URL}/staff`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+
+        const staffData = await staffResponse.json();
+
+        if (staffData.err) {
+          throw new Error(staffData.err);
+        }
 
         setTasks(tasksData);
         setCampaigns(campaignsData);
@@ -73,9 +88,11 @@ const Tasks = () => {
 
         setTasks([...tasks, newTask]);
       }
+
       setFormData({
         campaignId: "",
         assignedTo: "",
+        assignedToType: "Staff",
         title: "",
         description: "",
         dueDate: "",
@@ -90,8 +107,9 @@ const Tasks = () => {
     setEditingTaskId(task._id);
 
     setFormData({
-      campaignId: task.campaignId,
-      assignedTo: task.assignedTo,
+      campaignId: task.campaignId?._id || task.campaignId,
+      assignedTo: task.assignedTo?._id || task.assignedTo,
+      assignedToType: task.assignedToType || "Staff",
       title: task.title,
       description: task.description || "",
       dueDate: task.dueDate.split("T")[0],
@@ -115,6 +133,7 @@ const Tasks = () => {
     setFormData({
       campaignId: "",
       assignedTo: "",
+      assignedToType: "Staff",
       title: "",
       description: "",
       dueDate: "",
@@ -150,9 +169,9 @@ const Tasks = () => {
         >
           <option value="">Select Staff</option>
 
-          {staff.map((user) => (
-            <option key={user._id} value={user.staffId}>
-              {user.username}
+          {staff.map((staffMember) => (
+            <option key={staffMember._id} value={staffMember._id}>
+              {staffMember.userId?.username}
             </option>
           ))}
         </select>
@@ -204,6 +223,7 @@ const Tasks = () => {
           <tr>
             <th>Campaign</th>
             <th>Assigned To</th>
+            <th>Assigned By</th>
             <th>Title</th>
             <th>Description</th>
             <th>Status</th>
@@ -215,12 +235,23 @@ const Tasks = () => {
         <tbody>
           {tasks.map((task) => (
             <tr key={task._id}>
-             <td>{task.campaignId?.requestId?.title}</td>
-<td>{task.assignedTo?.userId?.username}</td>
+              <td>{task.campaignId?.requestId?.title}</td>
+
+              <td>
+                {task.assignedTo?.userId?.username ||
+                  task.assignedTo?.username ||
+                  "Unknown"}{" "}
+              </td>
+              <td>{task.assignedBy?.username}</td>
+
               <td>{task.title}</td>
+
               <td>{task.description}</td>
+
               <td>{task.status}</td>
+
               <td>{new Date(task.dueDate).toLocaleDateString()}</td>
+
               <td>
                 <button onClick={() => handleEdit(task)}>Edit</button>
 

@@ -40,13 +40,14 @@ const OUTSOURCE_ONLY_TYPES = [
 const AdminUserManagement = () => {
   const [users, setUsers] = useState([]);
   const [editingUserId, setEditingUserId] = useState(null);
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     role: "staff",
-    specialties: [],
+    specialty: "",
     name: "",
     phone: "",
     contactPerson: "",
@@ -57,7 +58,6 @@ const AdminUserManagement = () => {
     const fetchUsers = async () => {
       try {
         const data = await getUsers();
-        console.log(data);
         setUsers(data);
       } catch (err) {
         console.log(err);
@@ -80,7 +80,7 @@ const AdminUserManagement = () => {
       email: "",
       password: "",
       role: "staff",
-      specialties: [],
+      specialty: "",
       name: "",
       phone: "",
       contactPerson: "",
@@ -88,10 +88,12 @@ const AdminUserManagement = () => {
     });
 
     setEditingUserId(null);
+    setError("");
   };
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+    setError("");
 
     try {
       if (editingUserId) {
@@ -109,21 +111,24 @@ const AdminUserManagement = () => {
 
       resetForm();
     } catch (err) {
-      console.log(err);
+      setError(err.message);
     }
   };
 
   const handleDelete = async (id) => {
     try {
+      setError("");
+
       await deleteUser(id);
 
       setUsers(users.filter((user) => user._id !== id));
     } catch (err) {
-      console.log(err);
+      setError(err.message);
     }
   };
 
   const handleEdit = (user) => {
+    setError("");
     setEditingUserId(user._id);
 
     setFormData({
@@ -131,7 +136,7 @@ const AdminUserManagement = () => {
       email: user.email || "",
       password: "",
       role: user.role || "staff",
-      specialties: user.specialties || [],
+      specialty: user.specialty || "",
       name: user.name || "",
       phone: user.phone || "",
       contactPerson: user.contactPerson || "",
@@ -144,6 +149,8 @@ const AdminUserManagement = () => {
       <h1>Admin User Management</h1>
 
       <h2>{editingUserId ? "Edit User" : "Add User"}</h2>
+
+      {error && <p className="error-message">{error}</p>}
 
       <form onSubmit={handleSubmit}>
         <input
@@ -173,36 +180,27 @@ const AdminUserManagement = () => {
           required={!editingUserId}
         />
 
-        {/* Role */}
         <select
           name="role"
           value={formData.role}
-          onChange={(evt) => {
+          onChange={(evt) =>
             setFormData({
               ...formData,
               role: evt.target.value,
-              specialties: [],
+              specialty: "",
               serviceTypes: [],
-            });
-          }}
+            })
+          }
         >
           <option value="staff">Staff</option>
           <option value="outsource">Outsource Agency</option>
         </select>
 
-        {/* Staff Specialty */}
         {formData.role === "staff" && (
           <select
-            name="specialties"
-            value={formData.specialties[0] || ""}
-            onChange={(evt) =>
-              setFormData({
-                ...formData,
-                specialties: evt.target.value
-                  ? [evt.target.value]
-                  : [],
-              })
-            }
+            name="specialty"
+            value={formData.specialty}
+            onChange={handleChange}
             required
           >
             <option value="">Select Specialty</option>
@@ -215,7 +213,6 @@ const AdminUserManagement = () => {
           </select>
         )}
 
-        {/* Outsource Information */}
         {formData.role === "outsource" && (
           <>
             <input
@@ -245,7 +242,6 @@ const AdminUserManagement = () => {
               required
             />
 
-            {/* Outsource Service Type */}
             <select
               name="serviceTypes"
               value={formData.serviceTypes[0] || ""}
@@ -301,9 +297,7 @@ const AdminUserManagement = () => {
 
               <td>
                 {user.role === "staff"
-                  ? user.specialties?.length > 0
-                    ? user.specialties.join(", ")
-                    : "-"
+                  ? user.specialty || "-"
                   : user.serviceTypes?.length > 0
                   ? user.serviceTypes.join(", ")
                   : "-"}

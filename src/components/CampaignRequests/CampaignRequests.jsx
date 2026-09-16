@@ -4,7 +4,7 @@ import {
   getCampaignRequests,
   acceptCampaignRequest,
   rejectCampaignRequest,
-  getUsersByRole,
+  getStaff,
 } from "../../services/campaignRequestService";
 
 const CampaignRequests = () => {
@@ -17,12 +17,10 @@ const CampaignRequests = () => {
     const fetchData = async () => {
       try {
         const requestsData = await getCampaignRequests();
-        const staffData = await getUsersByRole("staff");
-        const outsourceData = await getUsersByRole("outsource");
+        const staffData = await getStaff();
 
         setRequests(requestsData);
         setStaff(staffData);
-        setOutsource(outsourceData);
       } catch (err) {
         console.log(err);
       }
@@ -35,13 +33,13 @@ const CampaignRequests = () => {
     try {
       const updatedRequest = await rejectCampaignRequest(
         id,
-        "Request rejected",
+        "Request rejected"
       );
 
       setRequests(
         requests.map((request) =>
-          request._id === id ? updatedRequest : request,
-        ),
+          request._id === id ? updatedRequest : request
+        )
       );
     } catch (err) {
       console.log(err);
@@ -50,12 +48,21 @@ const CampaignRequests = () => {
 
   const handleAccept = async (request) => {
     try {
-      const staffId = document.getElementById(`staff-${request._id}`).value;
-      const outsourceId = document.getElementById(
-        `outsource-${request._id}`,
+      const staffId = document.getElementById(
+        `staff-${request._id}`
       ).value;
-      const startDate = document.getElementById(`start-${request._id}`).value;
-      const endDate = document.getElementById(`end-${request._id}`).value;
+
+      const outsourceId = document.getElementById(
+        `outsource-${request._id}`
+      ).value;
+
+      const startDate = document.getElementById(
+        `start-${request._id}`
+      ).value;
+
+      const endDate = document.getElementById(
+        `end-${request._id}`
+      ).value;
 
       if (!startDate || !endDate) {
         console.log("Start date and end date are required");
@@ -76,8 +83,8 @@ const CampaignRequests = () => {
 
       setRequests(
         requests.map((item) =>
-          item._id === request._id ? data.campaignRequest : item,
-        ),
+          item._id === request._id ? data.campaignRequest : item
+        )
       );
     } catch (err) {
       console.log(err);
@@ -102,110 +109,154 @@ const CampaignRequests = () => {
         </thead>
 
         <tbody>
-          {requests.map((request) => (
-            <tr key={request._id}>
-              <td>{request.clientId?.user?.username}</td>
-              <td>{request.campaignType}</td>
+          {requests.map((request) => {
+            const matchingStaff = staff.filter((staffMember) =>
+              staffMember.specialty?.includes(request.campaignType)
+            );
 
-              <td>{request.goal}</td>
+            return (
+              <tr key={request._id}>
+                <td>{request.clientId?.user?.username}</td>
 
-              <td>{request.budget}</td>
+                <td>{request.campaignType}</td>
 
-              <td>{request.preferredChannels?.join(", ")}</td>
+                <td>{request.goal}</td>
 
-              <td>{request.status}</td>
+                <td>{request.budget}</td>
 
-              <td>
-                <select id={`staff-${request._id}`}>
-                  <option value="">Select Staff</option>
+                <td>
+                  {request.preferredChannels?.join(", ")}
+                </td>
 
-                  {staff.map((user) => (
-                    <option key={user._id} value={user._id}>
-                      {user.username}
+                <td>{request.status}</td>
+
+                <td>
+                  <select id={`staff-${request._id}`}>
+                    <option value="">Select Staff</option>
+
+                    {matchingStaff.map((staffMember) => (
+                      <option
+                        key={staffMember._id}
+                        value={staffMember._id}
+                      >
+                        {staffMember.userId?.username}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select id={`outsource-${request._id}`}>
+                    <option value="">
+                      Select Outsource
                     </option>
-                  ))}
-                </select>
 
-                <select id={`outsource-${request._id}`}>
-                  <option value="">Select Outsource</option>
+                    {outsource.map((user) => (
+                      <option
+                        key={user._id}
+                        value={user._id}
+                      >
+                        {user.username}
+                      </option>
+                    ))}
+                  </select>
 
-                  {outsource.map((user) => (
-                    <option key={user._id} value={user._id}>
-                      {user.username}
-                    </option>
-                  ))}
-                </select>
+                  <input
+                    id={`start-${request._id}`}
+                    type="date"
+                  />
 
-                <input id={`start-${request._id}`} type="date" />
+                  <input
+                    id={`end-${request._id}`}
+                    type="date"
+                  />
 
-                <input id={`end-${request._id}`} type="date" />
+                  <button
+                    onClick={() =>
+                      setSelectedRequest(request)
+                    }
+                  >
+                    View Details
+                  </button>
 
-                <button onClick={() => setSelectedRequest(request)}>
-                  View Details
-                </button>
+                  <button
+                    onClick={() =>
+                      handleAccept(request)
+                    }
+                  >
+                    Accept
+                  </button>
 
-                <button onClick={() => handleAccept(request)}>Accept</button>
-
-                <button onClick={() => handleReject(request._id)}>
-                  Reject
-                </button>
-              </td>
-            </tr>
-          ))}
+                  <button
+                    onClick={() =>
+                      handleReject(request._id)
+                    }
+                  >
+                    Reject
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+
       {selectedRequest && (
-  <div className="request-details-overlay">
-    <div className="request-details">
-      <h2>Campaign Request Details</h2>
+        <div className="request-details-overlay">
+          <div className="request-details">
+            <h2>Campaign Request Details</h2>
 
-      <p>
-  <strong>Client:</strong> {selectedRequest.clientId?.user?.username}
-</p>
+            <p>
+              <strong>Client:</strong>{" "}
+              {selectedRequest.clientId?.user?.username}
+            </p>
 
-      <p>
-        <strong>Title:</strong> {selectedRequest.title}
-      </p>
+            <p>
+              <strong>Title:</strong>{" "}
+              {selectedRequest.title}
+            </p>
 
-      <p>
-        <strong>Campaign Type:</strong> {selectedRequest.campaignType}
-      </p>
+            <p>
+              <strong>Campaign Type:</strong>{" "}
+              {selectedRequest.campaignType}
+            </p>
 
-      <p>
-        <strong>Goal:</strong> {selectedRequest.goal}
-      </p>
+            <p>
+              <strong>Goal:</strong>{" "}
+              {selectedRequest.goal}
+            </p>
 
-      <p>
-        <strong>Description:</strong> {selectedRequest.description}
-      </p>
+            <p>
+              <strong>Description:</strong>{" "}
+              {selectedRequest.description}
+            </p>
 
-      <p>
-        <strong>Budget:</strong> {selectedRequest.budget}
-      </p>
+            <p>
+              <strong>Budget:</strong>{" "}
+              {selectedRequest.budget}
+            </p>
 
-      <p>
-        <strong>Preferred Channels:</strong>{" "}
-        {selectedRequest.preferredChannels?.join(", ")}
-      </p>
+            <p>
+              <strong>Preferred Channels:</strong>{" "}
+              {selectedRequest.preferredChannels?.join(", ")}
+            </p>
 
-      <p>
-        <strong>Notes:</strong> {selectedRequest.notes}
-      </p>
+            <p>
+              <strong>Notes:</strong>{" "}
+              {selectedRequest.notes}
+            </p>
 
-      <p>
-        <strong>Status:</strong> {selectedRequest.status}
-      </p>
+            <p>
+              <strong>Status:</strong>{" "}
+              {selectedRequest.status}
+            </p>
 
-      <p>
-        <strong>Client ID:</strong> {selectedRequest.clientId?.user?.username}
-      </p>
-
-      <button onClick={() => setSelectedRequest(null)}>
-        Close
-      </button>
-    </div>
-  </div>
-)}
+            <button
+              onClick={() => setSelectedRequest(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
