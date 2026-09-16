@@ -1,28 +1,41 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import "./AgencyDashboard.css";
+import { getClients } from "../../services/clientService";
+
+import { UserContext } from "../../contexts/UserContext";
 
 import { getCampaignRequests } from "../../services/campaignRequestService";
 import { getCampaigns } from "../../services/campaignService";
 import { getTasks } from "../../services/taskService";
 
 const AgencyDashboard = () => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [requests, setRequests] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [clients, setClients] = useState([]);
+const [search, setSearch] = useState("");
 
   useEffect(() => {
     const loadDashboard = async () => {
       try {
-        const [requestsData, campaignsData, tasksData] = await Promise.all([
+        const [requestsData, campaignsData, tasksData, clientsData] = await Promise.all([
           getCampaignRequests(),
           getCampaigns(),
           getTasks(),
+          getClients(),
         ]);
 
         setRequests(requestsData);
         setCampaigns(campaignsData);
         setTasks(tasksData);
-        console.log("CAMPAIGNS:", campaigns);
+        setClients(clientsData);
+        
+
+        console.log("CAMPAIGNS:", campaignsData);
       } catch (err) {
         console.log(err);
       }
@@ -31,41 +44,110 @@ const AgencyDashboard = () => {
     loadDashboard();
   }, []);
 
-  const pendingRequests = requests.filter(
-    (request) =>
-      request.status === "submitted" ||
-      request.status === "under review"
-  );
+  // Pending campaign requests
+  const pendingRequests = requests
+    .filter(
+      (request) =>
+        request.status === "submitted" ||
+        request.status === "under review"
+    )
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
+  // Campaigns in progress
   const inProgressCampaigns = campaigns.filter(
     (campaign) => campaign.status === "in_progress"
   );
 
+  // Completed campaigns
   const completedCampaigns = campaigns.filter(
     (campaign) => campaign.status === "completed"
   );
 
+  // Upcoming tasks
   const upcomingTasks = tasks
     .filter((task) => task.status !== "completed")
     .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
     .slice(0, 5);
+
+    const searchResults = [
+  ...requests
+    .filter((request) =>
+      (request.title || "").toLowerCase().includes(search.toLowerCase())
+    )
+   .map((request) => ({
+  type: "Request",
+  title: request.title || "Campaign Request",
+  id: request._id,
+  path: `/campaign-requests/${request._id}`,
+})), 
+
+...campaigns
+  .filter((campaign) =>
+    String(campaign.requestId?.title || "")
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  )
+  .map((campaign) => ({
+    type: "Campaign",
+    title: campaign.requestId?.title || "Campaign",
+    id: campaign._id,
+    path: `/campaigns/${campaign._id}`,
+  })),
+
+  ...clients
+    .filter((client) =>
+      (client.companyName || "")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    )
+    .map((client) => ({
+      type: "Client",
+      title: client.companyName,
+      id: client._id,
+      path: "/clients",
+    })),
+];
 
   return (
     <div className="agency-dashboard">
       <header className="dashboard-header">
         <div className="dashboard-logo">MarkAura</div>
 
-        <input
-          type="text"
-          placeholder="Search campaigns, requests, clients..."
-        />
+        <div className="dashboard-search">
+  <input
+    type="text"
+    placeholder="Search campaigns, requests, clients..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
 
+  {search && (
+    <div className="search-results">
+      {searchResults.length === 0 ? (
+        <p>No results found.</p>
+      ) : (
+        searchResults.slice(0, 6).map((result) => (
+          <div
+            className="search-result"
+            key={`${result.type}-${result.id}`}
+            onClick={() => navigate(result.path)}
+          >
+            <strong>{result.title}</strong>
+            <small>{result.type}</small>
+          </div>
+        ))
+      )}
+    </div>
+  )}
+</div>
+
+        {/* Logged-in User */}
         <div className="dashboard-profile">
           <span>🔔</span>
 
           <div>
-            <strong>Agency Manager</strong>
-            <small>Marketing Manager</small>
+            <strong>{user?.username || "User"}</strong>
+            <small>{user?.role || "Agency Manager"}</small>
           </div>
         </div>
       </header>
@@ -110,11 +192,15 @@ const AgencyDashboard = () => {
             <section className="campaign-section">
               <div className="section-header">
                 <h2>Campaigns</h2>
-                <button>View All</button>
+
+                <button onClick={() => navigate("/campaign-requests")}>
+                  View All
+                </button>
               </div>
 
               <div className="campaign-columns">
 
+                {/* Client Requests */}
                 <div className="campaign-column">
                   <div className="column-header">
                     <h3>Client Requests</h3>
@@ -125,17 +211,27 @@ const AgencyDashboard = () => {
                     <p>No requests yet.</p>
                   ) : (
                     pendingRequests.slice(0, 3).map((request) => (
-                      <div className="dashboard-item" key={request._id}>
-                        <strong>{request.title}</strong>
+                      <div
+                        className="dashboard-item"
+                        key={request._id}
+                        onClick={() =>
+                          navigate(`/campaign-requests/${request._id}`)
+                        }
+                      >
+                        <strong>
+                          {request.title || "Campaign Request"}
+                        </strong>
 
                         <small>
-                          {request.clientId?.user?.username || "Unknown client"}
+                          {request.clientId?.user?.username ||
+                            "Unknown client"}
                         </small>
                       </div>
                     ))
                   )}
                 </div>
 
+                {/* In Progress Campaigns */}
                 <div className="campaign-column">
                   <div className="column-header">
                     <h3>In Progress</h3>
@@ -146,7 +242,13 @@ const AgencyDashboard = () => {
                     <p>No campaigns in progress.</p>
                   ) : (
                     inProgressCampaigns.slice(0, 3).map((campaign) => (
-                      <div className="dashboard-item" key={campaign._id}>
+                      <div
+                        className="dashboard-item"
+                        key={campaign._id}
+                        onClick={() =>
+                          navigate(`/campaigns/${campaign._id}`)
+                        }
+                      >
                         <strong>
                           {campaign.requestId?.title || "Campaign"}
                         </strong>
@@ -157,6 +259,7 @@ const AgencyDashboard = () => {
                   )}
                 </div>
 
+                {/* Completed Campaigns */}
                 <div className="campaign-column">
                   <div className="column-header">
                     <h3>Completed</h3>
@@ -167,7 +270,13 @@ const AgencyDashboard = () => {
                     <p>No completed campaigns.</p>
                   ) : (
                     completedCampaigns.slice(0, 3).map((campaign) => (
-                      <div className="dashboard-item" key={campaign._id}>
+                      <div
+                        className="dashboard-item"
+                        key={campaign._id}
+                        onClick={() =>
+                          navigate(`/campaigns/${campaign._id}`)
+                        }
+                      >
                         <strong>
                           {campaign.requestId?.title || "Campaign"}
                         </strong>
@@ -185,7 +294,10 @@ const AgencyDashboard = () => {
             <section className="deadlines">
               <div className="section-header">
                 <h2>Upcoming Deadlines</h2>
-                <button>View All</button>
+
+                <button onClick={() => navigate("/tasks")}>
+                  View All
+                </button>
               </div>
 
               <table>
@@ -209,7 +321,8 @@ const AgencyDashboard = () => {
                         <td>{task.title}</td>
 
                         <td>
-                          {task.campaignId?.requestId?.title || "Campaign"}
+                          {task.campaignId?.requestId?.title ||
+                            "Campaign"}
                         </td>
 
                         <td>
@@ -228,27 +341,58 @@ const AgencyDashboard = () => {
           {/* Sidebar */}
           <aside className="dashboard-sidebar">
 
+            {/* Quick Actions */}
             <div className="sidebar-card">
               <h2>Quick Actions</h2>
 
-              <button>View Campaign Requests</button>
-              <button>View Tasks</button>
-              <button>View Clients</button>
+              <button
+                onClick={() => navigate("/campaign-requests")}
+              >
+                View Campaign Requests
+              </button>
+
+              <button onClick={() => navigate("/tasks")}>
+                View Tasks
+              </button>
+
+              <button onClick={() => navigate("/clients")}>
+  View Clients
+</button>
             </div>
 
+            {/* Recent Activity */}
             <div className="sidebar-card">
               <h2>Recent Activity</h2>
 
-              {requests.length === 0 ? (
+              {pendingRequests.length === 0 ? (
                 <p>No recent activity.</p>
               ) : (
-                <p>
-                  {requests.length} campaign request
-                  {requests.length !== 1 ? "s" : ""} in the system.
-                </p>
+                <div>
+                  <p>
+                    {pendingRequests.length} pending campaign request
+                    {pendingRequests.length !== 1 ? "s" : ""}.
+                  </p>
+
+                  {pendingRequests.slice(0, 3).map((request) => (
+                    <div
+                      className="dashboard-item"
+                      key={request._id}
+                      onClick={() =>
+                        navigate(`/campaign-requests/${request._id}`)
+                      }
+                    >
+                      <strong>
+                        {request.title || "Campaign Request"}
+                      </strong>
+
+                      <small>{request.status}</small>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
+            {/* Campaign Progress */}
             <div className="sidebar-card">
               <h2>Campaign Progress</h2>
 

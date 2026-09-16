@@ -52,9 +52,15 @@ const CampaignRequestDetails = () => {
             {error && <p role="alert">{error}</p>}
 
             <h1>{request.title}</h1>
-            <p><strong>Campaign Type:</strong> {request.campaignType.replace(/_/g, ' ')}</p>
-            <p><strong>Goal:</strong> {request.goal.replace(/_/g, ' ')}</p>
-            <p><strong>Description:</strong> {request.description}</p>
+           <p>
+  <strong>Campaign Type:</strong>{" "}
+  {request.campaignType?.replace(/_/g, " ") || "N/A"}
+</p>
+
+<p>
+  <strong>Goal:</strong>{" "}
+  {request.goal?.replace(/_/g, " ") || "N/A"}
+</p>
             <p><strong>Budget:</strong> {request.budget} BHD</p>
             <p><strong>Preferred Channels:</strong> {request.preferredChannels?.join(', ')}</p>
             <p><strong>Notes:</strong> {request.notes}</p>

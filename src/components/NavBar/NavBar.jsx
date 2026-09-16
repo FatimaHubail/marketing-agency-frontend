@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router";
+
 import { UserContext } from "../../contexts/UserContext";
 
 const NavBar = () => {
@@ -10,27 +11,45 @@ const NavBar = () => {
     setUser(null);
   };
 
+  const agencyRoles = ["admin", "campaign-manager", "staff"];
+  const isAgency = agencyRoles.includes(user?.role);
+
   return (
     <nav>
       <ul>
         {user ? (
           <>
-            <li>
-              <Link to="/">Dashboard</Link>
-            </li>
+            <li>Hello {user.username}</li>
 
-            {(user.role === "staff" || user.role === "admin") && (
+            {isAgency && (
               <li>
-                <Link to="/campaign-requests">Campaign Requests</Link>
+                <Link to="/agency-dashboard">Dashboard</Link>
               </li>
             )}
+
             {user.role === "client" && (
               <li>
-                <Link to="/requests">Campaign Requests</Link>
+                <Link to="/">Dashboard</Link>
               </li>
             )}
 
-            {["admin", "staff"].includes(user.role) && (
+            {isAgency && (
+              <li>
+                <Link to="/campaign-requests">
+                  Campaign Requests
+                </Link>
+              </li>
+            )}
+
+            {user.role === "client" && (
+              <li>
+                <Link to="/requests">
+                  Campaign Requests
+                </Link>
+              </li>
+            )}
+
+            {isAgency && (
               <li>
                 <Link to="/tasks">Tasks</Link>
               </li>
@@ -38,24 +57,36 @@ const NavBar = () => {
 
             {user.role === "admin" && (
               <li>
-                <Link to="/admin/users">User Management</Link>
+                <Link to="/admin/users">
+                  User Management
+                </Link>
               </li>
             )}
+
             {user.role === "client" && (
               <li>
-                <Link to="/requests/new">New Campaign Request</Link>
+                <Link to="/requests/new">
+                  New Campaign Request
+                </Link>
               </li>
             )}
+
             {user.role === "client" && (
               <li>
-                <Link to="/campaigns">My Campaigns</Link>
+                <Link to="/campaigns">
+                  My Campaigns
+                </Link>
               </li>
             )}
+
             {user.role === "client" && (
               <li>
-                <Link to="/profile">My Profile</Link>
+                <Link to="/profile">
+                  My Profile
+                </Link>
               </li>
             )}
+
             <li>
               <Link to="/" onClick={handleSignOut}>
                 Sign Out
@@ -65,11 +96,25 @@ const NavBar = () => {
         ) : (
           <>
             <li>
-              <Link to="/register">Register</Link>
+              <Link to="/">Dashboard</Link>
             </li>
 
             <li>
-              <Link to="/sign-in">Sign In</Link>
+              <Link to="/register">
+                Register as Client
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/sign-up">
+                Sign Up
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/sign-in">
+                Sign In
+              </Link>
             </li>
           </>
         )}
