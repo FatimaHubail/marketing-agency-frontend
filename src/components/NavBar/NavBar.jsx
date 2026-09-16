@@ -15,11 +15,11 @@ const NavBar = () => {
 
   const initials = user?.username
     ? user.username
-        .split(" ")
-        .map((w) => w[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase()
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase()
     : "";
 
   return (
@@ -84,6 +84,12 @@ const NavBar = () => {
                     <NavLink to="/profile">My Profile</NavLink>
                   </li>
                 </>
+              )}
+              {/*Outsource*/}
+              {user.role === "outsource" && (
+                <li>
+                  <NavLink to="/" end>Dashboard</NavLink>
+                </li>
               )}
             </>
           ) : (
