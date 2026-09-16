@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { getCampaignById } from "../../services/campaignService";
+import { getCampaignTasks } from "../../services/taskService";
 import "./CampaignDetails.css";
 
 const CampaignDetails = () => {
@@ -8,14 +9,20 @@ const CampaignDetails = () => {
   const navigate = useNavigate();
 
   const [campaign, setCampaign] = useState(null);
+  const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
-        const data = await getCampaignById(id);
-        setCampaign(data);
+        const [campaignData, tasksData] = await Promise.all([
+          getCampaignById(id),
+          getCampaignTasks(id).catch(() => []),
+        ]);
+
+        setCampaign(campaignData);
+        setTasks(tasksData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -127,6 +134,42 @@ const CampaignDetails = () => {
             </div>
 
           </div>
+
+          <div className="campaign-tasks">
+            <h2>Tasks</h2>
+
+            {tasks.length === 0 ? (
+              <p className="campaign-tasks-empty">No tasks have been added to this campaign yet.</p>
+            ) : (
+              <ul className="campaign-tasks-list">
+                {tasks.map((task) => (
+                  <li className="campaign-task-item" key={task._id}>
+                    <div className="campaign-task-info">
+                      <strong>{task.title}</strong>
+                      {task.description && <p>{task.description}</p>}
+                    </div>
+
+                    <div className="campaign-task-meta">
+                      <span className="campaign-task-assignee">
+                        {task.assignedTo?.name || task.assignedTo?.username || "Unassigned"}
+                      </span>
+
+                      <span
+                        className={`status-badge status-${task.status.replace(/\s+/g, "-").toLowerCase()}`}
+                      >
+                        {task.status}
+                      </span>
+
+                      <span className="campaign-task-date">
+                        {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "N/A"}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
         </div>
       </div>
     </main>
