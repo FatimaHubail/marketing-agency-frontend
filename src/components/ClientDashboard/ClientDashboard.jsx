@@ -11,10 +11,8 @@ import './ClientDashboard.css';
 const objectIdToDate = (id) => new Date(parseInt(id.substring(0, 8), 16) * 1000);
 
 const STATUS_COLORS = {
-    planning: '#457b9d',
+    pending: '#a56a10',
     in_progress: '#2a9d8f',
-    client_review: '#ea4c89',
-    live: '#2a9d8f',
     completed: '#457b9d',
 };
 
@@ -68,7 +66,7 @@ const ClientDashboard = () => {
         ? Math.round((totalBudgetSpent / totalRequestedBudget) * 100)
         : 0;
 
-    const CAMPAIGN_STATUSES = ['planning', 'in_progress', 'client_review', 'live', 'completed'];
+    const CAMPAIGN_STATUSES = ['pending', 'in_progress', 'completed'];
     const campaignsByStatus = CAMPAIGN_STATUSES.map((status) => ({
         status,
         count: campaigns.filter((c) => c.status === status).length,

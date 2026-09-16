@@ -32,7 +32,25 @@ const getCampaignById = async (id) => {
   return data;
 };
 
+const completeCampaign = async (id) => {
+  const res = await fetch(`${BASE_URL}/${id}/complete`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
+
 export {
   getCampaigns,
   getCampaignById,
+  completeCampaign,
 };
