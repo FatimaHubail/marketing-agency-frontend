@@ -1,0 +1,176 @@
+.my-campaigns {
+    --peach-1: #f3a683;
+    --peach-2: #e8845f;
+    --cream: #f7ede0;
+    --navy: #1a1a2e;
+    --muted: #8d8d99;
+    --red: #e63946;
+    --teal: #2a9d8f;
+    --teal-light: #dceee6;
+    --blue: #457b9d;
+    --pink: #ea4c89;
+    --yellow: #f4a623;
+    --yellow-light: #fdf0dc;
+    --white: #ffffff;
+    --border: #f1e9db;
+
+    color: var(--navy);
+    font-family: inherit;
+}
+
+.my-campaigns-main {
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 22px;
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.12);
+    animation: campaigns-fade-up 0.4s ease both;
+}
+
+.my-campaigns h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+}
+
+.my-campaigns-subtitle {
+    color: var(--muted);
+    margin-top: 0;
+    margin-bottom: 1.75rem;
+}
+
+/* ---------- empty state ---------- */
+
+.my-campaigns-empty {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    background: var(--cream);
+    border-radius: 16px;
+    animation: campaigns-fade-up 0.45s ease both;
+    animation-delay: 0.1s;
+}
+
+.my-campaigns-empty p {
+    color: var(--muted);
+    margin: 0;
+}
+
+/* ---------- table ---------- */
+
+.my-campaigns-table-wrapper {
+    max-height: 480px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    animation: campaigns-fade-up 0.45s ease both;
+    animation-delay: 0.1s;
+}
+
+.my-campaigns table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.my-campaigns th {
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+}
+
+.my-campaigns td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border);
+    text-transform: capitalize;
+}
+
+.my-campaigns tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.my-campaigns tbody tr {
+    transition: background 0.2s ease, transform 0.2s ease;
+    animation: campaigns-row-in 0.4s ease both;
+}
+
+.my-campaigns tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.my-campaigns tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.my-campaigns tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.my-campaigns tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.my-campaigns tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.my-campaigns tbody tr:nth-child(n+6) { animation-delay: 0.3s; }
+
+.my-campaigns tbody tr:hover {
+    background: var(--teal-light);
+    transform: scale(1.005);
+}
+
+/* ---------- status badges (campaign lifecycle statuses) ---------- */
+
+.status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: var(--border);
+    color: var(--navy);
+    animation: campaigns-pop 0.3s ease both;
+    animation-delay: 0.25s;
+}
+
+.status-pending { background: var(--yellow-light); color: #a56a10; }
+.status-in_progress { background: var(--teal-light); color: var(--teal); }
+.status-completed { background: #e2ebf1; color: var(--blue); }
+
+/* ---------- view details button ---------- */
+
+.view-details-btn {
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--cream);
+    color: var(--navy);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.view-details-btn:hover {
+    background: var(--peach-1);
+    color: #fff;
+    transform: translateY(-1px) scale(1.04);
+}
+
+@keyframes campaigns-fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes campaigns-row-in {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes campaigns-pop {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 700px) {
+    .my-campaigns-main {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+}

@@ -1,101 +1,302 @@
-.campaign-requests {
-  min-height: 100vh;
-  padding: 40px;
-  background-color: #eef8ff;
+.staff-requests-page {
+    --peach-1: #f3a683;
+    --peach-2: #e8845f;
+    --cream: #f7ede0;
+    --navy: #1a1a2e;
+    --muted: #8d8d99;
+    --red: #e63946;
+    --teal: #2a9d8f;
+    --teal-light: #dceee6;
+    --blue: #457b9d;
+    --yellow: #f4a623;
+    --yellow-light: #fdf0dc;
+    --white: #ffffff;
+    --border: #f1e9db;
+
+    color: var(--navy);
+    font-family: inherit;
 }
 
-.campaign-requests h1 {
-  margin-bottom: 30px;
+.staff-requests-main {
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 22px;
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.12);
+    animation: staff-requests-fade-up 0.4s ease both;
 }
 
-.campaign-requests table {
-  width: 100%;
-  background-color: white;
-  border-collapse: collapse;
-  border-radius: 10px;
-  overflow: hidden;
+.staff-requests-main h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.3rem;
 }
 
-.campaign-requests th,
-.campaign-requests td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #e5e5e5;
+.staff-requests-subtitle {
+    color: var(--muted);
+    margin-top: 0;
+    margin-bottom: 1.75rem;
 }
 
-.campaign-requests th {
-  background-color: #f8fbff;
+/* ---------- empty state ---------- */
+
+.staff-requests-empty {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    background: var(--cream);
+    border-radius: 16px;
+    color: var(--muted);
+    animation: staff-requests-fade-up 0.45s ease both;
+    animation-delay: 0.1s;
 }
 
-.campaign-requests select,
-.campaign-requests input {
-  padding: 8px;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* ---------- table ---------- */
+
+.staff-requests-table-wrapper {
+    max-height: 480px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    animation: staff-requests-fade-up 0.45s ease both;
+    animation-delay: 0.1s;
 }
 
-.campaign-requests button {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 8px;
+.staff-requests-table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
 }
 
-.campaign-requests button:first-of-type {
-  background-color: #4da3d9;
-  color: white;
+.staff-requests-table-wrapper th {
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
 }
 
-.campaign-requests button:first-of-type:hover {
-  background-color: #398fc5;
+.staff-requests-table-wrapper td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border);
+    text-transform: capitalize;
+    vertical-align: middle;
 }
 
-.campaign-requests button:last-of-type {
-  background-color: #e57373;
-  color: white;
+.staff-requests-table-wrapper tbody tr:last-child td {
+    border-bottom: none;
 }
 
-.campaign-requests button:last-of-type:hover {
-  background-color: #d95c5c;
+.staff-requests-table-wrapper tbody tr {
+    transition: background 0.2s ease;
 }
 
-.request-details-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.staff-requests-table-wrapper tbody tr:hover {
+    background: var(--teal-light);
 }
 
-.request-details {
-  background-color: white;
-  width: 500px;
-  max-width: 90%;
-  padding: 30px;
-  border-radius: 10px;
+/* ---------- date columns ---------- */
+
+.staff-requests-date-cell .custom-datepicker {
+    width: 96px;
 }
 
-.request-details h2 {
-  margin-bottom: 20px;
+.staff-requests-date-cell .custom-datepicker-trigger {
+    padding: 0.35rem 0.5rem;
+    gap: 0.3rem;
+    font-size: 0.7rem;
 }
 
-.request-details p {
-  margin-bottom: 12px;
+.staff-requests-date-cell .custom-datepicker-trigger span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.request-details button {
-  margin-top: 15px;
-  background-color: #d9e2e8;
-  color: #333;
+.staff-requests-date-cell .custom-datepicker-icon {
+    width: 12px;
+    height: 12px;
 }
 
-.request-details button:hover {
-  background-color: #c7d2d9;
+/* ---------- actions cell ---------- */
+
+.staff-requests-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 220px;
+}
+
+/* ---------- status badges ---------- */
+
+.status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    background: var(--border);
+    color: var(--navy);
+}
+
+.status-submitted { background: var(--yellow-light); color: #a56a10; }
+.status-accepted { background: var(--teal-light); color: var(--teal); }
+.status-rejected { background: #fbe1e3; color: var(--red); }
+
+/* ---------- buttons ---------- */
+
+.view-details-btn,
+.btn-accept,
+.btn-reject {
+    padding: 0.4rem 0.9rem;
+    border: none;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.view-details-btn {
+    background: var(--cream);
+    color: var(--navy);
+}
+
+.view-details-btn:hover {
+    background: var(--peach-1);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-accept {
+    background: var(--teal-light);
+    color: var(--teal);
+}
+
+.btn-accept:hover {
+    background: var(--teal);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-reject {
+    background: #fbe1e3;
+    color: var(--red);
+}
+
+.btn-reject:hover {
+    background: var(--red);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* ---------- details modal ---------- */
+
+.staff-request-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 46, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    z-index: 1000;
+    animation: staff-requests-fade-up 0.2s ease both;
+}
+
+.staff-request-modal {
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--white);
+    border-radius: 22px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.25);
+    animation: staff-requests-pop 0.25s ease both;
+}
+
+.staff-request-modal h2 {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+}
+
+.staff-request-detail {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.staff-request-detail:last-of-type {
+    border-bottom: none;
+}
+
+.staff-request-detail strong {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+}
+
+.staff-request-detail p {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-transform: capitalize;
+}
+
+.staff-request-modal .btn-secondary-action {
+    margin-top: 1.25rem;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--cream);
+    color: var(--navy);
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.staff-request-modal .btn-secondary-action:hover {
+    background: var(--border);
+}
+
+@keyframes staff-requests-fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes staff-requests-pop {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 700px) {
+    .staff-requests-main {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    .staff-request-modal {
+        padding: 1.5rem;
+    }
 }

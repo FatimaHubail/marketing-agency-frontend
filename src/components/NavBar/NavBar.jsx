@@ -1,73 +1,126 @@
-import { useContext } from 'react';
-import { Link } from 'react-router';
-import { UserContext } from '../../contexts/UserContext';
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router";
+import { UserContext } from "../../contexts/UserContext";
+import "./NavBar.css";
 
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
+    navigate("/");
   };
 
+  const initials = user?.username
+    ? user.username
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase()
+    : "";
+
   return (
-    <nav>
-      <ul>
+    <aside className="sidebar">
+      <div className="sidebar-logo">
+        <span className="logo-dots">
+          <i></i><i></i><i></i><i></i>
+        </span>
+        MarkAura
+      </div>
 
-        {user ? (
-          <>
-            <li>Hello {user.username}</li>
+      {user && (
+        <div className="sidebar-profile">
+          <span className="sidebar-avatar">{initials}</span>
+          <p className="sidebar-username">{user.username}</p>
+          <p className="sidebar-role">{user.role}</p>
+        </div>
+      )}
 
-            <li>
-              <Link to="/">Dashboard</Link>
-            </li>
+      <nav>
+        <ul>
+          {user ? (
+            <>
+              {/* Admin */}
+              {user.role === "admin" && (
+                <li>
+                  <NavLink to="/admin/users">User Management</NavLink>
+                </li>
+              )}
 
-            <li>
-              <Link to="/campaign-requests">
-                Campaign Requests
-              </Link>
-            </li>
+              {/* Staff */}
+              {user.role === "staff" && (
+                <>
+                  <li>
+                    <NavLink to="/" end>Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/campaign-requests">Campaign Requests</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/tasks">Tasks</NavLink>
+                  </li>
+                </>
+              )}
 
-            {user.role === 'admin' && (
+              {/* Client */}
+              {user.role === "client" && (
+                <>
+                  <li>
+                    <NavLink to="/" end>Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/requests" end>Campaign Requests</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/requests/new">New Campaign Request</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/campaigns">My Campaigns</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/profile">My Profile</NavLink>
+                  </li>
+                </>
+              )}
+              {/*Outsource*/}
+              {user.role === "outsource" && (
+                <>
+                  <li>
+                    <NavLink to="/" end>Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/outsource-tasks">Tasks</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/profile">Profile</NavLink>
+                  </li>
+                </>
+              )}
+            </>
+          ) : (
+            <>
               <li>
-                <Link to="/admin/users">
-                  User Management
-                </Link>
+                <NavLink to="/register">Register</NavLink>
               </li>
-            )}
-            {user.role === 'client' && (
-              <li><Link to="/requests/new">New Campaign Request</Link></li>
-            )}
-            <li><Link to="/" onClick={handleSignOut}>Sign Out</Link></li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/">Dashboard</Link>
-            </li>
 
-            <li>
-              <Link to="/register">
-                Register as Client
-              </Link>
-            </li>
+              <li>
+                <NavLink to="/sign-in">Sign In</NavLink>
+              </li>
+            </>
+          )}
+        </ul>
+      </nav>
 
-            <li>
-              <Link to="/sign-up">
-                Sign Up
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/sign-in">
-                Sign In
-              </Link>
-            </li>
-          </>
-        )}
-
-      </ul>
-    </nav>
+      {user && (
+        <button className="sidebar-logout" onClick={handleSignOut}>
+          <span className="sidebar-logout-icon">⏻</span>
+          Log out
+        </button>
+      )}
+    </aside>
   );
 };
 

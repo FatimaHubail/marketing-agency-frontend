@@ -6,6 +6,9 @@ MarkOra is a marketing agency management platform that manages the full lifecycl
 
 This repository contains the **React frontend** for MarkAura.
 
+## ScreenShot of MarkAura
+![MarkAura Screenshot](./src/assets/landingpage.jpeg)
+
 ## User Stories
 
 ### Client
@@ -76,9 +79,11 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 
 </div>
 
-## ERD
 
 ## Routing Tables
+
+## ERD
+![MarkAura ERD](src/assets/MarkAura_ERD.jpeg)
 
 ### Auth routes
  
@@ -140,8 +145,11 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 </div>
 
 ### Agency Components
+![MarkAura ERD](src/assets/compAgency.png)
 
-  <img src='./docs/diagrams/component-agency.png'>
+### OutSource Components
+
+
 
 
 

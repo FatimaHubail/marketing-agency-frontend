@@ -1,0 +1,323 @@
+.crd-page {
+    --peach-1: #f3a683;
+    --peach-2: #e8845f;
+    --cream: #f7ede0;
+    --navy: #1a1a2e;
+    --muted: #8d8d99;
+    --red: #e63946;
+    --teal: #2a9d8f;
+    --teal-light: #dceee6;
+    --blue: #457b9d;
+    --yellow: #f4a623;
+    --yellow-light: #fdf0dc;
+    --white: #ffffff;
+    --border: #f1e9db;
+
+    color: var(--navy);
+    font-family: inherit;
+}
+
+/* ---------- main card ---------- */
+
+.crd-page-main {
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 22px;
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.12);
+    animation: details-fade-up 0.4s ease both;
+}
+
+/* ---------- back link ---------- */
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--peach-2);
+    transform: translateX(-2px);
+}
+
+/* ---------- header ---------- */
+
+.crd-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-bottom: 1.75rem;
+}
+
+.crd-page-header h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* ---------- status badges ---------- */
+
+.status-badge {
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    background: var(--border);
+    color: var(--navy);
+    animation: details-pop 0.3s ease both;
+    animation-delay: 0.15s;
+}
+
+.status-submitted {
+    background: var(--yellow-light);
+    color: #a56a10;
+}
+
+.status-accepted {
+    background: var(--teal-light);
+    color: var(--teal);
+}
+
+.status-rejected {
+    background: #fbe1e3;
+    color: var(--red);
+}
+
+.status-under-review {
+    background: #e7f4fb;
+    color: var(--blue);
+}
+
+/* ---------- detail grid ---------- */
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--cream);
+    border-radius: 16px;
+    margin-bottom: 1.75rem;
+    animation: details-fade-up 0.45s ease both;
+    animation-delay: 0.1s;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.detail-item-wide {
+    grid-column: 1 / -1;
+}
+
+.detail-item-rejected .detail-value {
+    color: var(--red);
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+}
+
+.detail-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* ---------- actions ---------- */
+
+.request-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.btn-primary-action,
+.btn-danger-action,
+.btn-secondary-action {
+    padding: 0.65rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease,
+        background 0.2s ease;
+}
+
+/* ---------- accept button ---------- */
+
+.btn-primary-action {
+    background: #4bbfae;
+    color: #fff;
+}
+
+.btn-primary-action:hover:not(:disabled) {
+    background: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(42, 157, 143, 0.35);
+}
+
+/* ---------- reject button ---------- */
+
+.btn-danger-action {
+    background: #fbe1e3;
+    color: var(--red);
+}
+
+.btn-danger-action:hover:not(:disabled) {
+    background: var(--red);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+}
+
+/* ---------- secondary button ---------- */
+
+.btn-secondary-action {
+    background: var(--cream);
+    color: var(--navy);
+}
+
+.btn-secondary-action:hover:not(:disabled) {
+    background: var(--border);
+}
+
+/* ---------- disabled buttons ---------- */
+
+.btn-primary-action:disabled,
+.btn-danger-action:disabled,
+.btn-secondary-action:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* ---------- delete confirm modal ---------- */
+
+.delete-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 46, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: details-fade-up 0.2s ease both;
+}
+
+.delete-confirm-dialog {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 18px;
+    box-shadow: 0 24px 48px rgba(26, 26, 46, 0.25);
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    animation: details-pop 0.25s ease both;
+}
+
+.delete-confirm-dialog p {
+    margin: 0 0 1.5rem;
+    font-weight: 600;
+}
+
+.delete-confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.9rem;
+}
+
+/* ---------- error ---------- */
+
+.crd-page-main > p[role="alert"] {
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    background: #fbe1e3;
+    color: var(--red);
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+/* ---------- animations ---------- */
+
+@keyframes details-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes details-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 700px) {
+    .crd-page-main {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    .crd-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        padding: 1.25rem;
+    }
+
+    .detail-item-wide {
+        grid-column: auto;
+    }
+
+    .request-actions {
+        flex-direction: column;
+    }
+
+    .btn-primary-action,
+    .btn-danger-action,
+    .btn-secondary-action {
+        width: 100%;
+    }
+}

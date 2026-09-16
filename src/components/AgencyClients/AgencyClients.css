@@ -1,0 +1,37 @@
+.agency-clients {
+  min-height: 100vh;
+  background: #eef8ff;
+  padding: 40px;
+}
+
+.agency-clients h1 {
+  margin-bottom: 25px;
+  color: #1f2937;
+}
+
+.clients-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.client-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.client-card h2 {
+  margin-bottom: 18px;
+  color: #1f2937;
+}
+
+.client-card p {
+  margin: 10px 0;
+  color: #4b5563;
+}
+
+.client-card strong {
+  color: #1f2937;
+}

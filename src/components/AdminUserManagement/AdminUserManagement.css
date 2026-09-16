@@ -1,99 +1,182 @@
-.admin-user-management {
-  padding: 40px;
+.admin-page {
+    --peach-1: #f3a683;
+    --peach-2: #e8845f;
+    --cream: #f7ede0;
+    --navy: #1a1a2e;
+    --muted: #8d8d99;
+    --red: #e63946;
+    --teal: #2a9d8f;
+    --teal-light: #dceee6;
+    --blue: #457b9d;
+    --pink: #ea4c89;
+    --yellow: #f4a623;
+    --yellow-light: #fdf0dc;
+    --white: #ffffff;
+    --border: #f1e9db;
+
+    color: var(--navy);
+    font-family: inherit;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.admin-user-management h1 {
-  margin-bottom: 30px;
+.admin-page-header {
+    margin-bottom: 1.5rem;
+    animation: admin-fade-up 0.4s ease both;
 }
 
-.admin-user-management {
-  min-height: 100vh;
-  padding: 40px;
-  background-color: #eef8ff;
+.admin-page-header h1 {
+    margin: 0 0 0.3rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
-.admin-user-management form {
-  background-color: white;
-  padding: 25px;
-  border-radius: 10px;
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
-  align-items: center;
+.admin-page-subtitle {
+    margin: 0;
+    color: var(--muted);
 }
 
-.admin-user-management input,
-.admin-user-management select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.admin-alert {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: #fbe1e3;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 1.25rem;
 }
 
-.admin-user-management form button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.admin-form-card,
+.admin-table-card {
+    background: var(--white);
+    border-radius: 22px;
+    padding: 1.75rem;
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.1);
+    margin-bottom: 1.5rem;
+    animation: admin-fade-up 0.45s ease both;
 }
 
-.admin-user-management table {
-  width: 100%;
-  background-color: white;
-  border-collapse: collapse;
-  border-radius: 10px;
-  overflow: hidden;
+.admin-form-card h2,
+.admin-table-card h2 {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
 }
 
-.admin-user-management th,
-.admin-user-management td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #e5e5e5;
+.admin-form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
-.admin-user-management th {
-  background-color: #f8fbff;
+/* ---------- table ---------- */
+
+.admin-table-wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--border);
 }
 
-.admin-user-management button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
+.admin-table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
 }
 
-.admin-user-management form button[type='button'] {
-  background-color: #d9e2e8;
-  color: #333;
+.admin-table-wrapper thead {
+    background: var(--cream);
 }
 
-.admin-user-management form button[type='button']:hover {
-  background-color: #c7d2d9;
+.admin-table-wrapper th {
+    padding: 0.85rem 1.1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
 }
 
-.admin-user-management form button:hover {
-  background-color: #398fc5;
+.admin-table-wrapper td {
+    padding: 0.9rem 1.1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.92rem;
+    text-transform: capitalize;
 }
 
-.admin-user-management td button {
-  margin-right: 8px;
+.admin-table-wrapper tbody tr {
+    transition: background 0.15s ease;
 }
 
-.admin-user-management td button:first-child {
-  background-color: #4da3d9;
-  color: white;
+.admin-table-wrapper tbody tr:hover {
+    background: var(--cream);
 }
 
-.admin-user-management td button:first-child:hover {
-  background-color: #398fc5;
+.admin-table-actions {
+    white-space: nowrap;
 }
 
-.admin-user-management td button:last-child {
-  background-color: #e57373;
-  color: white;
+.admin-edit-btn,
+.admin-delete-btn {
+    padding: 0.45rem 0.9rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.admin-user-management td button:last-child:hover {
-  background-color: #d95c5c;
+.admin-edit-btn {
+    background: var(--teal-light);
+    color: var(--teal);
+}
+
+.admin-edit-btn:hover {
+    background: var(--teal);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.admin-delete-btn {
+    background: #fbe1e3;
+    color: var(--red);
+}
+
+.admin-delete-btn:hover {
+    background: var(--red);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ---------- role badge ---------- */
+
+.role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.role-staff { background: var(--teal-light); color: var(--teal); }
+.role-outsource { background: var(--yellow-light); color: #a56a10; }
+.role-admin { background: #e2ebf1; color: var(--blue); }
+.role-client { background: #fce4ec; color: var(--pink); }
+
+@keyframes admin-fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 700px) {
+    .admin-form-card,
+    .admin-table-card {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
 }
