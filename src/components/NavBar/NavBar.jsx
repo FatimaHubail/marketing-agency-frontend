@@ -43,46 +43,58 @@ const NavBar = () => {
         <ul>
           {user ? (
             <>
-              <li>
-                <NavLink to="/" end>Dashboard</NavLink>
-              </li>
-
-              {(user.role === "staff" || user.role === "admin") && (
-                <li>
-                  <NavLink to="/campaign-requests">Campaign Requests</NavLink>
-                </li>
-              )}
-              {user.role === "client" && (
-                <li>
-                  <NavLink to="/requests">Campaign Requests</NavLink>
-                </li>
-              )}
-
-              {["admin", "staff"].includes(user.role) && (
-                <li>
-                  <NavLink to="/tasks">Tasks</NavLink>
-                </li>
-              )}
-
+              {/* Admin */}
               {user.role === "admin" && (
-                <li>
-                  <NavLink to="/admin/users">User Management</NavLink>
-                </li>
+                <>
+                  <li>
+                    <NavLink to="/" end>Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/campaign-requests">Campaign Requests</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/tasks">Tasks</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/admin/users">User Management</NavLink>
+                  </li>
+                </>
               )}
-              {user.role === "client" && (
-                <li>
-                  <NavLink to="/requests/new">New Campaign Request</NavLink>
-                </li>
+
+              {/* Staff */}
+              {user.role === "staff" && (
+                <>
+                  <li>
+                    <NavLink to="/" end>Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/campaign-requests">Campaign Requests</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/tasks">Tasks</NavLink>
+                  </li>
+                </>
               )}
+
+              {/* Client */}
               {user.role === "client" && (
-                <li>
-                  <NavLink to="/campaigns">My Campaigns</NavLink>
-                </li>
-              )}
-              {user.role === "client" && (
-                <li>
-                  <NavLink to="/profile">My Profile</NavLink>
-                </li>
+                <>
+                  <li>
+                    <NavLink to="/" end>Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/requests">Campaign Requests</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/requests/new">New Campaign Request</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/campaigns">My Campaigns</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/profile">My Profile</NavLink>
+                  </li>
+                </>
               )}
             </>
           ) : (
