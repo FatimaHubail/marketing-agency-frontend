@@ -1,7 +1,7 @@
 // src/components/SignInForm/SignInForm.jsx
 
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 import { signIn } from "../../services/authService";
 
@@ -42,6 +42,7 @@ const SignInForm = () => {
 
   return (
     <main>
+      <Link to="/">← Back to Home</Link>
       <h1>Sign In</h1>
       <p>{message}</p>
       <form autoComplete="off" onSubmit={handleSubmit}>
