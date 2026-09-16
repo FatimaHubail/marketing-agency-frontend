@@ -4,23 +4,18 @@ import {
   getCampaignRequests,
   acceptCampaignRequest,
   rejectCampaignRequest,
-  getStaff,
 } from "../../services/campaignRequestService";
 
 const CampaignRequests = () => {
   const [requests, setRequests] = useState([]);
-  const [staff, setStaff] = useState([]);
-  const [outsource, setOutsource] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const requestsData = await getCampaignRequests();
-        const staffData = await getStaff();
 
         setRequests(requestsData);
-        setStaff(staffData);
       } catch (err) {
         console.log(err);
       }
@@ -48,14 +43,6 @@ const CampaignRequests = () => {
 
   const handleAccept = async (request) => {
     try {
-      const staffId = document.getElementById(
-        `staff-${request._id}`
-      ).value;
-
-      const outsourceId = document.getElementById(
-        `outsource-${request._id}`
-      ).value;
-
       const startDate = document.getElementById(
         `start-${request._id}`
       ).value;
@@ -69,21 +56,16 @@ const CampaignRequests = () => {
         return;
       }
 
-      if (!staffId && !outsourceId) {
-        console.log("Select a staff member or outsource partner");
-        return;
-      }
-
       const data = await acceptCampaignRequest(request._id, {
-        staffId: staffId || undefined,
-        outsourceId: outsourceId || undefined,
         startDate,
         endDate,
       });
 
       setRequests(
         requests.map((item) =>
-          item._id === request._id ? data.campaignRequest : item
+          item._id === request._id
+            ? data.campaignRequest
+            : item
         )
       );
     } catch (err) {
@@ -109,93 +91,61 @@ const CampaignRequests = () => {
         </thead>
 
         <tbody>
-          {requests.map((request) => {
-            const matchingStaff = staff.filter((staffMember) =>
-              staffMember.specialty?.includes(request.campaignType)
-            );
+          {requests.map((request) => (
+            <tr key={request._id}>
+              <td>
+                {request.clientId?.user?.username}
+              </td>
 
-            return (
-              <tr key={request._id}>
-                <td>{request.clientId?.user?.username}</td>
+              <td>{request.campaignType}</td>
 
-                <td>{request.campaignType}</td>
+              <td>{request.goal}</td>
 
-                <td>{request.goal}</td>
+              <td>{request.budget}</td>
 
-                <td>{request.budget}</td>
+              <td>
+                {request.preferredChannels?.join(", ")}
+              </td>
 
-                <td>
-                  {request.preferredChannels?.join(", ")}
-                </td>
+              <td>{request.status}</td>
 
-                <td>{request.status}</td>
+              <td>
+                <input
+                  id={`start-${request._id}`}
+                  type="date"
+                />
 
-                <td>
-                  <select id={`staff-${request._id}`}>
-                    <option value="">Select Staff</option>
+                <input
+                  id={`end-${request._id}`}
+                  type="date"
+                />
 
-                    {matchingStaff.map((staffMember) => (
-                      <option
-                        key={staffMember._id}
-                        value={staffMember._id}
-                      >
-                        {staffMember.userId?.username}
-                      </option>
-                    ))}
-                  </select>
+                <button
+                  onClick={() =>
+                    setSelectedRequest(request)
+                  }
+                >
+                  View Details
+                </button>
 
-                  <select id={`outsource-${request._id}`}>
-                    <option value="">
-                      Select Outsource
-                    </option>
+                <button
+                  onClick={() =>
+                    handleAccept(request)
+                  }
+                >
+                  Accept
+                </button>
 
-                    {outsource.map((user) => (
-                      <option
-                        key={user._id}
-                        value={user._id}
-                      >
-                        {user.username}
-                      </option>
-                    ))}
-                  </select>
-
-                  <input
-                    id={`start-${request._id}`}
-                    type="date"
-                  />
-
-                  <input
-                    id={`end-${request._id}`}
-                    type="date"
-                  />
-
-                  <button
-                    onClick={() =>
-                      setSelectedRequest(request)
-                    }
-                  >
-                    View Details
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      handleAccept(request)
-                    }
-                  >
-                    Accept
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      handleReject(request._id)
-                    }
-                  >
-                    Reject
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+                <button
+                  onClick={() =>
+                    handleReject(request._id)
+                  }
+                >
+                  Reject
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 

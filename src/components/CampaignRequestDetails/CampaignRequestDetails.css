@@ -17,6 +17,8 @@
     font-family: inherit;
 }
 
+/* ---------- main card ---------- */
+
 .crd-page-main {
     padding: 2rem;
     background: var(--white);
@@ -78,9 +80,25 @@
     animation-delay: 0.15s;
 }
 
-.status-submitted { background: var(--yellow-light); color: #a56a10; }
-.status-accepted { background: var(--teal-light); color: var(--teal); }
-.status-rejected { background: #fbe1e3; color: var(--red); }
+.status-submitted {
+    background: var(--yellow-light);
+    color: #a56a10;
+}
+
+.status-accepted {
+    background: var(--teal-light);
+    color: var(--teal);
+}
+
+.status-rejected {
+    background: #fbe1e3;
+    color: var(--red);
+}
+
+.status-under-review {
+    background: #e7f4fb;
+    color: var(--blue);
+}
 
 /* ---------- detail grid ---------- */
 
@@ -130,6 +148,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.9rem;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
 }
 
 .btn-primary-action,
@@ -142,8 +163,14 @@
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease,
+        background 0.2s ease;
 }
+
+/* ---------- accept button ---------- */
 
 .btn-primary-action {
     background: #4bbfae;
@@ -155,6 +182,8 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(42, 157, 143, 0.35);
 }
+
+/* ---------- reject button ---------- */
 
 .btn-danger-action {
     background: #fbe1e3;
@@ -168,6 +197,8 @@
     box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
 }
 
+/* ---------- secondary button ---------- */
+
 .btn-secondary-action {
     background: var(--cream);
     color: var(--navy);
@@ -177,8 +208,11 @@
     background: var(--border);
 }
 
+/* ---------- disabled buttons ---------- */
+
 .btn-primary-action:disabled,
-.btn-danger-action:disabled {
+.btn-danger-action:disabled,
+.btn-secondary-action:disabled {
     opacity: 0.45;
     cursor: not-allowed;
 }
@@ -218,19 +252,72 @@
     gap: 0.9rem;
 }
 
+/* ---------- error ---------- */
+
+.crd-page-main > p[role="alert"] {
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    background: #fbe1e3;
+    color: var(--red);
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+/* ---------- animations ---------- */
+
 @keyframes details-fade-up {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes details-pop {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
+
+/* ---------- mobile ---------- */
 
 @media (max-width: 700px) {
     .crd-page-main {
         padding: 1.25rem;
         border-radius: 16px;
+    }
+
+    .crd-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        padding: 1.25rem;
+    }
+
+    .detail-item-wide {
+        grid-column: auto;
+    }
+
+    .request-actions {
+        flex-direction: column;
+    }
+
+    .btn-primary-action,
+    .btn-danger-action,
+    .btn-secondary-action {
+        width: 100%;
     }
 }
