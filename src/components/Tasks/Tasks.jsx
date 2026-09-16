@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  getTasks,
   createTask,
   updateTask,
   deleteTask,
+  getMyTasks,
 } from "../../services/taskService";
 import { getCampaigns } from "../../services/campaignService";
 import { getOutsourceUsers } from "../../services/userService";
@@ -32,7 +32,7 @@ const Tasks = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tasksData = await getTasks();
+        const tasksData = await getMyTasks();
         const campaignsData = await getCampaigns();
         const outsourceData = await getOutsourceUsers();
 
