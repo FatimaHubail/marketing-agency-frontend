@@ -1,0 +1,275 @@
+.outsource-profile-page {
+    --peach-1: #f3a683;
+    --peach-2: #e8845f;
+    --cream: #f7ede0;
+    --navy: #1a1a2e;
+    --muted: #8d8d99;
+    --red: #e63946;
+    --teal: #2a9d8f;
+    --teal-light: #dceee6;
+    --blue: #457b9d;
+    --pink: #ea4c89;
+    --yellow: #f4a623;
+    --yellow-light: #fdf0dc;
+    --white: #ffffff;
+    --border: #f1e9db;
+    --green: #2ecc71;
+    --green-light: #e8f8f0;
+
+    color: var(--navy);
+    font-family: inherit;
+    padding: 2.5rem 1.5rem;
+}
+
+.outsource-profile-page .profile-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 22px;
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.12);
+    animation: profile-fade-up 0.4s ease both;
+}
+
+.outsource-profile-page .profile-main h1 {
+    margin: 0 0 0.3rem;
+    font-family: var(--font-display, inherit);
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    text-transform: capitalize;
+}
+
+.outsource-profile-page .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-bottom: 0.35rem;
+}
+
+.outsource-profile-page .profile-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.outsource-profile-page .profile-title-group h1 {
+    margin: 0;
+}
+
+.outsource-profile-page .profile-status-pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.outsource-profile-page .profile-status-pill.status-available {
+    background: var(--green-light);
+    color: #1b8a4c;
+}
+
+.outsource-profile-page .profile-status-pill.status-unavailable {
+    background: #fbe1e3;
+    color: var(--red);
+}
+
+.outsource-profile-page .profile-subtitle {
+    color: var(--muted);
+    margin: 0 0 1.75rem;
+    font-size: 0.95rem;
+}
+
+.outsource-profile-page [role="alert"] {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: #fbe1e3;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+.outsource-profile-page .profile-success-alert {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: var(--green-light);
+    color: #1b8a4c;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+/* ---------- view mode ---------- */
+
+.outsource-profile-page .profile-view-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--cream);
+    border-radius: 16px;
+    margin-bottom: 1.75rem;
+    animation: profile-fade-up 0.45s ease both;
+    animation-delay: 0.1s;
+}
+
+.outsource-profile-page .profile-view-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.outsource-profile-page .profile-view-item-wide {
+    grid-column: 1 / -1;
+}
+
+.outsource-profile-page .profile-view-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+}
+
+.outsource-profile-page .profile-view-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    word-break: break-word;
+    color: var(--navy);
+}
+
+.outsource-profile-page .profile-section-title {
+    font-family: var(--font-display, inherit);
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 1.5rem 0 0.9rem;
+    color: var(--navy);
+}
+
+.outsource-profile-page .profile-main form .profile-section-title:first-of-type {
+    margin-top: 0;
+}
+
+.outsource-profile-page .profile-empty-note {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.outsource-profile-page .profile-services-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.outsource-profile-page .profile-service-pill {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    background: var(--teal-light);
+    color: var(--teal);
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.outsource-profile-page .profile-service-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(42, 157, 143, 0.25);
+}
+
+/* ---------- edit mode & service toggles ---------- */
+
+.outsource-profile-page .service-toggle-hint {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: -0.4rem 0 0.75rem;
+}
+
+.outsource-profile-page .service-toggle-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.outsource-profile-page .service-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--cream);
+    color: var(--navy);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.outsource-profile-page .service-toggle-btn:hover {
+    border-color: var(--peach-1);
+    transform: translateY(-1px);
+}
+
+.outsource-profile-page .service-toggle-btn.active {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(42, 157, 143, 0.25);
+}
+
+.outsource-profile-page .toggle-check {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.outsource-profile-page .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+}
+
+@keyframes profile-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 700px) {
+    .outsource-profile-page {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .outsource-profile-page .profile-main {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    .outsource-profile-page .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .outsource-profile-page .form-actions {
+        flex-direction: column;
+    }
+
+    .outsource-profile-page .form-actions button {
+        width: 100%;
+    }
+}
