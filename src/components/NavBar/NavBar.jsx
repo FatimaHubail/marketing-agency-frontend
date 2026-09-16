@@ -19,47 +19,65 @@ const NavBar = () => {
         <ul>
           {user ? (
             <>
-              <li>
-                <Link to="/">Dashboard</Link>
-              </li>
-
-              {(user.role === "staff" || user.role === "admin") && (
-                <li>
-                  <Link to="/campaign-requests">Campaign Requests</Link>
-                </li>
-              )}
-              {user.role === "client" && (
-                <li>
-                  <Link to="/requests">Campaign Requests</Link>
-                </li>
-              )}
-
-              {["admin", "staff"].includes(user.role) && (
-                <li>
-                  <Link to="/tasks">Tasks</Link>
-                </li>
-              )}
-
+              {/* Admin */}
               {user.role === "admin" && (
                 <li>
                   <Link to="/admin/users">User Management</Link>
                 </li>
               )}
-              {user.role === "client" && (
-                <li>
-                  <Link to="/requests/new">New Campaign Request</Link>
-                </li>
+
+              {/* Staff */}
+              {user.role === "staff" && (
+                <>
+                  <li>
+                    <Link to="/">Dashboard</Link>
+                  </li>
+
+                  <li>
+                    <Link to="/campaign-requests">
+                      Campaign Requests
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/tasks">Tasks</Link>
+                  </li>
+                </>
               )}
+
+              {/* Client */}
               {user.role === "client" && (
-                <li>
-                  <Link to="/campaigns">My Campaigns</Link>
-                </li>
+                <>
+                  <li>
+                    <Link to="/">Dashboard</Link>
+                  </li>
+
+                  <li>
+                    <Link to="/requests">
+                      Campaign Requests
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/requests/new">
+                      New Campaign Request
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/campaigns">
+                      My Campaigns
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/profile">
+                      My Profile
+                    </Link>
+                  </li>
+                </>
               )}
-              {user.role === "client" && (
-                <li>
-                  <Link to="/profile">My Profile</Link>
-                </li>
-              )}
+
               <li className="sidebar-signout">
                 <Link to="/" onClick={handleSignOut}>
                   Sign Out
