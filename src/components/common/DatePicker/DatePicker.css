@@ -4,6 +4,7 @@
     flex-direction: column;
     gap: 0.4rem;
     font-family: inherit;
+    width: 100%;
 }
 
 .custom-datepicker-label {
@@ -20,6 +21,7 @@
     justify-content: space-between;
     gap: 0.5rem;
     width: 100%;
+    min-height: 42px;
     padding: 0.65rem 0.9rem;
     border: 1px solid var(--border, #f1e9db);
     border-radius: 12px;
@@ -29,7 +31,8 @@
     font-size: 0.95rem;
     cursor: pointer;
     box-sizing: border-box;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 .custom-datepicker-trigger:hover:not(.is-disabled) {
@@ -71,21 +74,40 @@
     background: var(--muted, #8d8d99);
 }
 
-.custom-datepicker-icon::before { left: 3px; }
-.custom-datepicker-icon::after { right: 3px; }
+.custom-datepicker-icon::before {
+    left: 3px;
+}
 
+.custom-datepicker-icon::after {
+    right: 3px;
+}
+
+/* Calendar panel */
 .custom-datepicker-panel {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + 8px);
     left: 0;
-    z-index: 20;
+    z-index: 9999;
+
     width: 280px;
+    max-width: calc(100vw - 32px);
+
     padding: 1rem;
+    box-sizing: border-box;
+
     background: var(--white, #fff);
     border: 1px solid var(--border, #f1e9db);
     border-radius: 16px;
+
     box-shadow: 0 16px 32px rgba(26, 26, 46, 0.14);
+
     animation: custom-datepicker-pop 0.15s ease both;
+}
+
+/* Prevent calendar from being cut by form rows/cards */
+.custom-datepicker,
+.custom-datepicker-panel {
+    overflow: visible;
 }
 
 .custom-datepicker-nav {
@@ -140,13 +162,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     border: none;
     border-radius: 50%;
     background: none;
+
     color: var(--navy, #1a1a2e);
     font-size: 0.85rem;
     font-family: inherit;
+
     cursor: pointer;
+
     transition: background 0.15s ease, color 0.15s ease;
 }
 
@@ -175,6 +201,13 @@
 }
 
 @keyframes custom-datepicker-pop {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
