@@ -92,6 +92,9 @@ const NavBar = () => {
                     <NavLink to="/" end>Dashboard</NavLink>
                   </li>
                   <li>
+                    <NavLink to="/outsource-tasks">Tasks</NavLink>
+                  </li>
+                  <li>
                     <NavLink to="/profile">Profile</NavLink>
                   </li>
                 </>
