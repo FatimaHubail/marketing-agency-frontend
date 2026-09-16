@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router";
+
 import { UserContext } from "../../contexts/UserContext";
 
 const NavBar = () => {
@@ -20,21 +21,18 @@ const NavBar = () => {
           <>
             <li>Hello {user.username}</li>
 
-            {/* Agency Dashboard */}
             {isAgency && (
               <li>
                 <Link to="/agency-dashboard">Dashboard</Link>
               </li>
             )}
 
-            {/* Client Dashboard */}
             {user.role === "client" && (
               <li>
                 <Link to="/">Dashboard</Link>
               </li>
             )}
 
-            {/* Agency Campaign Requests */}
             {isAgency && (
               <li>
                 <Link to="/campaign-requests">
@@ -43,7 +41,6 @@ const NavBar = () => {
               </li>
             )}
 
-            {/* Client Campaign Requests */}
             {user.role === "client" && (
               <li>
                 <Link to="/requests">
@@ -52,14 +49,12 @@ const NavBar = () => {
               </li>
             )}
 
-            {/* Tasks */}
             {isAgency && (
               <li>
                 <Link to="/tasks">Tasks</Link>
               </li>
             )}
 
-            {/* Admin User Management */}
             {user.role === "admin" && (
               <li>
                 <Link to="/admin/users">
@@ -68,7 +63,6 @@ const NavBar = () => {
               </li>
             )}
 
-            {/* Client New Campaign Request */}
             {user.role === "client" && (
               <li>
                 <Link to="/requests/new">
@@ -77,7 +71,6 @@ const NavBar = () => {
               </li>
             )}
 
-            {/* Client Campaigns */}
             {user.role === "client" && (
               <li>
                 <Link to="/campaigns">
@@ -86,7 +79,6 @@ const NavBar = () => {
               </li>
             )}
 
-            {/* Client Profile */}
             {user.role === "client" && (
               <li>
                 <Link to="/profile">
@@ -95,7 +87,6 @@ const NavBar = () => {
               </li>
             )}
 
-            {/* Sign Out */}
             <li>
               <Link to="/" onClick={handleSignOut}>
                 Sign Out
