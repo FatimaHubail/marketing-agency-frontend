@@ -9,6 +9,9 @@ import { getCampaigns } from "../../services/campaignService";
 import { getTasks } from "../../services/taskService";
 import { getClients } from "../../services/clientService";
 
+import DatePicker from "../../components/common/DatePicker/DatePicker";
+import Select from "../../components/common/Select/Select";
+
 const AgencyDashboard = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
@@ -18,6 +21,9 @@ const AgencyDashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [clients, setClients] = useState([]);
   const [search, setSearch] = useState("");
+
+  const [taskDate, setTaskDate] = useState("");
+  const [taskStatus, setTaskStatus] = useState("");
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -55,27 +61,33 @@ const AgencyDashboard = () => {
     )
     .sort(
       (a, b) =>
-        new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        new Date(b.createdAt || 0) -
+        new Date(a.createdAt || 0)
     );
 
-  // Active campaigns
-  const activeCampaigns = campaigns.filter(
-    (campaign) => campaign.status === "in_progress"
-  );
-
-  // Completed campaigns
-  const completedCampaigns = campaigns.filter(
-    (campaign) => campaign.status === "completed"
-  );
-
-  // Tasks that are not completed
+  // Tasks
   const upcomingTasks = tasks
-    .filter((task) => task.status !== "completed")
+    .filter((task) => {
+      const matchesStatus =
+        !taskStatus || task.status === taskStatus;
+
+      const matchesDate =
+        !taskDate ||
+        task.dueDate?.split("T")[0] === taskDate;
+
+      return matchesStatus && matchesDate;
+    })
     .sort(
       (a, b) =>
-        new Date(a.dueDate || 0) - new Date(b.dueDate || 0)
+        new Date(a.dueDate || 0) -
+        new Date(b.dueDate || 0)
     )
     .slice(0, 5);
+
+  // Completed tasks
+  const completedTasks = tasks.filter(
+    (task) => task.status === "completed"
+  );
 
   // Search
   const searchResults = [
@@ -128,7 +140,10 @@ const AgencyDashboard = () => {
   };
 
   const getCampaignTitle = (task) => {
-    return task.campaignId?.requestId?.title || "Campaign";
+    return (
+      task.campaignId?.requestId?.title ||
+      "Campaign"
+    );
   };
 
   const initials = (user?.username || "")
@@ -158,16 +173,20 @@ const AgencyDashboard = () => {
               {searchResults.length === 0 ? (
                 <p>No results found.</p>
               ) : (
-                searchResults.slice(0, 6).map((result) => (
-                  <div
-                    className="search-result"
-                    key={`${result.type}-${result.id}`}
-                    onClick={() => navigate(result.path)}
-                  >
-                    <strong>{result.title}</strong>
-                    <small>{result.type}</small>
-                  </div>
-                ))
+                searchResults
+                  .slice(0, 6)
+                  .map((result) => (
+                    <div
+                      className="search-result"
+                      key={`${result.type}-${result.id}`}
+                      onClick={() =>
+                        navigate(result.path)
+                      }
+                    >
+                      <strong>{result.title}</strong>
+                      <small>{result.type}</small>
+                    </div>
+                  ))
               )}
 
             </div>
@@ -181,6 +200,7 @@ const AgencyDashboard = () => {
             <div>{user?.username || "User"}</div>
             <small>{user?.role || "Agency Manager"}</small>
           </div>
+
         </div>
 
       </header>
@@ -190,10 +210,13 @@ const AgencyDashboard = () => {
 
         {/* Welcome */}
         <div className="welcome">
+
           <h1>Welcome back!</h1>
+
           <p>
             Here's what's happening with your marketing campaigns.
           </p>
+
         </div>
 
         <div className="dashboard-layout">
@@ -214,14 +237,6 @@ const AgencyDashboard = () => {
 
               <div className="stat-item">
                 <div className="stat-label">
-                  <span className="stat-dot stat-dot-teal" />
-                  Active Campaigns
-                </div>
-                <p className="stat-value">{activeCampaigns.length}</p>
-              </div>
-
-              <div className="stat-item">
-                <div className="stat-label">
                   <span className="stat-dot stat-dot-yellow" />
                   Tasks Due
                 </div>
@@ -236,13 +251,24 @@ const AgencyDashboard = () => {
                 <p className="stat-value">{clients.length}</p>
               </div>
 
+              <div className="stat-item">
+                <div className="stat-label">
+                  <span className="stat-dot stat-dot-teal" />
+                  Completed Tasks
+                </div>
+                <p className="stat-value">{completedTasks.length}</p>
+              </div>
+
             </div>
 
             {/* Requests To Review */}
             <section className="dashboard-section">
 
               <div className="section-header">
-                <h2>Requests Requiring Action</h2>
+
+                <h2>
+                  Requests Requiring Action
+                </h2>
 
                 <button
                   onClick={() =>
@@ -251,6 +277,7 @@ const AgencyDashboard = () => {
                 >
                   View All
                 </button>
+
               </div>
 
               {requestsToReview.length === 0 ? (
@@ -272,6 +299,7 @@ const AgencyDashboard = () => {
                   </thead>
 
                   <tbody>
+
                     {requestsToReview
                       .slice(0, 5)
                       .map((request) => (
@@ -320,96 +348,10 @@ const AgencyDashboard = () => {
 
                         </tr>
                       ))}
+
                   </tbody>
 
                 </table>
-              )}
-
-            </section>
-
-            {/* Active Campaigns */}
-            <section className="dashboard-section">
-
-              <div className="section-header">
-                <h2>Active Campaigns</h2>
-
-                <button
-                  onClick={() => navigate("/campaigns")}
-                >
-                  View All
-                </button>
-              </div>
-
-              {activeCampaigns.length === 0 ? (
-                <div className="empty-state">
-                  No campaigns are currently in progress.
-                </div>
-              ) : (
-                <div className="campaign-list">
-
-                  {activeCampaigns
-                    .slice(0, 5)
-                    .map((campaign) => {
-
-                      const progress =
-                        campaign.progress || 0;
-
-                      return (
-                        <div
-                          className="campaign-row"
-                          key={campaign._id}
-                        >
-
-                          <div className="campaign-info">
-                            <strong>
-                              {campaign.requestId?.title ||
-                                "Campaign"}
-                            </strong>
-
-                            <small>
-                              Active campaign
-                            </small>
-                          </div>
-
-                          <div>
-                            <span className="status status-active">
-                              In Progress
-                            </span>
-                          </div>
-
-                          <div className="progress-container">
-
-                            <div className="progress-bar">
-                              <div
-                                className="progress-fill"
-                                style={{
-                                  width: `${progress}%`,
-                                }}
-                              />
-                            </div>
-
-                            <span className="progress-text">
-                              {progress}%
-                            </span>
-
-                          </div>
-
-                          <button
-                            className="action-button"
-                            onClick={() =>
-                              navigate(
-                                `/campaigns/${campaign._id}`
-                              )
-                            }
-                          >
-                            Open
-                          </button>
-
-                        </div>
-                      );
-                    })}
-
-                </div>
               )}
 
             </section>
@@ -418,18 +360,59 @@ const AgencyDashboard = () => {
             <section className="dashboard-section">
 
               <div className="section-header">
+
                 <h2>Upcoming Tasks</h2>
 
                 <button
-                  onClick={() => navigate("/tasks")}
+                  onClick={() =>
+                    navigate("/tasks")
+                  }
                 >
                   View All
                 </button>
+
+              </div>
+
+              {/* Task Filters */}
+              <div className="task-filters">
+
+                <DatePicker
+                  label="Due Date"
+                  value={taskDate}
+                  onChange={setTaskDate}
+                  placeholder="All dates"
+                />
+
+                <Select
+                  label="Status"
+                  value={taskStatus}
+                  onChange={setTaskStatus}
+                  placeholder="All statuses"
+                  options={[
+                    {
+                      value: "",
+                      label: "All statuses",
+                    },
+                    {
+                      value: "pending",
+                      label: "Pending",
+                    },
+                    {
+                      value: "in progress",
+                      label: "In Progress",
+                    },
+                    {
+                      value: "completed",
+                      label: "Completed",
+                    },
+                  ]}
+                />
+
               </div>
 
               {upcomingTasks.length === 0 ? (
                 <div className="empty-state">
-                  No upcoming tasks.
+                  No tasks found.
                 </div>
               ) : (
                 <table className="tasks-table">
@@ -503,21 +486,18 @@ const AgencyDashboard = () => {
 
               <button
                 className="quick-action"
-                onClick={() => navigate("/campaigns")}
-              >
-                Manage Campaigns
-              </button>
-
-              <button
-                className="quick-action"
-                onClick={() => navigate("/tasks")}
+                onClick={() =>
+                  navigate("/tasks")
+                }
               >
                 Manage Tasks
               </button>
 
               <button
                 className="quick-action"
-                onClick={() => navigate("/clients")}
+                onClick={() =>
+                  navigate("/clients")
+                }
               >
                 Manage Clients
               </button>
@@ -578,24 +558,15 @@ const AgencyDashboard = () => {
               <h2>Campaign Overview</h2>
 
               <div className="activity-item">
-                <strong>Active Campaigns</strong>
-                <small>
-                  {activeCampaigns.length} currently in progress
-                </small>
-              </div>
 
-              <div className="activity-item">
-                <strong>Completed Campaigns</strong>
-                <small>
-                  {completedCampaigns.length} completed
-                </small>
-              </div>
+                <strong>
+                  Requests to Review
+                </strong>
 
-              <div className="activity-item">
-                <strong>Requests to Review</strong>
                 <small>
                   {requestsToReview.length} awaiting action
                 </small>
+
               </div>
 
             </div>

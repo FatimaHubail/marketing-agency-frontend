@@ -370,70 +370,18 @@
 .status-active { background: var(--teal-light); color: var(--teal); }
 .status-pending { background: #e2ebf1; color: var(--blue); }
 
-/* ---------- active campaigns list ---------- */
+/* ---------- task filters ---------- */
 
-.campaign-list {
+.task-filters {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.campaign-row {
-    display: flex;
-    align-items: center;
-    gap: 1.1rem;
-    padding: 0.9rem 1.1rem;
-    background: var(--cream);
-    border-radius: 14px;
     flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.1rem;
 }
 
-.campaign-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    min-width: 140px;
-}
-
-.campaign-info small {
-    color: var(--muted);
-    font-size: 0.78rem;
-}
-
-.progress-container {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    flex: 1;
-    min-width: 140px;
-}
-
-.progress-bar {
-    flex: 1;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--border);
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--peach-2), var(--yellow), var(--teal));
-    background-size: 200% 100%;
-    animation: agency-shimmer 3s ease-in-out infinite;
-    transition: width 0.6s ease;
-}
-
-.progress-text {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--muted);
-    flex-shrink: 0;
-}
-
-@keyframes agency-shimmer {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+.task-filters .custom-datepicker,
+.task-filters .custom-select {
+    width: 180px;
 }
 
 /* ---------- sidebar cards ---------- */
