@@ -17,8 +17,18 @@ const getOutsourceProfile = async (outsourceId) => {
     return data;
 };
 
-const updateOutsourceProfile = async (formData) => {
-    const res = await fetch(OUTSOURCE_URL, {
+const updateOutsourceProfile = async (idOrFormData, maybeFormData) => {
+    let id, formData;
+    if (maybeFormData !== undefined) {
+        id = idOrFormData;
+        formData = maybeFormData;
+    } else {
+        formData = idOrFormData;
+        id = formData?._id || formData?.id;
+    }
+    const url = id ? `${OUTSOURCE_URL}/${id}` : OUTSOURCE_URL;
+
+    const res = await fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

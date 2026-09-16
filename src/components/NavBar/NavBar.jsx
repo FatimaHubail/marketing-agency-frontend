@@ -87,9 +87,14 @@ const NavBar = () => {
               )}
               {/*Outsource*/}
               {user.role === "outsource" && (
-                <li>
-                  <NavLink to="/" end>Dashboard</NavLink>
-                </li>
+                <>
+                  <li>
+                    <NavLink to="/" end>Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/profile">Profile</NavLink>
+                  </li>
+                </>
               )}
             </>
           ) : (
