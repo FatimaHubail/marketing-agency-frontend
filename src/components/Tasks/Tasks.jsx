@@ -6,17 +6,25 @@ import {
   deleteTask,
 } from "../../services/taskService";
 import { getCampaigns } from "../../services/campaignService";
+import { getOutsourceUsers } from "../../services/userService";
+
+import DatePicker from "../../components/common/DatePicker/DatePicker";
+import Select from "../../components/common/Select/Select";
+
+import "../../styles/CampaignRequestForm.css";
 import "./Tasks.css";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
+  const [outsourceUsers, setOutsourceUsers] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
 
   const [formData, setFormData] = useState({
     campaignId: "",
     title: "",
     description: "",
+    assignedTo: "",
     dueDate: "",
     status: "pending",
   });
@@ -26,9 +34,11 @@ const Tasks = () => {
       try {
         const tasksData = await getTasks();
         const campaignsData = await getCampaigns();
+        const outsourceData = await getOutsourceUsers();
 
         setTasks(tasksData);
         setCampaigns(campaignsData);
+        setOutsourceUsers(outsourceData);
       } catch (err) {
         console.log(err);
       }
@@ -44,11 +54,40 @@ const Tasks = () => {
     });
   };
 
+  const handleCampaignChange = (value) => {
+    setFormData({
+      ...formData,
+      campaignId: value,
+    });
+  };
+
+  const handleOutsourceChange = (value) => {
+    setFormData({
+      ...formData,
+      assignedTo: value,
+    });
+  };
+
+  const handleDateChange = (value) => {
+    setFormData({
+      ...formData,
+      dueDate: value,
+    });
+  };
+
+  const handleStatusChange = (value) => {
+    setFormData({
+      ...formData,
+      status: value,
+    });
+  };
+
   const resetForm = () => {
     setFormData({
       campaignId: "",
       title: "",
       description: "",
+      assignedTo: "",
       dueDate: "",
       status: "pending",
     });
@@ -59,11 +98,16 @@ const Tasks = () => {
 
     try {
       if (editingTaskId) {
-        const updatedTask = await updateTask(editingTaskId, formData);
+        const updatedTask = await updateTask(
+          editingTaskId,
+          formData
+        );
 
         setTasks(
           tasks.map((task) =>
-            task._id === editingTaskId ? updatedTask : task
+            task._id === editingTaskId
+              ? updatedTask
+              : task
           )
         );
 
@@ -84,10 +128,15 @@ const Tasks = () => {
     setEditingTaskId(task._id);
 
     setFormData({
-      campaignId: task.campaignId?._id || task.campaignId,
+      campaignId:
+        task.campaignId?._id || task.campaignId,
       title: task.title,
       description: task.description || "",
-      dueDate: task.dueDate.split("T")[0],
+      assignedTo:
+        task.assignedTo?._id || task.assignedTo,
+      dueDate: task.dueDate
+        ? task.dueDate.split("T")[0]
+        : "",
       status: task.status,
     });
   };
@@ -96,7 +145,9 @@ const Tasks = () => {
     try {
       await deleteTask(id);
 
-      setTasks(tasks.filter((task) => task._id !== id));
+      setTasks(
+        tasks.filter((task) => task._id !== id)
+      );
     } catch (err) {
       console.log(err);
     }
@@ -107,113 +158,205 @@ const Tasks = () => {
     resetForm();
   };
 
+  const campaignOptions = campaigns.map((campaign) => ({
+    value: campaign._id,
+    label:
+      campaign.requestId?.title ||
+      campaign.title ||
+      campaign._id,
+  }));
+
+  const outsourceOptions = outsourceUsers.map((user) => ({
+    value: user._id,
+    label: user.name || user.username,
+  }));
+
+  const statusOptions = [
+    {
+      value: "pending",
+      label: "Pending",
+    },
+    {
+      value: "in progress",
+      label: "In Progress",
+    },
+    {
+      value: "completed",
+      label: "Completed",
+    },
+  ];
+
   return (
-    <div className="tasks">
-      <h1>Tasks</h1>
+    <main className="tasks-page">
+      <div className="tasks-page-header">
+        <h1>Tasks</h1>
+        <p className="tasks-page-subtitle">Assign and track work across your active campaigns.</p>
+      </div>
 
-      <form onSubmit={handleSubmit}>
-        <select
-          name="campaignId"
-          value={formData.campaignId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Campaign</option>
+      <div className="tasks-form-card">
+        <h2>{editingTaskId ? "Edit Task" : "Create Task"}</h2>
 
-          {campaigns.map((campaign) => (
-            <option key={campaign._id} value={campaign._id}>
-              {campaign.requestId?.title || campaign._id}
-            </option>
-          ))}
-        </select>
+        <form onSubmit={handleSubmit}>
+          <div className="form-row">
+            <Select
+              id="campaignId"
+              label="Campaign"
+              value={formData.campaignId}
+              onChange={handleCampaignChange}
+              options={campaignOptions}
+              placeholder="Select Campaign"
+            />
 
-        <input
-          type="text"
-          name="title"
-          placeholder="Task title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
+            <Select
+              id="assignedTo"
+              label="Assign To (optional)"
+              value={formData.assignedTo}
+              onChange={handleOutsourceChange}
+              options={outsourceOptions}
+              placeholder="Select Outsource"
+            />
 
-        <input
-          type="text"
-          name="description"
-          placeholder="Description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+            <Select
+              id="status"
+              label="Status"
+              value={formData.status}
+              onChange={handleStatusChange}
+              options={statusOptions}
+              placeholder="Select Status"
+            />
+          </div>
 
-        <input
-          type="date"
-          name="dueDate"
-          value={formData.dueDate}
-          onChange={handleChange}
-          required
-        />
+          <div className="form-row">
+            <div className="form-field">
+              <label htmlFor="title">Task Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          <option value="pending">Pending</option>
-          <option value="in progress">In Progress</option>
-          <option value="completed">Completed</option>
-        </select>
+            <div className="form-field">
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </div>
 
-        <button type="submit">
-          {editingTaskId ? "Update Task" : "Create Task"}
-        </button>
+            <DatePicker
+              id="dueDate"
+              label="Due Date"
+              value={formData.dueDate}
+              onChange={handleDateChange}
+              placeholder="Select a due date"
+            />
+          </div>
 
-        {editingTaskId && (
-          <button type="button" onClick={handleCancel}>
-            Cancel
-          </button>
-        )}
-      </form>
+          <div className="form-actions">
+            <button type="submit" className="btn-primary-action">
+              {editingTaskId
+                ? "Update Task"
+                : "Create Task"}
+            </button>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Campaign</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Due Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+            {editingTaskId && (
+              <button
+                type="button"
+                className="btn-secondary-action"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
 
-        <tbody>
-          {tasks.map((task) => (
-            <tr key={task._id}>
-              <td>{task.campaignId?.requestId?.title}</td>
+      <div className="tasks-table-card">
+        <h2>All Tasks</h2>
 
-              <td>{task.title}</td>
+        <div className="tasks-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Campaign</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Assigned To</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th></th>
+              </tr>
+            </thead>
 
-              <td>{task.description}</td>
+            <tbody>
+              {tasks.map((task) => (
+                <tr key={task._id}>
+                  <td>
+                    {task.campaignId?.requestId?.title ||
+                      task.campaignId?.title ||
+                      "No Campaign"}
+                  </td>
 
-              <td>{task.status}</td>
+                  <td>{task.title}</td>
 
-              <td>
-                {new Date(task.dueDate).toLocaleDateString()}
-              </td>
+                  <td>{task.description || "—"}</td>
 
-              <td>
-                <button onClick={() => handleEdit(task)}>
-                  Edit
-                </button>
+                  <td>
+                    {task.assignedTo?.name ||
+                      task.assignedTo?.username ||
+                      "Not Assigned"}
+                  </td>
 
-                <button onClick={() => handleDelete(task._id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                  <td>
+                    <span
+                      className={`status-badge status-${task.status
+                        .replace(/\s+/g, "-")
+                        .toLowerCase()}`}
+                    >
+                      {task.status}
+                    </span>
+                  </td>
+
+                  <td>
+                    {task.dueDate
+                      ? new Date(
+                          task.dueDate
+                        ).toLocaleDateString()
+                      : "—"}
+                  </td>
+
+                  <td className="tasks-table-actions">
+                    <button
+                      className="task-edit-btn"
+                      onClick={() => handleEdit(task)}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      className="task-delete-btn"
+                      onClick={() =>
+                        handleDelete(task._id)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
   );
 };
 

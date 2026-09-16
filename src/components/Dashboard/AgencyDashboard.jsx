@@ -131,15 +131,18 @@ const AgencyDashboard = () => {
     return task.campaignId?.requestId?.title || "Campaign";
   };
 
+  const initials = (user?.username || "")
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
     <div className="agency-dashboard">
 
       {/* Header */}
       <header className="dashboard-header">
-
-        <div className="dashboard-logo">
-          MarkAura
-        </div>
 
         <div className="dashboard-search">
           <input
@@ -171,11 +174,11 @@ const AgencyDashboard = () => {
           )}
         </div>
 
-        <div className="dashboard-profile">
-          <span>🔔</span>
+        <div className="dashboard-account">
+          <span className="dashboard-avatar">{initials}</span>
 
           <div>
-            <strong>{user?.username || "User"}</strong>
+            <div>{user?.username || "User"}</div>
             <small>{user?.role || "Agency Manager"}</small>
           </div>
         </div>
@@ -199,30 +202,38 @@ const AgencyDashboard = () => {
           <div className="dashboard-left">
 
             {/* Summary */}
-            <div className="summary-cards">
+            <div className="dashboard-stats">
 
-              <div className="summary-card">
-                <h3>Requests to Review</h3>
-                <strong>{requestsToReview.length}</strong>
-                <p>Need agency action</p>
+              <div className="stat-item">
+                <div className="stat-label">
+                  <span className="stat-dot stat-dot-red" />
+                  Requests to Review
+                </div>
+                <p className="stat-value">{requestsToReview.length}</p>
               </div>
 
-              <div className="summary-card">
-                <h3>Active Campaigns</h3>
-                <strong>{activeCampaigns.length}</strong>
-                <p>Currently in progress</p>
+              <div className="stat-item">
+                <div className="stat-label">
+                  <span className="stat-dot stat-dot-teal" />
+                  Active Campaigns
+                </div>
+                <p className="stat-value">{activeCampaigns.length}</p>
               </div>
 
-              <div className="summary-card">
-                <h3>Tasks Due</h3>
-                <strong>{upcomingTasks.length}</strong>
-                <p>Open tasks</p>
+              <div className="stat-item">
+                <div className="stat-label">
+                  <span className="stat-dot stat-dot-yellow" />
+                  Tasks Due
+                </div>
+                <p className="stat-value">{upcomingTasks.length}</p>
               </div>
 
-              <div className="summary-card">
-                <h3>Clients</h3>
-                <strong>{clients.length}</strong>
-                <p>Total clients</p>
+              <div className="stat-item">
+                <div className="stat-label">
+                  <span className="stat-dot stat-dot-blue" />
+                  Clients
+                </div>
+                <p className="stat-value">{clients.length}</p>
               </div>
 
             </div>
@@ -514,7 +525,7 @@ const AgencyDashboard = () => {
             </div>
 
             {/* Recent Activity */}
-            <div className="sidebar-card">
+            <div className="sidebar-card sidebar-card-teal">
 
               <h2>Recent Activity</h2>
 
@@ -523,37 +534,40 @@ const AgencyDashboard = () => {
                   No recent activity.
                 </div>
               ) : (
-                requests
-                  .slice()
-                  .sort(
-                    (a, b) =>
-                      new Date(b.createdAt || 0) -
-                      new Date(a.createdAt || 0)
-                  )
-                  .slice(0, 4)
-                  .map((request) => (
-                    <div
-                      className="activity-item"
-                      key={request._id}
-                      onClick={() =>
-                        navigate(
-                          `/campaign-requests/${request._id}`
-                        )
-                      }
-                      style={{ cursor: "pointer" }}
-                    >
+                <ul className="activity-list">
+                  {requests
+                    .slice()
+                    .sort(
+                      (a, b) =>
+                        new Date(b.createdAt || 0) -
+                        new Date(a.createdAt || 0)
+                    )
+                    .slice(0, 4)
+                    .map((request) => (
+                      <li
+                        key={request._id}
+                        onClick={() =>
+                          navigate(
+                            `/campaign-requests/${request._id}`
+                          )
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        <span className="activity-dot" />
 
-                      <strong>
-                        {request.title ||
-                          "Campaign Request"}
-                      </strong>
+                        <div>
+                          <div>
+                            {request.title ||
+                              "Campaign Request"}
+                          </div>
 
-                      <small>
-                        Status: {request.status}
-                      </small>
-
-                    </div>
-                  ))
+                          <small>
+                            Status: {request.status}
+                          </small>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
               )}
 
             </div>
