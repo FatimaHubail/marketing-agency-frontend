@@ -21,6 +21,8 @@ import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import AgencyClients from "./components/AgencyClients/AgencyClients";
 import AgencyCampaignRequestDetails from "./components/AgencyCampaignRequestDetails/AgencyCampaignRequestDetails";
+import OutsourceDashboard from "./components/Dashboard/OutsourceDashboard/OutsourceDashboard";
+
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -44,8 +46,11 @@ const App = () => {
                 ? <ClientDashboard />
                 : (user.role === 'staff' || user.role === 'admin')
                   ? <AgencyDashboard />
-                  : <main><p>Welcome, {user.username}!</p></main>
+                  : (user.role === "outsource")
+                    ? <OutsourceDashboard />
+                    : <main><p>Welcome, {user.username}!</p></main>
           } />
+          <Route path="/outsource-dashboard" element={<OutsourceDashboard />} />
           <Route path='/register' element={<ClientSignUpForm />} />
           <Route path='/sign-in' element={<SignInForm />} />
           <Route path='/admin/users' element={<AdminUserManagement />} />
@@ -58,7 +63,7 @@ const App = () => {
           <Route path='/campaigns/:id' element={<CampaignDetails />} />
           <Route path='/campaigns' element={<MyCampaignsPage />} />
           <Route path='/profile' element={<ClientProfilePage />} />
-          <Route path='/tasks' element={<Tasks/>}/>
+          <Route path='/tasks' element={<Tasks />} />
           <Route path='/clients' element={<AgencyClients />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
