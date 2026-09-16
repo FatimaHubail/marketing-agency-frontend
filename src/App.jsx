@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Route, Routes, useLocation } from "react-router";
+import { Route, Routes, useLocation, Navigate } from "react-router";
 
 // Components
 import NavBar from "./components/NavBar/NavBar";
@@ -28,7 +28,8 @@ import { UserContext } from "./contexts/UserContext";
 const App = () => {
   const { user } = useContext(UserContext);
   const location = useLocation();
-  const NO_SIDEBAR_PATHS = ['/', '/register', '/sign-in'];
+
+  const NO_SIDEBAR_PATHS = ["/", "/register", "/sign-in"];
   const hideSidebar = !user && NO_SIDEBAR_PATHS.includes(location.pathname);
 
   return (
@@ -37,30 +38,169 @@ const App = () => {
 
       <div className="app-content">
         <Routes>
-          <Route path='/' element={
-            !user
-              ? <Landing />
-              : user.role === 'client'
-                ? <ClientDashboard />
-                : (user.role === 'staff' || user.role === 'admin')
-                  ? <AgencyDashboard />
-                  : <main><p>Welcome, {user.username}!</p></main>
-          } />
-          <Route path='/register' element={<ClientSignUpForm />} />
-          <Route path='/sign-in' element={<SignInForm />} />
-          <Route path='/admin/users' element={<AdminUserManagement />} />
-          <Route path='/requests/new' element={<NewCampaignRequest />} />
-          <Route path='/requests/:id/edit' element={<UpdateCampaignRequest />} />
-          <Route path='/requests/:id' element={<CampaignRequestDetails />} />
-          <Route path='/requests' element={<MyCampaignRequests />} />
-          <Route path='/campaign-requests/:id' element={<AgencyCampaignRequestDetails />} />
-          <Route path='/campaign-requests' element={<CampaignRequests />} />
-          <Route path='/campaigns/:id' element={<CampaignDetails />} />
-          <Route path='/campaigns' element={<MyCampaignsPage />} />
-          <Route path='/profile' element={<ClientProfilePage />} />
-          <Route path='/tasks' element={<Tasks/>}/>
-          <Route path='/clients' element={<AgencyClients />} />
+
+          {/* Home */}
+          <Route
+            path="/"
+            element={
+              !user ? (
+                <Landing />
+              ) : user.role === "admin" ? (
+                <Navigate to="/admin/users" replace />
+              ) : user.role === "client" ? (
+                <ClientDashboard />
+              ) : user.role === "staff" ? (
+                <AgencyDashboard />
+              ) : (
+                <main>
+                  <p>Welcome, {user.username}!</p>
+                </main>
+              )
+            }
+          />
+
+          {/* Authentication */}
+          <Route path="/register" element={<ClientSignUpForm />} />
+          <Route path="/sign-in" element={<SignInForm />} />
+
+          {/* Admin */}
+          <Route
+            path="/admin/users"
+            element={
+              user?.role === "admin" ? (
+                <AdminUserManagement />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          {/* Client */}
+          <Route
+            path="/requests/new"
+            element={
+              user?.role === "client" ? (
+                <NewCampaignRequest />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/requests/:id/edit"
+            element={
+              user?.role === "client" ? (
+                <UpdateCampaignRequest />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/requests/:id"
+            element={
+              user?.role === "client" ? (
+                <CampaignRequestDetails />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/requests"
+            element={
+              user?.role === "client" ? (
+                <MyCampaignRequests />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/campaigns/:id"
+            element={
+              user?.role === "client" ? (
+                <CampaignDetails />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/campaigns"
+            element={
+              user?.role === "client" ? (
+                <MyCampaignsPage />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              user?.role === "client" ? (
+                <ClientProfilePage />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          {/* Staff / Agency */}
+          <Route
+            path="/campaign-requests"
+            element={
+              user?.role === "staff" ? (
+                <CampaignRequests />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/campaign-requests/:id"
+            element={
+              user?.role === "staff" ? (
+                <AgencyCampaignRequestDetails />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/tasks"
+            element={
+              user?.role === "staff" ? (
+                <Tasks />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/clients"
+            element={
+              user?.role === "staff" ? (
+                <AgencyClients />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          {/* Not Found */}
           <Route path="*" element={<NotFoundPage />} />
+
         </Routes>
       </div>
     </div>

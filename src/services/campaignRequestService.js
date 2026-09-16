@@ -184,6 +184,22 @@ const rejectCampaignRequest = async (id, rejectedReason) => {
   return data;
 };
 
+const getStaff = async () => {
+  const res = await fetch(`${SERVER_URL}/staff`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
+
 const getUsersByRole = async (role) => {
   const res = await fetch(`${SERVER_URL}/admin/users?role=${role}`, {
     headers: {
@@ -199,7 +215,6 @@ const getUsersByRole = async (role) => {
 
   return data;
 };
-
 export {
   createCampaignRequest,
   getMyCampaignRequests,
@@ -210,6 +225,7 @@ export {
   updateCampaignRequest,
   acceptCampaignRequest,
   rejectCampaignRequest,
-  getUsersByRole,
+  getStaff,
   getCampaignRequest,
+  getUsersByRole,
 };
