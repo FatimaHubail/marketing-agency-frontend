@@ -45,20 +45,9 @@ const NavBar = () => {
             <>
               {/* Admin */}
               {user.role === "admin" && (
-                <>
-                  <li>
-                    <NavLink to="/" end>Dashboard</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/campaign-requests">Campaign Requests</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/tasks">Tasks</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/admin/users">User Management</NavLink>
-                  </li>
-                </>
+                <li>
+                  <NavLink to="/admin/users">User Management</NavLink>
+                </li>
               )}
 
               {/* Staff */}
