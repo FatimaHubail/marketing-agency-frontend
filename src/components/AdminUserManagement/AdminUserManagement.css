@@ -44,8 +44,7 @@
     gap: 16px;
 }
 
-.admin-user-management input,
-.admin-user-management select {
+.admin-user-management input {
     width: 100%;
     padding: 12px 14px;
     box-sizing: border-box;
@@ -64,10 +63,15 @@
     color: #9aa8b2;
 }
 
-.admin-user-management input:focus,
-.admin-user-management select:focus {
+.admin-user-management input:focus {
     border-color: #4da3d9;
     box-shadow: 0 0 0 3px #e7f4fb;
+}
+
+/* Select */
+
+.admin-user-management .select-wrapper {
+    width: 100%;
 }
 
 /* Form buttons */

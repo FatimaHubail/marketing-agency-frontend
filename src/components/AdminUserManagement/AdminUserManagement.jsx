@@ -5,6 +5,7 @@ import {
   deleteUser,
   updateUser,
 } from "../../services/adminService";
+import Select from "../../components/common/Select/Select";
 import "./AdminUserManagement.css";
 
 const campaignTypes = [
@@ -91,13 +92,39 @@ const AdminUserManagement = () => {
     setError("");
   };
 
+  const handleRoleChange = (value) => {
+    setFormData({
+      ...formData,
+      role: value,
+      specialty: "",
+      serviceTypes: [],
+    });
+  };
+
+  const handleSpecialtyChange = (value) => {
+    setFormData({
+      ...formData,
+      specialty: value,
+    });
+  };
+
+  const handleServiceTypeChange = (value) => {
+    setFormData({
+      ...formData,
+      serviceTypes: value ? [value] : [],
+    });
+  };
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setError("");
 
     try {
       if (editingUserId) {
-        const updatedUser = await updateUser(editingUserId, formData);
+        const updatedUser = await updateUser(
+          editingUserId,
+          formData
+        );
 
         setUsers(
           users.map((user) =>
@@ -180,37 +207,25 @@ const AdminUserManagement = () => {
           required={!editingUserId}
         />
 
-        <select
-          name="role"
+        <Select
+          label="Role"
           value={formData.role}
-          onChange={(evt) =>
-            setFormData({
-              ...formData,
-              role: evt.target.value,
-              specialty: "",
-              serviceTypes: [],
-            })
-          }
-        >
-          <option value="staff">Staff</option>
-          <option value="outsource">Outsource Agency</option>
-        </select>
+          onChange={handleRoleChange}
+          options={[
+            { value: "staff", label: "Staff" },
+            { value: "outsource", label: "Outsource Agency" },
+          ]}
+          placeholder="Select Role"
+        />
 
         {formData.role === "staff" && (
-          <select
-            name="specialty"
+          <Select
+            label="Specialty"
             value={formData.specialty}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Specialty</option>
-
-            {campaignTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+            onChange={handleSpecialtyChange}
+            options={campaignTypes}
+            placeholder="Select Specialty"
+          />
         )}
 
         {formData.role === "outsource" && (
@@ -242,27 +257,13 @@ const AdminUserManagement = () => {
               required
             />
 
-            <select
-              name="serviceTypes"
+            <Select
+              label="Service Type"
               value={formData.serviceTypes[0] || ""}
-              onChange={(evt) =>
-                setFormData({
-                  ...formData,
-                  serviceTypes: evt.target.value
-                    ? [evt.target.value]
-                    : [],
-                })
-              }
-              required
-            >
-              <option value="">Select Service Type</option>
-
-              {OUTSOURCE_ONLY_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
+              onChange={handleServiceTypeChange}
+              options={OUTSOURCE_ONLY_TYPES}
+              placeholder="Select Service Type"
+            />
           </>
         )}
 
@@ -292,7 +293,9 @@ const AdminUserManagement = () => {
           {users.map((user) => (
             <tr key={user._id}>
               <td>{user.username}</td>
+
               <td>{user.email}</td>
+
               <td>{user.role}</td>
 
               <td>
