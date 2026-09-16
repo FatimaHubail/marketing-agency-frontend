@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 
 // Components
 import NavBar from "./components/NavBar/NavBar";
@@ -27,71 +27,43 @@ import { UserContext } from "./contexts/UserContext";
 
 const App = () => {
   const { user } = useContext(UserContext);
+  const location = useLocation();
+  const NO_SIDEBAR_PATHS = ['/', '/register', '/sign-in'];
+  const hideSidebar = !user && NO_SIDEBAR_PATHS.includes(location.pathname);
 
   return (
-    <>
-      <NavBar />
+    <div className="app-layout">
+      {!hideSidebar && <NavBar />}
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            !user ? (
-              <Landing />
-            ) : user.role === "client" ? (
-              <ClientDashboard />
-            ) : user.role === "staff" || user.role === "admin" ? (
-              <AgencyDashboard />
-            ) : (
-              <main>
-                <p>Welcome, {user.username}!</p>
-              </main>
-            )
-          }
-        />
-
-        <Route path="/register" element={<ClientSignUpForm />} />
-        <Route path="/sign-in" element={<SignInForm />} />
-
-        <Route path="/admin/users" element={<AdminUserManagement />} />
-
-        <Route path="/requests/new" element={<NewCampaignRequest />} />
-        <Route
-          path="/requests/:id/edit"
-          element={<UpdateCampaignRequest />}
-        />
-        <Route
-          path="/requests/:id"
-          element={<CampaignRequestDetails />}
-        />
-        <Route path="/requests" element={<MyCampaignRequests />} />
-
-        <Route
-          path="/campaign-requests"
-          element={<CampaignRequests />}
-        />
-        <Route
-          path="/campaign-requests/:id"
-          element={<AgencyCampaignRequestDetails />}
-        />
-
-        <Route path="/campaigns/:id" element={<CampaignDetails />} />
-        <Route path="/campaigns" element={<MyCampaignsPage />} />
-
-        <Route path="/profile" element={<ClientProfilePage />} />
-
-        <Route path="/tasks" element={<Tasks />} />
-
-        <Route
-          path="/agency-dashboard"
-          element={<AgencyDashboard />}
-        />
-
-        <Route path="/clients" element={<AgencyClients />} />
-
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </>
+      <div className="app-content">
+        <Routes>
+          <Route path='/' element={
+            !user
+              ? <Landing />
+              : user.role === 'client'
+                ? <ClientDashboard />
+                : (user.role === 'staff' || user.role === 'admin')
+                  ? <AgencyDashboard />
+                  : <main><p>Welcome, {user.username}!</p></main>
+          } />
+          <Route path='/register' element={<ClientSignUpForm />} />
+          <Route path='/sign-in' element={<SignInForm />} />
+          <Route path='/admin/users' element={<AdminUserManagement />} />
+          <Route path='/requests/new' element={<NewCampaignRequest />} />
+          <Route path='/requests/:id/edit' element={<UpdateCampaignRequest />} />
+          <Route path='/requests/:id' element={<CampaignRequestDetails />} />
+          <Route path='/requests' element={<MyCampaignRequests />} />
+          <Route path='/campaign-requests/:id' element={<AgencyCampaignRequestDetails />} />
+          <Route path='/campaign-requests' element={<CampaignRequests />} />
+          <Route path='/campaigns/:id' element={<CampaignDetails />} />
+          <Route path='/campaigns' element={<MyCampaignsPage />} />
+          <Route path='/profile' element={<ClientProfilePage />} />
+          <Route path='/tasks' element={<Tasks/>}/>
+          <Route path='/clients' element={<AgencyClients />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
+    </div>
   );
 };
 
