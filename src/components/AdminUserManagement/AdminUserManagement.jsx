@@ -5,6 +5,8 @@ import {
   deleteUser,
   updateUser,
 } from "../../services/adminService";
+import Select from "../../components/common/Select/Select";
+import "../../styles/CampaignRequestForm.css";
 import "./AdminUserManagement.css";
 
 const campaignTypes = [
@@ -91,13 +93,39 @@ const AdminUserManagement = () => {
     setError("");
   };
 
+  const handleRoleChange = (value) => {
+    setFormData({
+      ...formData,
+      role: value,
+      specialty: "",
+      serviceTypes: [],
+    });
+  };
+
+  const handleSpecialtyChange = (value) => {
+    setFormData({
+      ...formData,
+      specialty: value,
+    });
+  };
+
+  const handleServiceTypeChange = (value) => {
+    setFormData({
+      ...formData,
+      serviceTypes: value ? [value] : [],
+    });
+  };
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setError("");
 
     try {
       if (editingUserId) {
-        const updatedUser = await updateUser(editingUserId, formData);
+        const updatedUser = await updateUser(
+          editingUserId,
+          formData
+        );
 
         setUsers(
           users.map((user) =>
@@ -145,178 +173,197 @@ const AdminUserManagement = () => {
   };
 
   return (
-    <div className="admin-user-management">
-      <h1>Admin User Management</h1>
+    <main className="admin-page">
+      <div className="admin-page-header">
+        <h1>User Management</h1>
+        <p className="admin-page-subtitle">Create staff and outsource agency accounts, and manage existing users.</p>
+      </div>
 
-      <h2>{editingUserId ? "Edit User" : "Add User"}</h2>
+      {error && <p role="alert" className="admin-alert">{error}</p>}
 
-      {error && <p className="error-message">{error}</p>}
+      <div className="admin-form-card">
+        <h2>{editingUserId ? "Edit User" : "Add User"}</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-field">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+            <div className="form-field">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required={!editingUserId}
-        />
+            <div className="form-field">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required={!editingUserId}
+              />
+            </div>
+          </div>
 
-        <select
-          name="role"
-          value={formData.role}
-          onChange={(evt) =>
-            setFormData({
-              ...formData,
-              role: evt.target.value,
-              specialty: "",
-              serviceTypes: [],
-            })
-          }
-        >
-          <option value="staff">Staff</option>
-          <option value="outsource">Outsource Agency</option>
-        </select>
-
-        {formData.role === "staff" && (
-          <select
-            name="specialty"
-            value={formData.specialty}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Specialty</option>
-
-            {campaignTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        )}
-
-        {formData.role === "outsource" && (
-          <>
-            <input
-              type="text"
-              name="name"
-              placeholder="Outsource Agency Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
+          <div className="form-row">
+            <Select
+              id="role"
+              label="Role"
+              value={formData.role}
+              onChange={handleRoleChange}
+              options={[
+                { value: "staff", label: "Staff" },
+                { value: "outsource", label: "Outsource Agency" },
+              ]}
+              placeholder="Select Role"
             />
 
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
+            {formData.role === "staff" && (
+              <Select
+                id="specialty"
+                label="Specialty"
+                value={formData.specialty}
+                onChange={handleSpecialtyChange}
+                options={campaignTypes}
+                placeholder="Select Specialty"
+              />
+            )}
+          </div>
 
-            <input
-              type="text"
-              name="contactPerson"
-              placeholder="Contact Person"
-              value={formData.contactPerson}
-              onChange={handleChange}
-              required
-            />
+          {formData.role === "outsource" && (
+            <>
+              <div className="form-row">
+                <div className="form-field">
+                  <label htmlFor="name">Outsource Agency Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-            <select
-              name="serviceTypes"
-              value={formData.serviceTypes[0] || ""}
-              onChange={(evt) =>
-                setFormData({
-                  ...formData,
-                  serviceTypes: evt.target.value
-                    ? [evt.target.value]
-                    : [],
-                })
-              }
-              required
-            >
-              <option value="">Select Service Type</option>
+                <div className="form-field">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-              {OUTSOURCE_ONLY_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
+                <div className="form-field">
+                  <label htmlFor="contactPerson">Contact Person</label>
+                  <input
+                    type="text"
+                    id="contactPerson"
+                    name="contactPerson"
+                    value={formData.contactPerson}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <Select
+                  id="serviceTypes"
+                  label="Service Type"
+                  value={formData.serviceTypes[0] || ""}
+                  onChange={handleServiceTypeChange}
+                  options={OUTSOURCE_ONLY_TYPES}
+                  placeholder="Select Service Type"
+                />
+              </div>
+            </>
+          )}
+
+          <div className="form-actions">
+            <button type="submit" className="btn-primary-action">
+              {editingUserId ? "Update User" : "Add User"}
+            </button>
+
+            {editingUserId && (
+              <button type="button" className="btn-secondary-action" onClick={resetForm}>
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+
+      <div className="admin-table-card">
+        <h2>All Users</h2>
+
+        <div className="admin-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Specialty / Service</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+
+                  <td>
+                    <span className={`role-badge role-${user.role}`}>{user.role}</span>
+                  </td>
+
+                  <td>
+                    {user.role === "staff"
+                      ? user.specialty?.replace(/_/g, " ") || "-"
+                      : user.serviceTypes?.length > 0
+                      ? user.serviceTypes.join(", ").replace(/_/g, " ")
+                      : "-"}
+                  </td>
+
+                  <td className="admin-table-actions">
+                    <button className="admin-edit-btn" onClick={() => handleEdit(user)}>
+                      Edit
+                    </button>
+
+                    <button className="admin-delete-btn" onClick={() => handleDelete(user._id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
               ))}
-            </select>
-          </>
-        )}
-
-        <button type="submit">
-          {editingUserId ? "Update User" : "Add User"}
-        </button>
-
-        {editingUserId && (
-          <button type="button" onClick={resetForm}>
-            Cancel
-          </button>
-        )}
-      </form>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Specialty / Service</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-
-              <td>
-                {user.role === "staff"
-                  ? user.specialty || "-"
-                  : user.serviceTypes?.length > 0
-                  ? user.serviceTypes.join(", ")
-                  : "-"}
-              </td>
-
-              <td>
-                <button onClick={() => handleEdit(user)}>
-                  Edit
-                </button>
-
-                <button onClick={() => handleDelete(user._id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
   );
 };
 
