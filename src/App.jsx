@@ -21,6 +21,7 @@ import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import AgencyClients from "./components/AgencyClients/AgencyClients";
 import AgencyCampaignRequestDetails from "./components/AgencyCampaignRequestDetails/AgencyCampaignRequestDetails";
+import OutsourceDashboard from "./components/Dashboard/OutsourceDashboard/OutsourceDashboard";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -38,7 +39,6 @@ const App = () => {
 
       <div className="app-content">
         <Routes>
-
           {/* Home */}
           <Route
             path="/"
@@ -51,6 +51,8 @@ const App = () => {
                 <ClientDashboard />
               ) : user.role === "staff" ? (
                 <AgencyDashboard />
+              ) : user.role === "outsource" ? (
+                <OutsourceDashboard />
               ) : (
                 <main>
                   <p>Welcome, {user.username}!</p>
@@ -198,9 +200,20 @@ const App = () => {
             }
           />
 
+          {/* Outsource */}
+          <Route
+            path="/outsource-dashboard"
+            element={
+              user?.role === "outsource" ? (
+                <OutsourceDashboard />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
           {/* Not Found */}
           <Route path="*" element={<NotFoundPage />} />
-
         </Routes>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { getCampaignRequestById, deleteMyCampaignRequest } from '../../services/campaignRequestService';
+import './CampaignRequestDetails.css';
 
 const CampaignRequestDetails = () => {
     const { id } = useParams();
@@ -38,68 +39,95 @@ const CampaignRequestDetails = () => {
         }
     };
 
-    if (isLoading) return <main><p>Loading...</p></main>;
-    if (error && !request) return <main><p role="alert">{error}</p></main>;
+    if (isLoading) return <main className="crd-page"><div className="crd-page-main"><p>Loading...</p></div></main>;
+    if (error && !request) return <main className="crd-page"><div className="crd-page-main"><p role="alert">{error}</p></div></main>;
 
     const canModify = request.status === 'submitted';
     const updateDisabledReason = 'This request can no longer be edited because it has already been reviewed.';
     const deleteDisabledReason = 'This request can no longer be deleted because it has already been reviewed.';
 
     return (
-        <main>
-            <button onClick={() => navigate('/requests')}>← Back to My Campaign Requests</button>
+        <main className="crd-page">
+            <div className="crd-page-main">
+                <button className="back-link" onClick={() => navigate('/requests')}>← Back to My Campaign Requests</button>
 
-            {error && <p role="alert">{error}</p>}
+                {error && <p role="alert">{error}</p>}
 
-            <h1>{request.title}</h1>
-           <p>
-  <strong>Campaign Type:</strong>{" "}
-  {request.campaignType?.replace(/_/g, " ") || "N/A"}
-</p>
-
-<p>
-  <strong>Goal:</strong>{" "}
-  {request.goal?.replace(/_/g, " ") || "N/A"}
-</p>
-            <p><strong>Budget:</strong> {request.budget} BHD</p>
-            <p><strong>Preferred Channels:</strong> {request.preferredChannels?.join(', ')}</p>
-            <p><strong>Notes:</strong> {request.notes}</p>
-            <p><strong>Status:</strong> {request.status}</p>
-            {request.status === 'rejected' && (
-                <p><strong>Rejection Reason:</strong> {request.rejectedReason}</p>
-            )}
-            <p><strong>Submitted:</strong> {new Date(request.createdAt).toLocaleDateString()}</p>
-
-            <button
-                onClick={() => navigate(`/requests/${id}/edit`)}
-                disabled={!canModify}
-                title={canModify ? undefined : updateDisabledReason}
-            >
-                Update Request
-            </button>
-
-            <button
-                onClick={() => setShowDeleteConfirm(true)}
-                disabled={!canModify}
-                title={canModify ? undefined : deleteDisabledReason}
-            >
-                Delete Request
-            </button>
-
-            {showDeleteConfirm && (
-                <div className="delete-confirm-overlay">
-                    <div className="delete-confirm-dialog">
-                        <p>Are you sure you want to delete this request?</p>
-
-                        <button onClick={handleDelete} disabled={isDeleting}>
-                            {isDeleting ? 'Deleting...' : 'Delete'}
-                        </button>
-                        <button onClick={() => setShowDeleteConfirm(false)} disabled={isDeleting}>
-                            Cancel
-                        </button>
-                    </div>
+                <div className="crd-page-header">
+                    <h1>{request.title}</h1>
+                    <span className={`status-badge status-${request.status}`}>{request.status}</span>
                 </div>
-            )}
+
+                <div className="detail-grid">
+                    <div className="detail-item">
+                        <span className="detail-label">Campaign Type</span>
+                        <span className="detail-value">{request.campaignType?.replace(/_/g, ' ') || 'N/A'}</span>
+                    </div>
+                    <div className="detail-item">
+                        <span className="detail-label">Goal</span>
+                        <span className="detail-value">{request.goal?.replace(/_/g, ' ') || 'N/A'}</span>
+                    </div>
+                    <div className="detail-item">
+                        <span className="detail-label">Budget</span>
+                        <span className="detail-value">{request.budget} BHD</span>
+                    </div>
+                    <div className="detail-item">
+                        <span className="detail-label">Submitted</span>
+                        <span className="detail-value">{new Date(request.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div className="detail-item detail-item-wide">
+                        <span className="detail-label">Preferred Channels</span>
+                        <span className="detail-value">{request.preferredChannels?.join(', ') || 'N/A'}</span>
+                    </div>
+                    <div className="detail-item detail-item-wide">
+                        <span className="detail-label">Notes</span>
+                        <span className="detail-value">{request.notes || '—'}</span>
+                    </div>
+                    {request.status === 'rejected' && (
+                        <div className="detail-item detail-item-wide detail-item-rejected">
+                            <span className="detail-label">Rejection Reason</span>
+                            <span className="detail-value">{request.rejectedReason}</span>
+                        </div>
+                    )}
+                </div>
+
+                <div className="request-actions">
+                    <button
+                        className="btn-primary-action"
+                        onClick={() => navigate(`/requests/${id}/edit`)}
+                        disabled={!canModify}
+                        title={canModify ? undefined : updateDisabledReason}
+                    >
+                        Update Request
+                    </button>
+
+                    <button
+                        className="btn-danger-action"
+                        onClick={() => setShowDeleteConfirm(true)}
+                        disabled={!canModify}
+                        title={canModify ? undefined : deleteDisabledReason}
+                    >
+                        Delete Request
+                    </button>
+                </div>
+
+                {showDeleteConfirm && (
+                    <div className="delete-confirm-overlay">
+                        <div className="delete-confirm-dialog">
+                            <p>Are you sure you want to delete this request?</p>
+
+                            <div className="delete-confirm-actions">
+                                <button className="btn-danger-action" onClick={handleDelete} disabled={isDeleting}>
+                                    {isDeleting ? 'Deleting...' : 'Delete'}
+                                </button>
+                                <button className="btn-secondary-action" onClick={() => setShowDeleteConfirm(false)} disabled={isDeleting}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </main>
     );
 };
