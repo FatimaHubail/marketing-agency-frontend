@@ -78,7 +78,7 @@ const CampaignRequestDetails = () => {
 
                 <button
                     className="back-link"
-                    onClick={() => navigate('/campaign-requests')}
+                    onClick={() => navigate('/requests')}
                 >
                     ← Back to Campaign Requests
                 </button>
