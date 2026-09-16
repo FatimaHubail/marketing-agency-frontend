@@ -23,6 +23,7 @@ import AgencyClients from "./components/AgencyClients/AgencyClients";
 import AgencyCampaignRequestDetails from "./components/AgencyCampaignRequestDetails/AgencyCampaignRequestDetails";
 import OutsourceDashboard from "./components/Dashboard/OutsourceDashboard/OutsourceDashboard";
 import OutsourceProfile from "./components/OutsourceProfile/OutsourceProfile";
+import OutsourceAllTasks from "./components/OutsourceTasksAll/OutsourceAllTasks";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -220,6 +221,28 @@ const App = () => {
             element={
               user?.role === "outsource" ? (
                 <OutsourceProfile />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/outsource-tasks"
+            element={
+              user?.role === "outsource" ? (
+                <OutsourceAllTasks />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/outsource/tasks"
+            element={
+              user?.role === "outsource" ? (
+                <OutsourceAllTasks />
               ) : (
                 <Navigate to="/" replace />
               )
