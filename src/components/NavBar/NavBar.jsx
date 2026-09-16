@@ -1,84 +1,110 @@
 import { useContext } from "react";
-import { Link } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
 import "./NavBar.css";
 
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
     setUser(null);
+    navigate("/");
   };
+
+  const initials = user?.username
+    ? user.username
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
+    : "";
 
   return (
     <aside className="sidebar">
-      <h2 className="sidebar-logo">MarkAura</h2>
+      <div className="sidebar-logo">
+        <span className="logo-dots">
+          <i></i><i></i><i></i><i></i>
+        </span>
+        MarkAura
+      </div>
+
+      {user && (
+        <div className="sidebar-profile">
+          <span className="sidebar-avatar">{initials}</span>
+          <p className="sidebar-username">{user.username}</p>
+          <p className="sidebar-role">{user.role}</p>
+        </div>
+      )}
 
       <nav>
         <ul>
           {user ? (
             <>
               <li>
-                <Link to="/">Dashboard</Link>
+                <NavLink to="/" end>Dashboard</NavLink>
               </li>
 
               {(user.role === "staff" || user.role === "admin") && (
                 <li>
-                  <Link to="/campaign-requests">Campaign Requests</Link>
+                  <NavLink to="/campaign-requests">Campaign Requests</NavLink>
                 </li>
               )}
               {user.role === "client" && (
                 <li>
-                  <Link to="/requests">Campaign Requests</Link>
+                  <NavLink to="/requests">Campaign Requests</NavLink>
                 </li>
               )}
 
               {["admin", "staff"].includes(user.role) && (
                 <li>
-                  <Link to="/tasks">Tasks</Link>
+                  <NavLink to="/tasks">Tasks</NavLink>
                 </li>
               )}
 
               {user.role === "admin" && (
                 <li>
-                  <Link to="/admin/users">User Management</Link>
+                  <NavLink to="/admin/users">User Management</NavLink>
                 </li>
               )}
               {user.role === "client" && (
                 <li>
-                  <Link to="/requests/new">New Campaign Request</Link>
+                  <NavLink to="/requests/new">New Campaign Request</NavLink>
                 </li>
               )}
               {user.role === "client" && (
                 <li>
-                  <Link to="/campaigns">My Campaigns</Link>
+                  <NavLink to="/campaigns">My Campaigns</NavLink>
                 </li>
               )}
               {user.role === "client" && (
                 <li>
-                  <Link to="/profile">My Profile</Link>
+                  <NavLink to="/profile">My Profile</NavLink>
                 </li>
               )}
-              <li className="sidebar-signout">
-                <Link to="/" onClick={handleSignOut}>
-                  Sign Out
-                </Link>
-              </li>
             </>
           ) : (
             <>
               <li>
-                <Link to="/register">Register</Link>
+                <NavLink to="/register">Register</NavLink>
               </li>
 
               <li>
-                <Link to="/sign-in">Sign In</Link>
+                <NavLink to="/sign-in">Sign In</NavLink>
               </li>
             </>
           )}
         </ul>
       </nav>
+
+      {user && (
+        <button className="sidebar-logout" onClick={handleSignOut}>
+          <span className="sidebar-logout-icon">⏻</span>
+          Log out
+        </button>
+      )}
     </aside>
   );
 };

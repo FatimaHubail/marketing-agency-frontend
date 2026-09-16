@@ -10,6 +10,16 @@ import './ClientDashboard.css';
 // to get a real timestamp for campaigns, which have no timestamps field.
 const objectIdToDate = (id) => new Date(parseInt(id.substring(0, 8), 16) * 1000);
 
+const STATUS_COLORS = {
+    planning: '#457b9d',
+    in_progress: '#2a9d8f',
+    client_review: '#ea4c89',
+    live: '#2a9d8f',
+    completed: '#457b9d',
+};
+
+const TYPE_COLORS = ['#e8845f', '#2a9d8f', '#457b9d', '#f4a623', '#ea4c89', '#e63946'];
+
 const ClientDashboard = () => {
     const { user } = useContext(UserContext);
     const [profile, setProfile] = useState(null);
@@ -89,7 +99,7 @@ const ClientDashboard = () => {
         .sort((a, b) => b.date - a.date)
         .slice(0, 5);
 
-    const initials = (profile.companyName || '')
+    const initials = (user.username || '')
         .split(' ')
         .map((w) => w[0])
         .join('')
@@ -152,31 +162,43 @@ const ClientDashboard = () => {
                     <Link to="/profile" className="dashboard-account">
                         <span className="dashboard-avatar">{initials}</span>
                         <div>
-                            <div>{profile.companyName}</div>
+                            <div>{user.username}</div>
                             <small>Client account</small>
                         </div>
                     </Link>
                 </div>
 
-                <h1>Welcome back, {profile.companyName}!</h1>
+                <h1>Welcome back, {user.username}!</h1>
                 <p>Here's what's happening with your campaigns and requests.</p>
 
                 <div className="dashboard-stats">
-                    <div className="stat-card">
-                        <p>Active Campaigns</p>
-                        <h2>{activeCampaigns.length}</h2>
+                    <div className="stat-item">
+                        <div className="stat-label">
+                            <span className="stat-dot stat-dot-teal" />
+                            Active Campaigns
+                        </div>
+                        <p className="stat-value">{activeCampaigns.length}</p>
                     </div>
-                    <div className="stat-card">
-                        <p>Pending Requests</p>
-                        <h2>{pendingRequests.length}</h2>
+                    <div className="stat-item">
+                        <div className="stat-label">
+                            <span className="stat-dot stat-dot-red" />
+                            Pending Requests
+                        </div>
+                        <p className="stat-value">{pendingRequests.length}</p>
                     </div>
-                    <div className="stat-card">
-                        <p>Completed This Year</p>
-                        <h2>{completedThisYear.length}</h2>
+                    <div className="stat-item">
+                        <div className="stat-label">
+                            <span className="stat-dot stat-dot-blue" />
+                            Completed This Year
+                        </div>
+                        <p className="stat-value">{completedThisYear.length}</p>
                     </div>
-                    <div className="stat-card">
-                        <p>Total Budget Spent</p>
-                        <h2>{totalBudgetSpent} BHD</h2>
+                    <div className="stat-item">
+                        <div className="stat-label">
+                            <span className="stat-dot stat-dot-yellow" />
+                            Total Budget Spent
+                        </div>
+                        <p className="stat-value">{totalBudgetSpent} <span className="stat-unit">BHD</span></p>
                     </div>
                 </div>
 
@@ -242,14 +264,20 @@ const ClientDashboard = () => {
 
                 <div className="dashboard-panel">
                     <h3>Campaigns by Status</h3>
-                    <ul className="breakdown-list">
-                        {campaignsByStatus.map(({ status, count }) => (
-                            <li key={status}>
-                                <span>{status.replace(/_/g, ' ')}</span>
-                                <span>{count}</span>
-                            </li>
-                        ))}
-                    </ul>
+                    {campaigns.length === 0 ? (
+                        <p>No campaigns yet.</p>
+                    ) : (
+                        <div className="chip-grid">
+                            {campaignsByStatus.map(({ status, count }) => (
+                                <div className="chip-card" key={status}>
+                                    <p className="chip-label" style={{ color: STATUS_COLORS[status] }}>
+                                        {status.replace(/_/g, ' ')}
+                                    </p>
+                                    <p className="chip-count">{count}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className="dashboard-panel">
@@ -257,14 +285,16 @@ const ClientDashboard = () => {
                     {campaignsByType.length === 0 ? (
                         <p>No campaigns yet.</p>
                     ) : (
-                        <ul className="breakdown-list">
-                            {campaignsByType.map(([type, count]) => (
-                                <li key={type}>
-                                    <span>{type.replace(/_/g, ' ')}</span>
-                                    <span>{count}</span>
-                                </li>
+                        <div className="chip-grid">
+                            {campaignsByType.map(([type, count], i) => (
+                                <div className="chip-card" key={type}>
+                                    <p className="chip-label" style={{ color: TYPE_COLORS[i % TYPE_COLORS.length] }}>
+                                        {type.replace(/_/g, ' ')}
+                                    </p>
+                                    <p className="chip-count">{count}</p>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     )}
                 </div>
 
