@@ -6,6 +6,7 @@ import {
   updateUser,
 } from "../../services/adminService";
 import Select from "../../components/common/Select/Select";
+import "../../styles/CampaignRequestForm.css";
 import "./AdminUserManagement.css";
 
 const campaignTypes = [
@@ -172,154 +173,197 @@ const AdminUserManagement = () => {
   };
 
   return (
-    <div className="admin-user-management">
-      <h1>Admin User Management</h1>
+    <main className="admin-page">
+      <div className="admin-page-header">
+        <h1>User Management</h1>
+        <p className="admin-page-subtitle">Create staff and outsource agency accounts, and manage existing users.</p>
+      </div>
 
-      <h2>{editingUserId ? "Edit User" : "Add User"}</h2>
+      {error && <p role="alert" className="admin-alert">{error}</p>}
 
-      {error && <p className="error-message">{error}</p>}
+      <div className="admin-form-card">
+        <h2>{editingUserId ? "Edit User" : "Add User"}</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-field">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+            <div className="form-field">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required={!editingUserId}
-        />
+            <div className="form-field">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required={!editingUserId}
+              />
+            </div>
+          </div>
 
-        <Select
-          label="Role"
-          value={formData.role}
-          onChange={handleRoleChange}
-          options={[
-            { value: "staff", label: "Staff" },
-            { value: "outsource", label: "Outsource Agency" },
-          ]}
-          placeholder="Select Role"
-        />
-
-        {formData.role === "staff" && (
-          <Select
-            label="Specialty"
-            value={formData.specialty}
-            onChange={handleSpecialtyChange}
-            options={campaignTypes}
-            placeholder="Select Specialty"
-          />
-        )}
-
-        {formData.role === "outsource" && (
-          <>
-            <input
-              type="text"
-              name="name"
-              placeholder="Outsource Agency Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              type="text"
-              name="contactPerson"
-              placeholder="Contact Person"
-              value={formData.contactPerson}
-              onChange={handleChange}
-              required
-            />
-
+          <div className="form-row">
             <Select
-              label="Service Type"
-              value={formData.serviceTypes[0] || ""}
-              onChange={handleServiceTypeChange}
-              options={OUTSOURCE_ONLY_TYPES}
-              placeholder="Select Service Type"
+              id="role"
+              label="Role"
+              value={formData.role}
+              onChange={handleRoleChange}
+              options={[
+                { value: "staff", label: "Staff" },
+                { value: "outsource", label: "Outsource Agency" },
+              ]}
+              placeholder="Select Role"
             />
-          </>
-        )}
 
-        <button type="submit">
-          {editingUserId ? "Update User" : "Add User"}
-        </button>
+            {formData.role === "staff" && (
+              <Select
+                id="specialty"
+                label="Specialty"
+                value={formData.specialty}
+                onChange={handleSpecialtyChange}
+                options={campaignTypes}
+                placeholder="Select Specialty"
+              />
+            )}
+          </div>
 
-        {editingUserId && (
-          <button type="button" onClick={resetForm}>
-            Cancel
-          </button>
-        )}
-      </form>
+          {formData.role === "outsource" && (
+            <>
+              <div className="form-row">
+                <div className="form-field">
+                  <label htmlFor="name">Outsource Agency Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Specialty / Service</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+                <div className="form-field">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.username}</td>
+                <div className="form-field">
+                  <label htmlFor="contactPerson">Contact Person</label>
+                  <input
+                    type="text"
+                    id="contactPerson"
+                    name="contactPerson"
+                    value={formData.contactPerson}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
 
-              <td>{user.email}</td>
+              <div className="form-row">
+                <Select
+                  id="serviceTypes"
+                  label="Service Type"
+                  value={formData.serviceTypes[0] || ""}
+                  onChange={handleServiceTypeChange}
+                  options={OUTSOURCE_ONLY_TYPES}
+                  placeholder="Select Service Type"
+                />
+              </div>
+            </>
+          )}
 
-              <td>{user.role}</td>
+          <div className="form-actions">
+            <button type="submit" className="btn-primary-action">
+              {editingUserId ? "Update User" : "Add User"}
+            </button>
 
-              <td>
-                {user.role === "staff"
-                  ? user.specialty || "-"
-                  : user.serviceTypes?.length > 0
-                  ? user.serviceTypes.join(", ")
-                  : "-"}
-              </td>
+            {editingUserId && (
+              <button type="button" className="btn-secondary-action" onClick={resetForm}>
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
 
-              <td>
-                <button onClick={() => handleEdit(user)}>
-                  Edit
-                </button>
+      <div className="admin-table-card">
+        <h2>All Users</h2>
 
-                <button onClick={() => handleDelete(user._id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        <div className="admin-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Specialty / Service</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+
+                  <td>
+                    <span className={`role-badge role-${user.role}`}>{user.role}</span>
+                  </td>
+
+                  <td>
+                    {user.role === "staff"
+                      ? user.specialty?.replace(/_/g, " ") || "-"
+                      : user.serviceTypes?.length > 0
+                      ? user.serviceTypes.join(", ").replace(/_/g, " ")
+                      : "-"}
+                  </td>
+
+                  <td className="admin-table-actions">
+                    <button className="admin-edit-btn" onClick={() => handleEdit(user)}>
+                      Edit
+                    </button>
+
+                    <button className="admin-delete-btn" onClick={() => handleDelete(user._id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
   );
 };
 

@@ -1,237 +1,182 @@
-.admin-user-management {
-    min-height: 100vh;
-    background: #ffffff;
-    padding: 40px;
-    color: #243746;
+.admin-page {
+    --peach-1: #f3a683;
+    --peach-2: #e8845f;
+    --cream: #f7ede0;
+    --navy: #1a1a2e;
+    --muted: #8d8d99;
+    --red: #e63946;
+    --teal: #2a9d8f;
+    --teal-light: #dceee6;
+    --blue: #457b9d;
+    --pink: #ea4c89;
+    --yellow: #f4a623;
+    --yellow-light: #fdf0dc;
+    --white: #ffffff;
+    --border: #f1e9db;
+
+    color: var(--navy);
+    font-family: inherit;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.admin-user-management h1 {
-    margin: 0 0 25px;
-    font-size: 30px;
+.admin-page-header {
+    margin-bottom: 1.5rem;
+    animation: admin-fade-up 0.4s ease both;
+}
+
+.admin-page-header h1 {
+    margin: 0 0 0.3rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.admin-page-subtitle {
+    margin: 0;
+    color: var(--muted);
+}
+
+.admin-alert {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: #fbe1e3;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+.admin-form-card,
+.admin-table-card {
+    background: var(--white);
+    border-radius: 22px;
+    padding: 1.75rem;
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.1);
+    margin-bottom: 1.5rem;
+    animation: admin-fade-up 0.45s ease both;
+}
+
+.admin-form-card h2,
+.admin-table-card h2 {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-display);
     font-weight: 700;
+    font-size: 1.15rem;
 }
 
-.admin-user-management h2 {
-    margin: 0 0 18px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #34566b;
+.admin-form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
-/* Error */
+/* ---------- table ---------- */
 
-.error-message {
-    margin: 0 0 20px;
-    padding: 12px 15px;
-    border-radius: 8px;
-    background: #fde8e8;
-    color: #d9534f;
-    border: 1px solid #f5c6c6;
-    font-size: 14px;
+.admin-table-wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--border);
 }
 
-/* Form */
-
-.admin-user-management form {
-    background: #ffffff;
-    border: 1px solid #dce5ea;
-    border-radius: 10px;
-    padding: 25px;
-    margin-bottom: 30px;
-
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-
-.admin-user-management input {
-    width: 100%;
-    padding: 12px 14px;
-    box-sizing: border-box;
-
-    border: 1px solid #dce5ea;
-    border-radius: 8px;
-
-    background: #ffffff;
-    color: #243746;
-
-    font-size: 14px;
-    outline: none;
-}
-
-.admin-user-management input::placeholder {
-    color: #9aa8b2;
-}
-
-.admin-user-management input:focus {
-    border-color: #4da3d9;
-    box-shadow: 0 0 0 3px #e7f4fb;
-}
-
-/* Select */
-
-.admin-user-management .select-wrapper {
-    width: 100%;
-}
-
-/* Form buttons */
-
-.admin-user-management form button {
-    padding: 12px 18px;
-
-    border: none;
-    border-radius: 8px;
-
-    background: #4da3d9;
-    color: #ffffff;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.admin-user-management form button:hover {
-    background: #398fc5;
-}
-
-.admin-user-management form button[type="button"] {
-    background: #f1f5f7;
-    color: #526875;
-}
-
-.admin-user-management form button[type="button"]:hover {
-    background: #e5ebef;
-}
-
-/* Table */
-
-.admin-user-management table {
+.admin-table-wrapper table {
     width: 100%;
     border-collapse: collapse;
-
-    background: #ffffff;
-    border: 1px solid #dce5ea;
-    border-radius: 10px;
-    overflow: hidden;
+    min-width: 640px;
 }
 
-.admin-user-management thead {
-    background: #f7fafc;
+.admin-table-wrapper thead {
+    background: var(--cream);
 }
 
-.admin-user-management th {
-    padding: 15px;
-
+.admin-table-wrapper th {
+    padding: 0.85rem 1.1rem;
     text-align: left;
-
-    font-size: 13px;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #34566b;
-
-    border-bottom: 1px solid #dce5ea;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
 }
 
-.admin-user-management td {
-    padding: 15px;
-
-    font-size: 14px;
-    color: #455a64;
-
-    border-bottom: 1px solid #edf1f3;
-    vertical-align: middle;
-}
-
-.admin-user-management tbody tr:hover {
-    background: #fafcfd;
-}
-
-.admin-user-management tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* Role */
-
-.admin-user-management td:nth-child(3) {
-    font-weight: 600;
+.admin-table-wrapper td {
+    padding: 0.9rem 1.1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.92rem;
     text-transform: capitalize;
 }
 
-/* Actions */
+.admin-table-wrapper tbody tr {
+    transition: background 0.15s ease;
+}
 
-.admin-user-management td:last-child {
+.admin-table-wrapper tbody tr:hover {
+    background: var(--cream);
+}
+
+.admin-table-actions {
     white-space: nowrap;
 }
 
-.admin-user-management td:last-child button {
-    padding: 8px 14px;
-    margin-right: 8px;
-
+.admin-edit-btn,
+.admin-delete-btn {
+    padding: 0.45rem 0.9rem;
+    margin-right: 0.5rem;
     border: none;
-    border-radius: 7px;
-
-    font-size: 13px;
-    font-weight: 600;
-
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
-/* Edit */
-
-.admin-user-management td:last-child button:first-child {
-    background: #e7f4fb;
-    color: #398fc5;
+.admin-edit-btn {
+    background: var(--teal-light);
+    color: var(--teal);
 }
 
-.admin-user-management td:last-child button:first-child:hover {
-    background: #d5edf9;
+.admin-edit-btn:hover {
+    background: var(--teal);
+    color: #fff;
+    transform: translateY(-2px);
 }
 
-/* Delete */
-
-.admin-user-management td:last-child button:last-child {
-    background: #fde8e8;
-    color: #d9534f;
+.admin-delete-btn {
+    background: #fbe1e3;
+    color: var(--red);
 }
 
-.admin-user-management td:last-child button:last-child:hover {
-    background: #d9534f;
-    color: #ffffff;
+.admin-delete-btn:hover {
+    background: var(--red);
+    color: #fff;
+    transform: translateY(-2px);
 }
 
-/* Responsive */
+/* ---------- role badge ---------- */
 
-@media (max-width: 800px) {
-    .admin-user-management {
-        padding: 25px;
-        overflow-x: auto;
-    }
-
-    .admin-user-management form {
-        grid-template-columns: 1fr;
-    }
-
-    .admin-user-management table {
-        min-width: 800px;
-    }
+.role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: capitalize;
 }
 
-@media (max-width: 600px) {
-    .admin-user-management {
-        padding: 20px;
-    }
+.role-staff { background: var(--teal-light); color: var(--teal); }
+.role-outsource { background: var(--yellow-light); color: #a56a10; }
+.role-admin { background: #e2ebf1; color: var(--blue); }
+.role-client { background: #fce4ec; color: var(--pink); }
 
-    .admin-user-management h1 {
-        font-size: 25px;
-    }
+@keyframes admin-fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    .admin-user-management h2 {
-        font-size: 18px;
-    }
-
-    .admin-user-management form {
-        padding: 18px;
+@media (max-width: 700px) {
+    .admin-form-card,
+    .admin-table-card {
+        padding: 1.25rem;
+        border-radius: 16px;
     }
 }
