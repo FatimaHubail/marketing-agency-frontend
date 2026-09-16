@@ -35,7 +35,25 @@ const updateClientProfile = async (clientId, formData) => {
   return data;
 };
 
+const getClients = async () => {
+  const res = await fetch(BASE_URL, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
+
+
 export {
   getClientProfile,
   updateClientProfile,
+  getClients,
 };

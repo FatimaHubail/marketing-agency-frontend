@@ -21,6 +21,8 @@ import ClientDashboard from './components/ClientDashboard/ClientDashboard';
 import Tasks from "./components/Tasks/Tasks";
 import AgencyDashboard from "./components/Dashboard/AgencyDashboard";
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
+import AgencyClients from "./components/AgencyClients/AgencyClients";
+import AgencyCampaignRequestDetails from "./components/AgencyCampaignRequestDetails/AgencyCampaignRequestDetails";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -50,7 +52,12 @@ const App = () => {
         <Route path='/profile' element={<ClientProfilePage />} />
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path="/agency-dashboard" element={<AgencyDashboard />} />
+        <Route path= "/clients" element={<AgencyClients/>}/>
         <Route path="*" element={<NotFoundPage />} />
+        <Route
+  path="/campaign-requests/:id"
+  element={<AgencyCampaignRequestDetails />}
+/>
       </Routes>
     </>
   );

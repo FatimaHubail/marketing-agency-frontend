@@ -10,6 +10,9 @@ const NavBar = () => {
     setUser(null);
   };
 
+  const agencyRoles = ["admin", "campaign-manager", "staff"];
+  const isAgency = agencyRoles.includes(user?.role);
+
   return (
     <nav>
       <ul>
@@ -17,47 +20,82 @@ const NavBar = () => {
           <>
             <li>Hello {user.username}</li>
 
-            <li>
-              <Link to="/">Dashboard</Link>
-            </li>
-
-            {(user.role === "staff" || user.role === "admin") && (
+            {/* Agency Dashboard */}
+            {isAgency && (
               <li>
-                <Link to="/campaign-requests">Campaign Requests</Link>
+                <Link to="/agency-dashboard">Dashboard</Link>
               </li>
             )}
+
+            {/* Client Dashboard */}
             {user.role === "client" && (
               <li>
-                <Link to="/requests">Campaign Requests</Link>
+                <Link to="/">Dashboard</Link>
               </li>
             )}
 
-            {["admin", "staff"].includes(user.role) && (
+            {/* Agency Campaign Requests */}
+            {isAgency && (
+              <li>
+                <Link to="/campaign-requests">
+                  Campaign Requests
+                </Link>
+              </li>
+            )}
+
+            {/* Client Campaign Requests */}
+            {user.role === "client" && (
+              <li>
+                <Link to="/requests">
+                  Campaign Requests
+                </Link>
+              </li>
+            )}
+
+            {/* Tasks */}
+            {isAgency && (
               <li>
                 <Link to="/tasks">Tasks</Link>
               </li>
             )}
 
+            {/* Admin User Management */}
             {user.role === "admin" && (
               <li>
-                <Link to="/admin/users">User Management</Link>
+                <Link to="/admin/users">
+                  User Management
+                </Link>
               </li>
             )}
+
+            {/* Client New Campaign Request */}
             {user.role === "client" && (
               <li>
-                <Link to="/requests/new">New Campaign Request</Link>
+                <Link to="/requests/new">
+                  New Campaign Request
+                </Link>
               </li>
             )}
+
+            {/* Client Campaigns */}
             {user.role === "client" && (
               <li>
-                <Link to="/campaigns">My Campaigns</Link>
+                <Link to="/campaigns">
+                  My Campaigns
+                </Link>
               </li>
             )}
+
+            {/* Client Profile */}
             {user.role === "client" && (
               <li>
-                <Link to="/profile">My Profile</Link>
+                <Link to="/profile">
+                  My Profile
+                </Link>
               </li>
             )}
+
+            {/* Sign Out */}
             <li>
               <Link to="/" onClick={handleSignOut}>
                 Sign Out
@@ -71,15 +109,21 @@ const NavBar = () => {
             </li>
 
             <li>
-              <Link to="/register">Register as Client</Link>
+              <Link to="/register">
+                Register as Client
+              </Link>
             </li>
 
             <li>
-              <Link to="/sign-up">Sign Up</Link>
+              <Link to="/sign-up">
+                Sign Up
+              </Link>
             </li>
 
             <li>
-              <Link to="/sign-in">Sign In</Link>
+              <Link to="/sign-in">
+                Sign In
+              </Link>
             </li>
           </>
         )}
