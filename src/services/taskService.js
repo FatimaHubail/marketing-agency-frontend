@@ -28,6 +28,20 @@ const getMyTasks = async () => {
   return data;
 };
 
+const getCampaignTasks = async (campaignId) => {
+  const res = await fetch(`${BASE_URL}/campaign/${campaignId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (data.err) throw new Error(data.err);
+
+  return data;
+};
+
 const createTask = async (formData) => {
   const res = await fetch(BASE_URL, {
     method: 'POST',
@@ -83,4 +97,5 @@ export {
   updateTask,
   deleteTask,
   getMyTasks,
+  getCampaignTasks,
 };
