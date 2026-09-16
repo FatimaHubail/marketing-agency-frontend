@@ -60,7 +60,7 @@ const CampaignDetails = () => {
           <div className="campaign-details-header">
             <h1>{request?.title || "Campaign"}</h1>
 
-            <span className="campaign-status">
+            <span className={`campaign-status status-${campaign.status}`}>
               {campaign.status?.replace(/_/g, " ") || "N/A"}
             </span>
           </div>
