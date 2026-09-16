@@ -24,6 +24,7 @@ import AgencyCampaignRequestDetails from "./components/AgencyCampaignRequestDeta
 import OutsourceDashboard from "./components/Dashboard/OutsourceDashboard/OutsourceDashboard";
 import OutsourceProfile from "./components/OutsourceProfile/OutsourceProfile";
 import OutsourceAllTasks from "./components/OutsourceTasksAll/OutsourceAllTasks";
+import OutsourceCreateTask from "./components/OutsourceCreateTask/OutsourceCreateTask";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -198,6 +199,17 @@ const App = () => {
             element={
               user?.role === "staff" ? (
                 <AgencyClients />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/outsource-tasks/new"
+            element={
+              user?.role === "staff" ? (
+                <OutsourceCreateTask />
               ) : (
                 <Navigate to="/" replace />
               )
