@@ -15,8 +15,6 @@ const NavBar = () => {
       <ul>
         {user ? (
           <>
-            <li>Hello {user.username}</li>
-
             <li>
               <Link to="/">Dashboard</Link>
             </li>
@@ -67,15 +65,7 @@ const NavBar = () => {
         ) : (
           <>
             <li>
-              <Link to="/">Dashboard</Link>
-            </li>
-
-            <li>
-              <Link to="/register">Register as Client</Link>
-            </li>
-
-            <li>
-              <Link to="/sign-up">Sign Up</Link>
+              <Link to="/register">Register</Link>
             </li>
 
             <li>

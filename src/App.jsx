@@ -3,10 +3,8 @@ import { Navigate, Route, Routes } from "react-router";
 
 // Components
 import NavBar from './components/NavBar/NavBar';
-import SignUpForm from './components/SignUpForm/SignUpForm';
 import ClientSignUpForm from './components/ClientSignUpForm/ClientSignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
-import Dashboard from './components/Dashboard/Dashboard'
 import Landing from './components/Landing/Landing'
 import AdminUserManagement from './components/AdminUserManagement/AdminUserManagement';
 import NewCampaignRequest from './components/NewCampaignRequest/NewCampaignRequest';
@@ -34,9 +32,14 @@ const App = () => {
 
       <Routes>
         <Route path='/' element={
-          !user ? <Landing /> : user.role === 'client' ? <ClientDashboard /> : <Dashboard />
+          !user
+            ? <Landing />
+            : user.role === 'client'
+              ? <ClientDashboard />
+              : (user.role === 'staff' || user.role === 'admin')
+                ? <AgencyDashboard />
+                : <main><p>Welcome, {user.username}!</p></main>
         } />
-        <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/register' element={<ClientSignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/admin/users' element={<AdminUserManagement />} />
@@ -49,7 +52,6 @@ const App = () => {
         <Route path='/campaigns' element={<MyCampaignsPage />} />
         <Route path='/profile' element={<ClientProfilePage />} />
         <Route path='/tasks' element={<Tasks/>}/>
-        <Route path="/agency-dashboard" element={<AgencyDashboard />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
