@@ -156,25 +156,25 @@ const AdminUserManagement = () => {
         </select>
 
         {formData.role === "staff" && (
-  <select
-    name="specialties"
-    value={formData.specialties[0] || ""}
-    onChange={(evt) =>
-      setFormData({
-        ...formData,
-        specialties: evt.target.value ? [evt.target.value] : [],
-      })
-    }
-  >
-    <option value="">Select Specialty</option>
+          <select
+            name="specialties"
+            value={formData.specialties[0] || ""}
+            onChange={(evt) =>
+              setFormData({
+                ...formData,
+                specialties: evt.target.value ? [evt.target.value] : [],
+              })
+            }
+          >
+            <option value="">Select Specialty</option>
 
-    {campaignTypes.map((type) => (
-      <option key={type} value={type}>
-        {type}
-      </option>
-    ))}
-  </select>
-)}
+            {campaignTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        )}
 
         <button type="submit">
           {editingUserId ? "Update User" : "Add User"}
