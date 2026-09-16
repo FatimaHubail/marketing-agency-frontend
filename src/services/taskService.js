@@ -14,6 +14,20 @@ const getTasks = async () => {
   return data;
 };
 
+const getMyTasks = async () => {
+  const res = await fetch(`${BASE_URL}/my-tasks`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (data.err) throw new Error(data.err);
+
+  return data;
+};
+
 const createTask = async (formData) => {
   const res = await fetch(BASE_URL, {
     method: 'POST',
@@ -68,4 +82,5 @@ export {
   createTask,
   updateTask,
   deleteTask,
+  getMyTasks,
 };

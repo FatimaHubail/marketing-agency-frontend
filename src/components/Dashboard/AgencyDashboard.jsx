@@ -6,7 +6,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 import { getCampaignRequests } from "../../services/campaignRequestService";
 import { getCampaigns } from "../../services/campaignService";
-import { getTasks } from "../../services/taskService";
+import { getMyTasks} from "../../services/taskService";
 import { getClients } from "../../services/clientService";
 
 import DatePicker from "../../components/common/DatePicker/DatePicker";
@@ -36,7 +36,7 @@ const AgencyDashboard = () => {
         ] = await Promise.all([
           getCampaignRequests(),
           getCampaigns(),
-          getTasks(),
+          getMyTasks(),
           getClients(),
         ]);
 
@@ -338,7 +338,7 @@ const AgencyDashboard = () => {
                               className="action-button"
                               onClick={() =>
                                 navigate(
-                                  `/campaign-requests/${request._id}`
+                                  `/campaign-requests`
                                 )
                               }
                             >

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import {
-  getTasks,
   createTask,
   updateTask,
   deleteTask,
+  getMyTasks,
 } from "../../services/taskService";
-import { getCampaigns } from "../../services/campaignService";
+import { getCampaigns, completeCampaign } from "../../services/campaignService";
 import { getOutsourceUsers } from "../../services/userService";
 
 import DatePicker from "../../components/common/DatePicker/DatePicker";
@@ -32,7 +32,7 @@ const Tasks = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tasksData = await getTasks();
+        const tasksData = await getMyTasks();
         const campaignsData = await getCampaigns();
         const outsourceData = await getOutsourceUsers();
 
@@ -158,13 +158,29 @@ const Tasks = () => {
     resetForm();
   };
 
-  const campaignOptions = campaigns.map((campaign) => ({
-    value: campaign._id,
-    label:
-      campaign.requestId?.title ||
-      campaign.title ||
-      campaign._id,
-  }));
+  const handleCompleteCampaign = async (campaignId) => {
+    try {
+      const updatedCampaign = await completeCampaign(campaignId);
+
+      setCampaigns(
+        campaigns.map((campaign) =>
+          campaign._id === campaignId ? updatedCampaign : campaign
+        )
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const campaignOptions = campaigns
+    .filter((campaign) => campaign.status !== "completed")
+    .map((campaign) => ({
+      value: campaign._id,
+      label:
+        campaign.requestId?.title ||
+        campaign.title ||
+        campaign._id,
+    }));
 
   const outsourceOptions = outsourceUsers.map((user) => ({
     value: user._id,
@@ -278,6 +294,34 @@ const Tasks = () => {
           </div>
         </form>
       </div>
+
+      {campaigns.some((campaign) => campaign.status === "in_progress") && (
+        <div className="tasks-table-card">
+          <h2>Active Campaigns</h2>
+          <p className="tasks-page-subtitle">Mark a campaign as completed once all of its work is done.</p>
+
+          <ul className="active-campaigns-list">
+            {campaigns
+              .filter((campaign) => campaign.status === "in_progress")
+              .map((campaign) => (
+                <li key={campaign._id}>
+                  <span>
+                    {campaign.requestId?.title ||
+                      campaign.title ||
+                      campaign._id}
+                  </span>
+
+                  <button
+                    className="btn-primary-action"
+                    onClick={() => handleCompleteCampaign(campaign._id)}
+                  >
+                    Mark Campaign Complete
+                  </button>
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
 
       <div className="tasks-table-card">
         <h2>All Tasks</h2>

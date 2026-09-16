@@ -83,10 +83,8 @@
   animation-delay: 0.15s;
 }
 
-.campaign-status.status-planning { background: #e2ebf1; color: var(--blue); }
+.campaign-status.status-pending { background: var(--yellow-light); color: #a56a10; }
 .campaign-status.status-in_progress { background: var(--teal-light); color: var(--teal); }
-.campaign-status.status-client_review { background: #fce4ec; color: var(--pink); }
-.campaign-status.status-live { background: var(--teal-light); color: var(--teal); }
 .campaign-status.status-completed { background: #e2ebf1; color: var(--blue); }
 
 .campaign-details-grid {

@@ -325,10 +325,8 @@ h1 {
 }
 
 .status-submitted { background: var(--yellow-light); color: #a56a10; }
-.status-planning { background: #e2ebf1; color: var(--blue); }
+.status-pending { background: var(--yellow-light); color: #a56a10; }
 .status-in_progress { background: var(--teal-light); color: var(--teal); }
-.status-client_review { background: #fce4ec; color: var(--pink); }
-.status-live { background: var(--teal-light); color: var(--teal); }
 .status-completed { background: #e2ebf1; color: var(--blue); }
 .status-rejected { background: #fbe1e3; color: var(--red); }
 .status-accepted { background: var(--teal-light); color: var(--teal); }
