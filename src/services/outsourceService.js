@@ -36,7 +36,28 @@ const updateOutsourceProfile = async (formData) => {
     return data;
 };
 
+const getOutsources = async (filters = {}) => {
+    const queryString = new URLSearchParams(filters).toString();
+    const url = queryString ? `${OUTSOURCE_URL}?${queryString}` : OUTSOURCE_URL;
+
+    const res = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
+
+    const data = await res.json();
+
+    if (data.err) {
+        throw new Error(data.err);
+    }
+
+    return data;
+};
+
+
 export {
     getOutsourceProfile,
     updateOutsourceProfile,
+    getOutsources,
 };

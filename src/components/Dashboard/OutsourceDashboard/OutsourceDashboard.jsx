@@ -5,10 +5,21 @@ import { getOutsourceTasks } from "../../../services/outsourceTaskService";
 import { UserContext } from "../../../contexts/UserContext";
 
 const OutsourceDashboard = () => {
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
+    const [search, setSearch] = useState("");
     const navigate = useNavigate();
 
     const [outsourceTasks, setOutsourceTasks] = useState([]);
+
+    const searchResults = outsourceTasks
+        .filter((task) =>
+            (task.title || "").toLowerCase().includes(search.toLowerCase())
+        )
+        .map((t) => ({
+            type: t.serviceType || "Task",
+            title: t.title,
+            id: t._id,
+        }));
 
     useEffect(() => {
         const loadDashboard = async () => {
