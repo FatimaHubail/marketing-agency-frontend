@@ -190,6 +190,12 @@
     background: var(--border);
 }
 
+.btn-primary-action:disabled,
+.btn-secondary-action:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
 /* ---------- locked/not-editable state ---------- */
 
 .request-form-locked {
