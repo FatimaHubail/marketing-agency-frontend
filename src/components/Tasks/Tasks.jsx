@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getTasks,
   createTask,
@@ -7,20 +7,14 @@ import {
 } from "../../services/taskService";
 import { getCampaigns } from "../../services/campaignService";
 import "./Tasks.css";
-import { UserContext } from "../../contexts/UserContext";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
-  const [staff, setStaff] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
-
-  const { user } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     campaignId: "",
-    assignedTo: "",
-    assignedToType: "Staff",
     title: "",
     description: "",
     dueDate: "",
@@ -33,24 +27,8 @@ const Tasks = () => {
         const tasksData = await getTasks();
         const campaignsData = await getCampaigns();
 
-        const staffResponse = await fetch(
-          `${import.meta.env.VITE_BACK_END_SERVER_URL}/staff`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          },
-        );
-
-        const staffData = await staffResponse.json();
-
-        if (staffData.err) {
-          throw new Error(staffData.err);
-        }
-
         setTasks(tasksData);
         setCampaigns(campaignsData);
-        setStaff(staffData);
       } catch (err) {
         console.log(err);
       }
@@ -66,6 +44,16 @@ const Tasks = () => {
     });
   };
 
+  const resetForm = () => {
+    setFormData({
+      campaignId: "",
+      title: "",
+      description: "",
+      dueDate: "",
+      status: "pending",
+    });
+  };
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
@@ -75,29 +63,18 @@ const Tasks = () => {
 
         setTasks(
           tasks.map((task) =>
-            task._id === editingTaskId ? updatedTask : task,
-          ),
+            task._id === editingTaskId ? updatedTask : task
+          )
         );
 
         setEditingTaskId(null);
       } else {
-        const newTask = await createTask({
-          ...formData,
-          assignedBy: user._id,
-        });
+        const newTask = await createTask(formData);
 
         setTasks([...tasks, newTask]);
       }
 
-      setFormData({
-        campaignId: "",
-        assignedTo: "",
-        assignedToType: "Staff",
-        title: "",
-        description: "",
-        dueDate: "",
-        status: "pending",
-      });
+      resetForm();
     } catch (err) {
       console.log(err);
     }
@@ -108,8 +85,6 @@ const Tasks = () => {
 
     setFormData({
       campaignId: task.campaignId?._id || task.campaignId,
-      assignedTo: task.assignedTo?._id || task.assignedTo,
-      assignedToType: task.assignedToType || "Staff",
       title: task.title,
       description: task.description || "",
       dueDate: task.dueDate.split("T")[0],
@@ -129,16 +104,7 @@ const Tasks = () => {
 
   const handleCancel = () => {
     setEditingTaskId(null);
-
-    setFormData({
-      campaignId: "",
-      assignedTo: "",
-      assignedToType: "Staff",
-      title: "",
-      description: "",
-      dueDate: "",
-      status: "pending",
-    });
+    resetForm();
   };
 
   return (
@@ -157,21 +123,6 @@ const Tasks = () => {
           {campaigns.map((campaign) => (
             <option key={campaign._id} value={campaign._id}>
               {campaign.requestId?.title || campaign._id}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="assignedTo"
-          value={formData.assignedTo}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Staff</option>
-
-          {staff.map((staffMember) => (
-            <option key={staffMember._id} value={staffMember._id}>
-              {staffMember.userId?.username}
             </option>
           ))}
         </select>
@@ -201,7 +152,11 @@ const Tasks = () => {
           required
         />
 
-        <select name="status" value={formData.status} onChange={handleChange}>
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
           <option value="pending">Pending</option>
           <option value="in progress">In Progress</option>
           <option value="completed">Completed</option>
@@ -222,8 +177,6 @@ const Tasks = () => {
         <thead>
           <tr>
             <th>Campaign</th>
-            <th>Assigned To</th>
-            <th>Assigned By</th>
             <th>Title</th>
             <th>Description</th>
             <th>Status</th>
@@ -237,25 +190,24 @@ const Tasks = () => {
             <tr key={task._id}>
               <td>{task.campaignId?.requestId?.title}</td>
 
-              <td>
-                {task.assignedTo?.userId?.username ||
-                  task.assignedTo?.username ||
-                  "Unknown"}{" "}
-              </td>
-              <td>{task.assignedBy?.username}</td>
-
               <td>{task.title}</td>
 
               <td>{task.description}</td>
 
               <td>{task.status}</td>
 
-              <td>{new Date(task.dueDate).toLocaleDateString()}</td>
+              <td>
+                {new Date(task.dueDate).toLocaleDateString()}
+              </td>
 
               <td>
-                <button onClick={() => handleEdit(task)}>Edit</button>
+                <button onClick={() => handleEdit(task)}>
+                  Edit
+                </button>
 
-                <button onClick={() => handleDelete(task._id)}>Delete</button>
+                <button onClick={() => handleDelete(task._id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
