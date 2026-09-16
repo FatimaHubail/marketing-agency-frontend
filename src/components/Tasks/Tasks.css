@@ -22,15 +22,32 @@
 
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 18px;
 }
 
-.tasks input,
-.tasks select {
+.tasks form > * {
+    min-width: 0;
+}
+
+.task-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.task-input-group label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #71818d;
+}
+
+.tasks input {
     width: 100%;
     padding: 12px 14px;
     border: 1px solid #dce5ea;
-    border-radius: 8px;
+    border-radius: 12px;
     background: #ffffff;
     color: #243746;
     font-size: 14px;
@@ -42,15 +59,20 @@
     color: #9aa8b2;
 }
 
-.tasks input:focus,
-.tasks select:focus {
+.tasks input:focus {
     border-color: #4da3d9;
     box-shadow: 0 0 0 3px #e7f4fb;
 }
 
-/* Form buttons */
+/* Form Buttons */
 
-.tasks form button {
+.task-form-buttons {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+}
+
+.task-form-buttons button {
     padding: 12px 18px;
     border: none;
     border-radius: 8px;
@@ -62,16 +84,16 @@
     transition: 0.2s ease;
 }
 
-.tasks form button:hover {
+.task-form-buttons button:hover {
     background: #398fc5;
 }
 
-.tasks form button[type="button"] {
+.task-form-buttons button[type="button"] {
     background: #f1f5f7;
     color: #526875;
 }
 
-.tasks form button[type="button"]:hover {
+.task-form-buttons button[type="button"]:hover {
     background: #e5ebef;
 }
 
@@ -117,12 +139,31 @@
 
 /* Status */
 
-.tasks td:nth-child(4) {
+.task-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: capitalize;
 }
 
-/* Action buttons */
+.status-pending {
+    background: #f1f3f5;
+    color: #687780;
+}
+
+.status-in-progress {
+    background: #e7f4fb;
+    color: #3988b8;
+}
+
+.status-completed {
+    background: #e7f7ed;
+    color: #39845a;
+}
+
+/* Action Buttons */
 
 .tasks td:last-child {
     white-space: nowrap;
@@ -177,6 +218,10 @@
     .tasks table {
         min-width: 800px;
     }
+
+    .task-form-buttons {
+        align-items: stretch;
+    }
 }
 
 @media (max-width: 600px) {
@@ -190,5 +235,9 @@
 
     .tasks form {
         padding: 18px;
+    }
+
+    .task-form-buttons {
+        flex-direction: column;
     }
 }

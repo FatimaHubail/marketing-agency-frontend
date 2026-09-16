@@ -1,20 +1,24 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/admin`;
 
-const getUsers = async()=>{
-    const res = await fetch(`${BASE_URL}/users`, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-    });
+const getUsers = async (role) => {
+  const url = role
+    ? `${BASE_URL}/users?role=${role}`
+    : `${BASE_URL}/users`;
 
-    const data = await res.json();
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
 
-    if(data.err){
-        throw new Error(data.err);
-    }
+  const data = await res.json();
 
-    return data;
-}
+  if (data.err) {
+    throw new Error(data.err);
+  }
+
+  return data;
+};
 
 
 const createUser = async(formData)=>{
