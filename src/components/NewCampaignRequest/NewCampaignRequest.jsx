@@ -1,7 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { createCampaignRequest } from '../../services/campaignRequestService';
 import { CAMPAIGN_TYPES, GOALS_BY_TYPE, PREFERRED_CHANNELS } from '../../constants/campaignTaxonomy';
+import Select from '../common/Select/Select';
+import '../../styles/CampaignRequestForm.css';
 
 export default function NewCampaignRequest() {
     const navigate = useNavigate();
@@ -23,6 +25,14 @@ export default function NewCampaignRequest() {
         } else {
             setFormData({ ...formData, [name]: value });
         }
+    };
+
+    const handleCampaignTypeChange = (value) => {
+        setFormData({ ...formData, campaignType: value, goal: '' });
+    };
+
+    const handleGoalChange = (value) => {
+        setFormData({ ...formData, goal: value });
     };
 
     const handleChannelToggle = (channel) => {
@@ -71,94 +81,100 @@ export default function NewCampaignRequest() {
 
 
     return (
-        <main>
-            <h1>New Campaign Request</h1>
-            {error && <p role="alert">{error}</p>}
+        <main className="request-form-page">
+            <div className="request-form-main">
+                <h1>New Campaign Request</h1>
+                <p className="request-form-subtitle">Tell us what you need and we'll get it moving.</p>
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="title">Title</label>
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    required
-                />
+                {error && <p role="alert">{error}</p>}
 
-                <label htmlFor="description">Description</label>
-                <textarea
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                />
+                <form onSubmit={handleSubmit}>
+                    <div className="form-field">
+                        <label htmlFor="title">Title</label>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                <label htmlFor="campaignType">Campaign Type</label>
-                <select
-                    id="campaignType"
-                    name="campaignType"
-                    value={formData.campaignType}
-                    onChange={handleChange}
-                    required
-                >
-                    <option value="">Select...</option>
-                    {CAMPAIGN_TYPES.map((type) => (
-                        <option key={type} value={type}>{type.replace(/_/g, ' ')}</option>
-                    ))}
-                </select>
+                    <div className="form-field">
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                        />
+                    </div>
 
-                <label htmlFor="goal">Goal</label>
-                <select
-                    id="goal"
-                    name="goal"
-                    value={formData.goal}
-                    onChange={handleChange}
-                    disabled={!formData.campaignType}
-                    required
-                >
-                    <option value="">Select...</option>
-                    {(GOALS_BY_TYPE[formData.campaignType] || []).map((goal) => (
-                        <option key={goal} value={goal}>{goal.replace(/_/g, ' ')}</option>
-                    ))}
-                </select>
+                    <div className="form-row">
+                        <Select
+                            id="campaignType"
+                            label="Campaign Type"
+                            value={formData.campaignType}
+                            onChange={handleCampaignTypeChange}
+                            options={CAMPAIGN_TYPES}
+                        />
 
-                <label htmlFor="budget">Budget (BHD)</label>
-                <input
-                    type="number"
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    min="0"
-                    required
-                />
+                        <Select
+                            id="goal"
+                            label="Goal"
+                            value={formData.goal}
+                            onChange={handleGoalChange}
+                            options={GOALS_BY_TYPE[formData.campaignType] || []}
+                            disabled={!formData.campaignType}
+                        />
 
-                <fieldset>
-                    <legend>Preferred Channels</legend>
-                    {PREFERRED_CHANNELS.map((channel) => (
-                        <label key={channel} htmlFor={`channel-${channel}`}>
+                        <div className="form-field">
+                            <label htmlFor="budget">Budget (BHD)</label>
                             <input
-                                type="checkbox"
-                                id={`channel-${channel}`}
-                                checked={formData.preferredChannels.includes(channel)}
-                                onChange={() => handleChannelToggle(channel)}
+                                type="number"
+                                id="budget"
+                                name="budget"
+                                value={formData.budget}
+                                onChange={handleChange}
+                                min="0"
+                                required
                             />
-                            {channel.replace(/_/g, ' ')}
-                        </label>
-                    ))}
-                </fieldset>
+                        </div>
+                    </div>
 
-                <label htmlFor="notes">Notes</label>
-                <textarea
-                    id="notes"
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleChange}
-                />
+                    <div className="form-field">
+                        <span className="form-field-label">Preferred Channels</span>
+                        <div className="channel-pills">
+                            {PREFERRED_CHANNELS.map((channel) => (
+                                <label key={channel} htmlFor={`channel-${channel}`} className="channel-pill">
+                                    <input
+                                        type="checkbox"
+                                        id={`channel-${channel}`}
+                                        checked={formData.preferredChannels.includes(channel)}
+                                        onChange={() => handleChannelToggle(channel)}
+                                    />
+                                    {channel.replace(/_/g, ' ')}
+                                </label>
+                            ))}
+                        </div>
+                    </div>
 
-                <button type="submit">Submit</button>
-            </form>
+                    <div className="form-field">
+                        <label htmlFor="notes">Notes</label>
+                        <textarea
+                            id="notes"
+                            name="notes"
+                            value={formData.notes}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-actions">
+                        <button type="submit" className="btn-primary-action">Submit</button>
+                    </div>
+                </form>
+            </div>
         </main>
     );
 

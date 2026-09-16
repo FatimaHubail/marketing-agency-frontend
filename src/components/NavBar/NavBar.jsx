@@ -72,7 +72,7 @@ const NavBar = () => {
                     <NavLink to="/" end>Dashboard</NavLink>
                   </li>
                   <li>
-                    <NavLink to="/requests">Campaign Requests</NavLink>
+                    <NavLink to="/requests" end>Campaign Requests</NavLink>
                   </li>
                   <li>
                     <NavLink to="/requests/new">New Campaign Request</NavLink>
