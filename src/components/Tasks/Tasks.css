@@ -1,49 +1,194 @@
 .tasks {
-  min-height: 100vh;
-  padding: 40px;
-  background-color: #eef8ff;
+    min-height: 100vh;
+    background: #ffffff;
+    padding: 40px;
+    color: #243746;
 }
 
 .tasks h1 {
-  margin-bottom: 30px;
+    margin: 0 0 25px;
+    font-size: 30px;
+    font-weight: 700;
 }
+
+/* Form */
+
+.tasks form {
+    background: #ffffff;
+    border: 1px solid #dce5ea;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.tasks input,
+.tasks select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dce5ea;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #243746;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.tasks input::placeholder {
+    color: #9aa8b2;
+}
+
+.tasks input:focus,
+.tasks select:focus {
+    border-color: #4da3d9;
+    box-shadow: 0 0 0 3px #e7f4fb;
+}
+
+/* Form buttons */
+
+.tasks form button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #4da3d9;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.tasks form button:hover {
+    background: #398fc5;
+}
+
+.tasks form button[type="button"] {
+    background: #f1f5f7;
+    color: #526875;
+}
+
+.tasks form button[type="button"]:hover {
+    background: #e5ebef;
+}
+
+/* Table */
 
 .tasks table {
-  width: 100%;
-  background-color: white;
-  border-collapse: collapse;
-  border-radius: 10px;
-  overflow: hidden;
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #dce5ea;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.tasks th,
-.tasks td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #e5e5e5;
+.tasks thead {
+    background: #f7fafc;
 }
 
 .tasks th {
-  background-color: #f8fbff;
+    padding: 15px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: #34566b;
+    border-bottom: 1px solid #dce5ea;
 }
 
-.tasks button {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-right: 6px;
-  font-size: 14px;
+.tasks td {
+    padding: 15px;
+    font-size: 14px;
+    color: #455a64;
+    border-bottom: 1px solid #edf1f3;
+    vertical-align: middle;
 }
 
-.tasks button:hover {
-  opacity: 0.85;
+.tasks tbody tr:hover {
+    background: #fafcfd;
 }
 
-.tasks button:first-of-type {
-  background-color: #dbeafe;
+.tasks tbody tr:last-child td {
+    border-bottom: none;
 }
 
-.tasks button:last-of-type {
-  background-color: #fee2e2;
+/* Status */
+
+.tasks td:nth-child(4) {
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* Action buttons */
+
+.tasks td:last-child {
+    white-space: nowrap;
+}
+
+.tasks td:last-child button {
+    padding: 8px 14px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* Edit */
+
+.tasks td:last-child button:first-child {
+    background: #e7f4fb;
+    color: #398fc5;
+}
+
+.tasks td:last-child button:first-child:hover {
+    background: #d5edf9;
+}
+
+/* Delete */
+
+.tasks td:last-child button:last-child {
+    background: #fde8e8;
+    color: #d9534f;
+}
+
+.tasks td:last-child button:last-child:hover {
+    background: #d9534f;
+    color: #ffffff;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .tasks {
+        padding: 25px;
+        overflow-x: auto;
+    }
+
+    .tasks form {
+        grid-template-columns: 1fr;
+    }
+
+    .tasks table {
+        min-width: 800px;
+    }
+}
+
+@media (max-width: 600px) {
+    .tasks {
+        padding: 20px;
+    }
+
+    .tasks h1 {
+        font-size: 25px;
+    }
+
+    .tasks form {
+        padding: 18px;
+    }
 }
