@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { registerClient } from "../../services/authService";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { useContext } from "react";
 import { UserContext } from '../../contexts/UserContext';
 
@@ -132,6 +132,7 @@ export default function ClientSignUpForm() {
 
     return (
         <>
+            <Link to="/">← Back to Home</Link>
             <form onSubmit={handleSubmit}>
                 {error && <p role="alert">{error}</p>}
 

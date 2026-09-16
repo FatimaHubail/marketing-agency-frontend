@@ -107,18 +107,6 @@ const ClientDashboard = () => {
 
     return (
         <main className="client-dashboard">
-            <aside className="dashboard-sidebar">
-                <h2 className="dashboard-logo">MarkAura</h2>
-                <nav>
-                    <ul>
-                        <li className="active"><Link to="/">Dashboard</Link></li>
-                        <li><Link to="/campaigns">My Campaigns</Link></li>
-                        <li><Link to="/requests">My Requests</Link></li>
-                        <li><Link to="/profile">Company Profile</Link></li>
-                    </ul>
-                </nav>
-            </aside>
-
             <div className="dashboard-main">
                 <div className="dashboard-topbar">
                     <div className="dashboard-search">
@@ -161,13 +149,13 @@ const ClientDashboard = () => {
                             </div>
                         )}
                     </div>
-                    <div className="dashboard-account">
+                    <Link to="/profile" className="dashboard-account">
                         <span className="dashboard-avatar">{initials}</span>
                         <div>
                             <div>{profile.companyName}</div>
                             <small>Client account</small>
                         </div>
-                    </div>
+                    </Link>
                 </div>
 
                 <h1>Welcome back, {profile.companyName}!</h1>
