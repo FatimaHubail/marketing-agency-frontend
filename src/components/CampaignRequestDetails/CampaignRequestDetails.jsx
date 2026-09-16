@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import {
     getCampaignRequestById,
-    updateCampaignRequest,
+    deleteMyCampaignRequest,
 } from '../../services/campaignRequestService';
 import './CampaignRequestDetails.css';
 
@@ -13,7 +13,7 @@ const CampaignRequestDetails = () => {
     const [request, setRequest] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [isUpdating, setIsUpdating] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         const fetchRequest = async () => {
@@ -30,37 +30,20 @@ const CampaignRequestDetails = () => {
         fetchRequest();
     }, [id]);
 
-    const handleAccept = async () => {
-        setError('');
-        setIsUpdating(true);
-
-        try {
-            const updatedRequest = await updateCampaignRequest(id, {
-                status: 'accepted',
-            });
-
-            setRequest(updatedRequest);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setIsUpdating(false);
-        }
+    const handleUpdate = () => {
+        navigate(`/requests/${id}/edit`);
     };
 
-    const handleReject = async () => {
+    const handleDelete = async () => {
         setError('');
-        setIsUpdating(true);
+        setIsDeleting(true);
 
         try {
-            const updatedRequest = await updateCampaignRequest(id, {
-                status: 'rejected',
-            });
-
-            setRequest(updatedRequest);
+            await deleteMyCampaignRequest(id);
+            navigate('/requests');
         } catch (err) {
             setError(err.message);
-        } finally {
-            setIsUpdating(false);
+            setIsDeleting(false);
         }
     };
 
@@ -84,7 +67,7 @@ const CampaignRequestDetails = () => {
         );
     }
 
-   const canReview =
+   const canModify =
     request.status !== 'accepted' &&
     request.status !== 'rejected';
 
@@ -207,35 +190,33 @@ const CampaignRequestDetails = () => {
 
                 </div>
 
-                {/* Agency Actions */}
+                {/* Client Actions */}
 
                 <div className="request-actions">
 
-                    {canReview ? (
+                    {canModify ? (
                         <>
                             <button
                                 className="btn-primary-action"
-                                onClick={handleAccept}
-                                disabled={isUpdating}
+                                onClick={handleUpdate}
+                                disabled={isDeleting}
                             >
-                                {isUpdating
-                                    ? 'Updating...'
-                                    : 'Accept Request'}
+                                Update Request
                             </button>
 
                             <button
                                 className="btn-danger-action"
-                                onClick={handleReject}
-                                disabled={isUpdating}
+                                onClick={handleDelete}
+                                disabled={isDeleting}
                             >
-                                {isUpdating
-                                    ? 'Updating...'
-                                    : 'Reject Request'}
+                                {isDeleting
+                                    ? 'Deleting...'
+                                    : 'Delete Request'}
                             </button>
                         </>
                     ) : (
                         <p>
-                            This request has already been reviewed.
+                            This request has already been reviewed, it cannot be modified or deleted.
                         </p>
                     )}
 
