@@ -154,6 +154,7 @@ const OutsourceCreateTask = () => {
             paymentAmount: Number(formData.paymentAmount),
             dueDate: formData.dueDate,
             outsourceId: formData.outsourceId,
+            ...(selectedRequestId ? { campaignRequestId: selectedRequestId } : {}),
         };
 
         setIsSubmitting(true);
@@ -161,7 +162,7 @@ const OutsourceCreateTask = () => {
             await createOutsourceTask(payload);
             setSuccess('Outsource task created and assigned successfully!');
             setTimeout(() => {
-                navigate('/tasks');
+                navigate('/staff/outsource-tasks');
             }, 1500);
         } catch (err) {
             setError(err.message || 'Failed to create outsource task');

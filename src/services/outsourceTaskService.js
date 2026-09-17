@@ -91,8 +91,27 @@ const deleteOutsourceTask = async (id) => {
     return data;
 };
 
+const getAllOutsourceTasks = async (filters = {}) => {
+    const queryString = new URLSearchParams(filters).toString();
+    const url = queryString ? `${OUTSOURCE_TASKS_URL}/all?${queryString}` : `${OUTSOURCE_TASKS_URL}/all`;
+    const res = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
+
+    const data = await res.json();
+
+    if (data.err) {
+        throw new Error(data.err);
+    }
+
+    return data;
+};
+
 export {
     getOutsourceTasks,
+    getAllOutsourceTasks,
     getOutsourceTaskById,
     updateOutsourceTask,
     createOutsourceTask,
