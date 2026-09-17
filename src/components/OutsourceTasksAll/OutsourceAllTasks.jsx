@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { getOutsourceTasks } from '../../services/outsourceTaskService';
 import { getCampaigns } from '../../services/campaignService';
 import './OutsourceAllTasks.css';
@@ -22,6 +23,7 @@ const formatDate = (dateString) => {
 };
 
 const OutsourceAllTasks = () => {
+    const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const [campaigns, setCampaigns] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -98,6 +100,14 @@ const OutsourceAllTasks = () => {
                                 <strong>Due Date: </strong>
                                 {formatDate(task.dueDate)}
                             </p>
+                            <div className="task-card-actions">
+                                <button
+                                    type="button"
+                                    onClick={() => navigate(`/outsource-tasks/${task._id}`)}
+                                >
+                                    View Task
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>

@@ -26,6 +26,7 @@ import OutsourceProfile from "./components/OutsourceProfile/OutsourceProfile";
 import OutsourceAllTasks from "./components/OutsourceTasksAll/OutsourceAllTasks";
 import OutsourceCreateTask from "./components/OutsourceCreateTask/OutsourceCreateTask";
 import OutsourceTasksStaff from "./components/OutsourceTasksStaff/OutsourceTasksStaff";
+import OutsourceTasksView from "./components/OutsourceTaskView/OutsourceTasksView";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -284,6 +285,16 @@ const App = () => {
             }
           />
 
+          <Route
+            path="/outsource-tasks/:taskId"
+            element={
+              user?.role === "outsource" ? (
+                <OutsourceTasksView />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
           {/* Not Found */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
