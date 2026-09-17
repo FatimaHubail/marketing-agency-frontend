@@ -62,6 +62,12 @@ const NavBar = () => {
                   <li>
                     <NavLink to="/tasks">Tasks</NavLink>
                   </li>
+                  <li>
+                    <NavLink to="/staff/outsource-tasks">Outsource Tasks</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/outsource-tasks/new">Assign Outsource Task</NavLink>
+                  </li>
                 </>
               )}
 
