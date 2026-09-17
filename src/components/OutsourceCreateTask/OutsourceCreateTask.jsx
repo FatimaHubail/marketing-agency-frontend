@@ -173,154 +173,174 @@ const OutsourceCreateTask = () => {
 
     if (isLoading) {
         return (
-            <main>
-                <p>Loading outsource task creation form...</p>
+            <main className="outsource-create-task-page">
+                <div className="outsource-create-task-container outsource-create-task-loading">
+                    <p>Loading outsource task creation form...</p>
+                </div>
             </main>
         );
     }
 
     return (
-        <main>
-            <h1>Assign Outsource Task</h1>
-            <p>Create a task and assign it to a registered outsource agency with matching service capabilities.</p>
+        <main className="outsource-create-task-page">
+            <div className="outsource-create-task-container">
+                <header className="outsource-create-task-header">
+                    <h1>Assign Outsource Task</h1>
+                    <p className="outsource-create-task-subtitle">
+                        Create a task and assign it to a registered outsource agency with matching service capabilities.
+                    </p>
+                </header>
 
-            {error && <p role="alert" style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
+                {error && <p role="alert" className="outsource-create-task-alert alert-error">{error}</p>}
+                {success && <p className="outsource-create-task-alert alert-success">{success}</p>}
 
-            <form onSubmit={handleSubmit}>
-                {/* 1. Campaign Request Selector (Optional) */}
-                <div>
-                    <label htmlFor="campaignRequestId">Assign from Campaign Request (Optional):</label>
-                    <select
-                        id="campaignRequestId"
-                        value={selectedRequestId}
-                        onChange={handleCampaignRequestChange}
-                    >
-                        <option value="">-- Select a Campaign Request to Autofill --</option>
-                        {campaignRequests.map((req) => (
-                            <option key={req._id} value={req._id}>
-                                {req.title} ({formatLabel(req.campaignType)})
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <form onSubmit={handleSubmit} className="outsource-create-task-form">
+                    {/* 1. Campaign Request Selector */}
+                    <div className="form-field">
+                        <label htmlFor="campaignRequestId">Assign from Campaign Request:</label>
+                        <select
+                            id="campaignRequestId"
+                            value={selectedRequestId}
+                            onChange={handleCampaignRequestChange}
+                        >
+                            <option value="">-- Select a Campaign Request to Autofill --</option>
+                            {campaignRequests.map((req) => (
+                                <option key={req._id} value={req._id}>
+                                    {req.title} ({formatLabel(req.campaignType)})
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                {/* 2. Service Type */}
-                <div>
-                    <label htmlFor="serviceType">Service / Campaign Type :</label>
-                    <select
-                        id="serviceType"
-                        name="serviceType"
-                        value={formData.serviceType}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">-- Select Service Type --</option>
-                        {CAMPAIGN_TYPES.map((type) => (
-                            <option key={type} value={type}>
-                                {formatLabel(type)}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                    {/* 2 & 3. Row for Service Type and Outsource Partner */}
+                    <div className="form-row">
+                        <div className="form-field">
+                            <label htmlFor="serviceType">Service Type</label>
+                            <select
+                                id="serviceType"
+                                name="serviceType"
+                                value={formData.serviceType}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="">-- Select Service Type --</option>
+                                {CAMPAIGN_TYPES.map((type) => (
+                                    <option key={type} value={type}>
+                                        {formatLabel(type)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                {/* 3. Matching Outsource Partner Selector */}
-                <div>
-                    <label htmlFor="outsourceId">Assign to Registered Outsource Partner :</label>
-                    <select
-                        id="outsourceId"
-                        name="outsourceId"
-                        value={formData.outsourceId}
-                        onChange={handleChange}
-                        required
-                        disabled={!formData.serviceType}
-                    >
-                        <option value="">
-                            {!formData.serviceType
-                                ? '-- Select a Service Type --'
-                                : matchingOutsources.length === 0
-                                    ? '-- No Outsource Provide This Service --'
-                                    : '-- Select Outsource --'}
-                        </option>
-                        {matchingOutsources.map((o) => (
-                            <option key={o._id} value={o._id}>
-                                {o.name} (Contact: {o.contactPerson || 'N/A'}, Status: {o.status})
-                            </option>
-                        ))}
-                    </select>
+                        <div className="form-field">
+                            <label htmlFor="outsourceId">Assign to Outsource Partner :</label>
+                            <select
+                                id="outsourceId"
+                                name="outsourceId"
+                                value={formData.outsourceId}
+                                onChange={handleChange}
+                                required
+                                disabled={!formData.serviceType}
+                            >
+                                <option value="">
+                                    {!formData.serviceType
+                                        ? '-- Select a Service Type First --'
+                                        : matchingOutsources.length === 0
+                                            ? '-- No Outsource Provide This Service --'
+                                            : '-- Select Outsource --'}
+                                </option>
+                                {matchingOutsources.map((o) => (
+                                    <option key={o._id} value={o._id}>
+                                        {o.name} (Contact: {o.contactPerson || 'N/A'}, Status: {o.status})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
                     {formData.serviceType && matchingOutsources.length === 0 && (
-                        <p style={{ color: 'orange', margin: '4px 0' }}>
+                        <p className="outsource-warning-note">
                             Warning: No registered outsource agencies currently offer "{formatLabel(formData.serviceType)}" services.
                         </p>
                     )}
-                </div>
 
-                {/* 4. Task Title */}
-                <div>
-                    <label htmlFor="title">Task Title :</label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        placeholder="e.g. Influencer Campaign Video Production"
-                        required
-                    />
-                </div>
+                    {/* 4. Task Title */}
+                    <div className="form-field">
+                        <label htmlFor="title">Task Title :</label>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            placeholder="e.g. Influencer Campaign Video Production"
+                            required
+                        />
+                    </div>
 
-                {/* 5. Description */}
-                <div>
-                    <label htmlFor="description">Task Description:</label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        rows="4"
-                        placeholder="What do you want the Outsource to do?"
-                    />
-                </div>
+                    {/* 5. Description */}
+                    <div className="form-field">
+                        <label htmlFor="description">Task Description:</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            rows="4"
+                            placeholder="What do you want the Outsource to do?"
+                        />
+                    </div>
 
-                {/* 6. Payment Amount */}
-                <div>
-                    <label htmlFor="paymentAmount">Payment Amount (BHD) :</label>
-                    <input
-                        type="number"
-                        id="paymentAmount"
-                        name="paymentAmount"
-                        value={formData.paymentAmount}
-                        onChange={handleChange}
-                        min="0"
-                        step="any"
-                        placeholder="e.g. 500"
-                        required
-                    />
-                </div>
+                    {/* 6 & 7. Row for Payment Amount and Due Date */}
+                    <div className="form-row">
+                        <div className="form-field">
+                            <label htmlFor="paymentAmount">Payment Amount (BHD) :</label>
+                            <input
+                                type="number"
+                                id="paymentAmount"
+                                name="paymentAmount"
+                                value={formData.paymentAmount}
+                                onChange={handleChange}
+                                min="0"
+                                step="any"
+                                placeholder="e.g. 500"
+                                required
+                            />
+                        </div>
 
-                {/* 7. Due Date */}
-                <div>
-                    <label htmlFor="dueDate">Due Date :</label>
-                    <input
-                        type="date"
-                        id="dueDate"
-                        name="dueDate"
-                        value={formData.dueDate}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                        <div className="form-field">
+                            <label htmlFor="dueDate">Due Date :</label>
+                            <input
+                                type="date"
+                                id="dueDate"
+                                name="dueDate"
+                                value={formData.dueDate}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    </div>
 
-                {/* Actions */}
-                <div>
-                    <button type="submit" disabled={isSubmitting || !formData.outsourceId}>
-                        {isSubmitting ? 'Assigning...' : 'Assign Outsource Task'}
-                    </button>
-                    <button type="button" onClick={() => navigate(-1)} disabled={isSubmitting}>
-                        Cancel
-                    </button>
-                </div>
-            </form>
+                    {/* Actions */}
+                    <div className="form-actions">
+                        <button
+                            type="submit"
+                            className="btn-primary-action"
+                            disabled={isSubmitting || !formData.outsourceId}
+                        >
+                            {isSubmitting ? 'Assigning...' : 'Assign Outsource Task'}
+                        </button>
+                        <button
+                            type="button"
+                            className="btn-secondary-action"
+                            onClick={() => navigate(-1)}
+                            disabled={isSubmitting}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </main>
     );
 };
