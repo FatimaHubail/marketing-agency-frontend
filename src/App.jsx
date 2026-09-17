@@ -27,6 +27,7 @@ import OutsourceAllTasks from "./components/OutsourceTasksAll/OutsourceAllTasks"
 import OutsourceCreateTask from "./components/OutsourceCreateTask/OutsourceCreateTask";
 import OutsourceTasksStaff from "./components/OutsourceTasksStaff/OutsourceTasksStaff";
 import OutsourceTasksView from "./components/OutsourceTaskView/OutsourceTasksView";
+import OutsourceTaskUpdates from "./components/OutsourceTaskUpdates/OutsourceTaskUpdates";
 
 // Context
 import { UserContext } from "./contexts/UserContext";
@@ -290,6 +291,17 @@ const App = () => {
             element={
               user?.role === "outsource" ? (
                 <OutsourceTasksView />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/outsource-tasks/:taskId/updates"
+            element={
+              user?.role === "outsource" ? (
+                <OutsourceTaskUpdates />
               ) : (
                 <Navigate to="/" replace />
               )

@@ -97,9 +97,17 @@ const OutsourceTasksView = () => {
         <main className="outsource-task-view">
             <h1>Outsource Task Details</h1>
 
-            <button type="button" onClick={() => navigate('/outsource-tasks')}>
-                Back to Tasks
-            </button>
+            <div className="task-view-actions">
+                <button type="button" onClick={() => navigate('/outsource-tasks')}>
+                    Back to Tasks
+                </button>
+                <button
+                    type="button"
+                    onClick={() => navigate(`/outsource-tasks/${currentTaskId}/updates`)}
+                >
+                    Update Status
+                </button>
+            </div>
 
             {error && <p role="alert" style={{ color: 'red' }}>{error}</p>}
 
