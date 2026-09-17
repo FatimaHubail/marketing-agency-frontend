@@ -69,8 +69,8 @@ const OutsourceAllTasks = () => {
 
     if (isLoading) {
         return (
-            <main>
-                <p>Loading tasks...</p>
+            <main className="outsource-all-tasks">
+                <p className="tasks-loading">Loading tasks...</p>
             </main>
         );
     }
@@ -79,10 +79,10 @@ const OutsourceAllTasks = () => {
         <main className="outsource-all-tasks">
             <h1>Tasks</h1>
 
-            {error && <p role="alert" style={{ color: 'red' }}>{error}</p>}
+            {error && <p role="alert" className="tasks-error">{error}</p>}
 
             {tasks.length === 0 ? (
-                <p>No tasks found.</p>
+                <p className="tasks-empty">No tasks found.</p>
             ) : (
                 <div className="tasks-cards-container">
                     {tasks.map((task) => (

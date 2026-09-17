@@ -1,0 +1,216 @@
+.outsource-all-tasks {
+    --peach-1: #f3a683;
+    --peach-2: #e8845f;
+    --cream: #f7ede0;
+    --navy: #1a1a2e;
+    --muted: #8d8d99;
+    --red: #e63946;
+    --teal: #2a9d8f;
+    --teal-light: #dceee6;
+    --blue: #457b9d;
+    --yellow: #f4a623;
+    --yellow-light: #fdf0dc;
+    --white: #ffffff;
+    --border: #f1e9db;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    color: var(--navy);
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.outsource-all-tasks h1 {
+    font-family: var(--font-display, inherit);
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin: 0 0 1.75rem;
+}
+
+/* ---------- alerts & states ---------- */
+
+.tasks-error {
+    padding: 0.8rem 1.1rem;
+    border-radius: 12px;
+    background: #fbe1e3;
+    color: var(--red);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #f7c5c8;
+}
+
+.tasks-empty,
+.tasks-loading {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: var(--white);
+    border-radius: 20px;
+    color: var(--muted);
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(26, 26, 46, 0.06);
+    border: 1px solid var(--border);
+    animation: tasks-fade-up 0.4s ease both;
+}
+
+/* ---------- cards container ---------- */
+
+.tasks-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    animation: tasks-fade-up 0.4s ease both;
+}
+
+/* ---------- task card ---------- */
+
+.task-card {
+    position: relative;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 12px 30px rgba(26, 26, 46, 0.08);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.task-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--peach-1), var(--teal));
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(26, 26, 46, 0.12);
+    border-color: var(--peach-1);
+}
+
+.task-card-title {
+    font-family: var(--font-display, inherit);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 0.25rem 0 1rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+.task-card p {
+    margin: 0.55rem 0;
+    font-size: 0.92rem;
+    color: #4a4a5a;
+    line-height: 1.5;
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+}
+
+.task-card p strong {
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    min-width: 110px;
+    flex-shrink: 0;
+}
+
+.task-card-service {
+    word-break: break-word;
+}
+
+/* ---------- card actions ---------- */
+
+.task-card-actions {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.task-card-actions button {
+    padding: 0.65rem 1.45rem;
+    border: none;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    background: #4bbfae;
+    color: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.task-card-actions button:hover {
+    background: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(42, 157, 143, 0.3);
+}
+
+.task-card-actions button:active {
+    transform: translateY(0);
+}
+
+/* ---------- animations ---------- */
+
+@keyframes tasks-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 700px) {
+    .outsource-all-tasks {
+        padding: 1.5rem 1rem;
+    }
+
+    .outsource-all-tasks h1 {
+        font-size: 1.65rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .tasks-cards-container {
+        grid-template-columns: 1fr;
+        gap: 1.15rem;
+    }
+
+    .task-card {
+        padding: 1.35rem;
+        border-radius: 16px;
+    }
+
+    .task-card-actions {
+        margin-top: 1.15rem;
+        padding-top: 1rem;
+    }
+
+    .task-card-actions button {
+        width: 100%;
+        text-align: center;
+    }
+}
