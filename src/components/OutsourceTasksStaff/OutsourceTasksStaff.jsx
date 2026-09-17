@@ -5,6 +5,18 @@ import { getCampaignRequests } from '../../services/campaignRequestService';
 import { UserContext } from '../../contexts/UserContext';
 import './OutsourceTasksStaff.css';
 
+const formatLabel = (str = '') => {
+    if (!str) return '—';
+    if (str.toLowerCase() === 'ooh') return 'OOH (Out of Home)';
+    if (str.toLowerCase() === 'sem') return 'SEM';
+    if (str.toLowerCase() === 'seo') return 'SEO';
+    if (str.toLowerCase() === 'pr') return 'PR';
+    return str
+        .split('_')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+};
+
 const OutsourceTasksStaff = () => {
     const { user } = useContext(UserContext);
     const [tasks, setTasks] = useState([]);
@@ -48,11 +60,14 @@ const OutsourceTasksStaff = () => {
         }
         if (task.campaignTitle) return task.campaignTitle;
         if (task.campaignName) return task.campaignName;
+        if (task.campaignRequestId && typeof task.campaignRequestId === 'object') {
+            return task.campaignRequestId.title || '';
+        }
         if (task.campaignRequestId) {
             const matchedReq = campaignRequests.find((r) => r._id === task.campaignRequestId);
             if (matchedReq) return matchedReq.title;
         }
-        return task.serviceType ? task.serviceType.replace(/_/g, ' ') : '—';
+        return formatLabel(task.serviceType);
     };
 
     const handleDelete = async (id) => {
@@ -81,7 +96,7 @@ const OutsourceTasksStaff = () => {
     }
 
     return (
-        <main>
+        <main className="outsource-tasks-staff">
             <h1>Assigned Outsource Tasks</h1>
             <p>List of all outsource tasks assigned to external agencies.</p>
 
@@ -91,31 +106,31 @@ const OutsourceTasksStaff = () => {
             {tasks.length === 0 ? (
                 <p>No outsource tasks found.</p>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Task Title</th>
-                            <th>Campaign Title</th>
-                            <th>Due Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tasks.map((task) => (
-                            <tr key={task._id}>
-                                <td>{task.title}</td>
-                                <td>{getCampaignTitle(task)}</td>
-                                <td>{formatDate(task.dueDate)}</td>
-                                <td>
-                                    <button type="button">Edit</button>
-                                    <button type="button" onClick={() => handleDelete(task._id)}>
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="tasks-cards-container">
+                    {tasks.map((task) => (
+                        <div key={task._id} className="task-card">
+                            <h2 className="task-card-title">{task.title}</h2>
+                            <p className="task-card-campaign">
+                                <strong>Campaign: </strong>
+                                {getCampaignTitle(task)}
+                            </p>
+                            <p className="task-card-service">
+                                <strong>Type of Service: </strong>
+                                {formatLabel(task.serviceType)}
+                            </p>
+                            <p className="task-card-due-date">
+                                <strong>Due Date: </strong>
+                                {formatDate(task.dueDate)}
+                            </p>
+                            <div className="task-card-actions">
+                                <button type="button">Edit</button>
+                                <button type="button" onClick={() => handleDelete(task._id)}>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             )}
         </main>
     );

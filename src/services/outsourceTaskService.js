@@ -111,9 +111,9 @@ const getAllOutsourceTasks = async (filters = {}) => {
 
 export {
     getOutsourceTasks,
-    getAllOutsourceTasks,
     getOutsourceTaskById,
     updateOutsourceTask,
     createOutsourceTask,
     deleteOutsourceTask,
+    getAllOutsourceTasks,
 };
