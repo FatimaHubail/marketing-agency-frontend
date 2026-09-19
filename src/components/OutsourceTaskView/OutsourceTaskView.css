@@ -81,11 +81,81 @@
     border: 1px solid var(--red);
 }
 
-.outsource-task-view .task-view-actions .btn-reject:hover {
+.outsource-task-view .task-view-actions .btn-reject:hover:not(:disabled) {
     background: var(--red);
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(230, 57, 70, 0.3);
+}
+
+.outsource-task-view .task-view-actions .btn-cancel {
+    background: var(--cream);
+    color: var(--navy);
+    border: 1px solid var(--border);
+}
+
+.outsource-task-view .task-view-actions .btn-cancel:hover:not(:disabled) {
+    background: var(--border);
+    transform: translateY(-1px);
+}
+
+.outsource-task-view .task-view-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.outsource-task-view textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--navy);
+    background: #faf7f2;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    resize: vertical;
+}
+
+.outsource-task-view textarea:focus {
+    outline: none;
+    border-color: var(--peach-2);
+    box-shadow: 0 0 0 3px rgba(232, 132, 95, 0.2);
+    background: #ffffff;
+}
+
+/* ---------- error / alert messages ---------- */
+.outsource-task-view [role="alert"],
+.outsource-task-view .error-message {
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* ---------- rejection form styling ---------- */
+.outsource-task-view .reject-instructions {
+    margin: 1rem 0 0.5rem;
+    color: #555555;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.outsource-task-view .reject-form {
+    margin-top: 1rem;
+}
+
+.outsource-task-view .reject-field {
+    margin-bottom: 1.25rem;
+}
+
+.outsource-task-view .reject-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--navy);
 }
 
 /* ---------- task info card ---------- */

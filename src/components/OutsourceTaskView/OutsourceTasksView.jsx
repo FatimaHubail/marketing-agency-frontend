@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { getOutsourceTaskById } from '../../services/outsourceTaskService';
+import { getOutsourceTaskById, updateOutsourceTask } from '../../services/outsourceTaskService';
 import { getCampaigns } from '../../services/campaignService';
+import { UserContext } from '../../contexts/UserContext';
 import './OutsourceTaskView.css';
 
 const formatLabel = (str = '') => {
@@ -26,10 +27,14 @@ const OutsourceTasksView = () => {
     const { taskId, id } = useParams();
     const currentTaskId = taskId || id;
     const navigate = useNavigate();
+    const { user } = useContext(UserContext);
 
     const [task, setTask] = useState(null);
     const [campaigns, setCampaigns] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isRejecting, setIsRejecting] = useState(false);
+    const [rejectionReason, setRejectionReason] = useState('');
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -74,6 +79,38 @@ const OutsourceTasksView = () => {
         return formatLabel(currentTask.serviceType);
     };
 
+    const handleReject = async (e) => {
+        e.preventDefault();
+        const trimmedReason = rejectionReason.trim();
+        if (!trimmedReason) {
+            setError('Please provide a reason for rejection.');
+            return;
+        }
+
+        try {
+            setIsSubmitting(true);
+            setError('');
+
+            const newUpdate = {
+                authorId: user?._id,
+                content: `Task rejected: ${trimmedReason}`,
+            };
+
+            const payload = {
+                status: 'rejected',
+                rejectionReason: trimmedReason,
+                updates: [...(task?.updates || []), newUpdate],
+            };
+
+            await updateOutsourceTask(currentTaskId, payload);
+            navigate('/outsource-tasks');
+        } catch (err) {
+            setError(err.message || 'Failed to reject task');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     if (isLoading) {
         return (
             <main>
@@ -85,10 +122,70 @@ const OutsourceTasksView = () => {
     if (!task && !isLoading) {
         return (
             <main>
-                <p role="alert" style={{ color: 'red' }}>Task not found.</p>
+                <p role="alert" className="error-message">Task not found.</p>
                 <button type="button" onClick={() => navigate('/outsource-tasks')}>
                     Back to Tasks
                 </button>
+            </main>
+        );
+    }
+
+    if (isRejecting) {
+        return (
+            <main className="outsource-task-view">
+                <h1>Reject Outsource Task</h1>
+
+                {error && <p role="alert" className="error-message">{error}</p>}
+
+                <section className="task-info-section">
+                    <h2>{task.title}</h2>
+                    <p><strong>Campaign: </strong>{getCampaignTitle(task)}</p>
+                    <p>
+                        <strong>Assigned By (Staff): </strong>
+                        {task.staffId?.userId?.username || task.staffId?.name || 'Staff Member'}
+                    </p>
+                    <p className="reject-instructions">
+                        Please provide the reason for rejecting this task. This reason will be recorded and sent to the assigning staff.
+                    </p>
+
+                    <form onSubmit={handleReject} className="reject-form">
+                        <div className="reject-field">
+                            <label htmlFor="rejectionReason" className="reject-label">
+                                Reason for Rejection:
+                            </label>
+                            <textarea
+                                id="rejectionReason"
+                                name="rejectionReason"
+                                rows={5}
+                                value={rejectionReason}
+                                onChange={(e) => setRejectionReason(e.target.value)}
+                                placeholder="Reason of Rejecting the request.."
+                                required
+                            />
+                        </div>
+
+                        <div className="task-view-actions">
+                            <button
+                                type="button"
+                                className="btn-cancel"
+                                onClick={() => {
+                                    setIsRejecting(false);
+                                    setError('');
+                                }}
+                                disabled={isSubmitting}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="btn-reject"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Rejecting...' : 'Reject'}
+                            </button>
+                        </div>
+                    </form>
+                </section>
             </main>
         );
     }
@@ -109,16 +206,23 @@ const OutsourceTasksView = () => {
                     Update Status
                 </button> 
                 */}
-                <button type="button" className="btn-accept">
-                    Accept
-                </button>
-                <button type="button" className="btn-reject">
+                {task.status !== 'rejected' && (
+                    <button type="button" className="btn-accept">
+                        Accept
+                    </button>
+                )}
+                <button
+                    type="button"
+                    className="btn-reject"
+                    onClick={() => {
+                        setError('');
+                        setIsRejecting(true);
+                    }}
+                    disabled={task.status === 'rejected'}
+                >
                     Reject
                 </button>
             </div>
-
-            {error && <p role="alert" style={{ color: 'red' }}>{error}</p>}
-
             <section className="task-info-section">
                 <h2>{task.title}</h2>
                 <p><strong>Campaign: </strong>{getCampaignTitle(task)}</p>
