@@ -36,6 +36,14 @@ const formatLabel = (str = '') => {
         .join(' ');
 };
 
+const getTodayDateString = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 const OutsourceCreateTask = () => {
     const navigate = useNavigate();
 
@@ -144,6 +152,11 @@ const OutsourceCreateTask = () => {
 
         if (!formData.dueDate) {
             setError('Due date is required');
+            return;
+        }
+
+        if (formData.dueDate < getTodayDateString()) {
+            setError('Please change the due date, it cannot be in the past');
             return;
         }
 
@@ -314,6 +327,7 @@ const OutsourceCreateTask = () => {
                                 type="date"
                                 id="dueDate"
                                 name="dueDate"
+                                min={getTodayDateString()}
                                 value={formData.dueDate}
                                 onChange={handleChange}
                                 required
