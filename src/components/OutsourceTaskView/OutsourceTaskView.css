@@ -63,29 +63,29 @@
     transform: translateY(-1px);
 }
 
-.outsource-task-view .task-view-actions button:last-child:not(:first-child) {
+.outsource-task-view .task-view-actions .btn-accept {
     background: #4bbfae;
     color: #ffffff;
     border: none;
 }
 
-.outsource-task-view .task-view-actions button:last-child:not(:first-child):hover {
+.outsource-task-view .task-view-actions .btn-accept:hover {
     background: var(--teal);
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(42, 157, 143, 0.35);
 }
 
-/* ---------- alerts ---------- */
-
-.outsource-task-view [role="alert"] {
-    padding: 0.8rem 1.1rem;
-    border-radius: 12px;
-    background: #fbe1e3;
+.outsource-task-view .task-view-actions .btn-reject {
+    background: #ffffff;
     color: var(--red);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid #f7c5c8;
+    border: 1px solid var(--red);
+}
+
+.outsource-task-view .task-view-actions .btn-reject:hover {
+    background: var(--red);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(230, 57, 70, 0.3);
 }
 
 /* ---------- task info card ---------- */
@@ -178,6 +178,7 @@
         opacity: 0;
         transform: translateY(12px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

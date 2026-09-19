@@ -101,11 +101,19 @@ const OutsourceTasksView = () => {
                 <button type="button" onClick={() => navigate('/outsource-tasks')}>
                     Back to Tasks
                 </button>
+                {/* 
                 <button
                     type="button"
                     onClick={() => navigate(`/outsource-tasks/${currentTaskId}/updates`)}
                 >
                     Update Status
+                </button> 
+                */}
+                <button type="button" className="btn-accept">
+                    Accept
+                </button>
+                <button type="button" className="btn-reject">
+                    Reject
                 </button>
             </div>
 
