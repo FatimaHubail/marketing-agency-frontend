@@ -24,7 +24,7 @@ This repository contains the **React client** for MarkAura. The API is a separat
 
 | Service | Platform | Link |
 |---|---|---|
-| Client (this repo) | [Vercel](https://vercel.com) | [marketing-agency-frontend-sandy.vercel.app](https://marketing-agency-frontend-sandy.vercel.app/) |
+| Client (this repo) | [Vercel](https://vercel.com) | [marketing-agency-frontend-theta.vercel.app](https://marketing-agency-frontend-theta.vercel.app/) |
 | API | [Render](https://render.com) | <!-- add the live Render URL here --> |
 | Database | [MongoDB Atlas](https://www.mongodb.com/atlas) |  |
 
