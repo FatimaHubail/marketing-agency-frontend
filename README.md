@@ -16,7 +16,7 @@
 
 ## Description
 
-MarkAura is a marketing agency management platform that manages the full lifecycle of a campaign from a client's initial request, through planning and execution by agency staff, to coordination with outsourced partners. Instead of managing this back-and-forth over emails and spreadsheets, MarkAura gives each party (clients, agency staff, and outsource partners) a role-based view of exactly what they need to act on next: clients submit and track campaign requests, staff review requests and manage active campaigns, and outsource agencies handle delegated tasks — all through a single, status-driven workflow.
+MarkAura is a marketing agency management platform that manages the full lifecycle of a campaign from a client's initial request, through planning and execution by agency staff, to coordination with outsourced partners. Instead of managing this back-and-forth over emails and spreadsheets, MarkAura gives each party (clients, agency staff, and outsource partners) a role-based view of exactly what they need to act on next: clients submit and track campaign requests, staff review requests and manage active campaigns, and outsource agencies handle delegated tasks, all through a single, status-driven workflow.
 
 This repository contains the **React client** for MarkAura. The API is a separate Node/Express app; see [`marketing-agency-backend`](https://github.com/FatimaHubail/marketing-agency-backend).
 
@@ -35,27 +35,59 @@ This repository contains the **React client** for MarkAura. The API is a separat
 - As a client, I want to register and sign in to the platform, so that I can access my company's campaign data securely.
 - As a client, I want to view and update my company profile, so that my contact and industry information stays accurate.
 
-> 📸 _Screenshot: registration form, sign-in form, and the company profile page —_ `src/assets/screenshots/client-account.png`
+<p align="center">
+  <img src="./src/assets/register.png" alt="Client registration form" width="500" /><br/>
+  <sub>Registration form</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/client-dash.png" alt="Client dashboard" width="500" /><br/>
+  <sub>Client dashboard after signing in</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/account.png" alt="Client company profile page" width="500" /><br/>
+  <sub>Company profile page</sub>
+</p>
 
 **Submitting Campaign Requests**
 - As a client, I want to submit a new campaign request with my goals, budget, and preferred channels, so that the agency has everything it needs to start planning.
 - As a client, I want to edit my request while it's still awaiting review, so that I can correct or refine details before staff starts working on it.
 - As a client, I want to delete a request I submitted, so that I'm not committed to a campaign I no longer need if it hasn't been accepted yet.
 
-> 📸 _Screenshot: the new/edit campaign request form —_ `src/assets/screenshots/client-new-request.png`
+<p align="center">
+  <img src="./src/assets/new-camp-req.png" alt="New campaign request form" width="500" /><br/>
+  <sub>New campaign request form</sub>
+</p>
 
 **Tracking Requests**
 - As a client, I want to see a list of all my submitted requests and their statuses, so that I know where each one stands without contacting the agency directly.
 - As a client, I want to view the details of a specific request, so that I can review exactly what I submitted.
 
-> 📸 _Screenshot: the My Requests table and a request detail page —_ `src/assets/screenshots/client-requests.png`
+<p align="center">
+  <img src="./src/assets/camp-req.png" alt="My Campaign Requests table" width="500" /><br/>
+  <sub>My Campaign Requests table</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/req-details.png" alt="Campaign request detail page" width="500" /><br/>
+  <sub>Campaign request detail page</sub>
+</p>
 
 **Tracking Campaigns**
 - As a client, I want to view a list of my campaigns and their status (pending, in progress, or completed), so that I can stay informed on progress without needing a status meeting.
 - As a client, I want to view the details of a specific campaign, including its budget, timeline, and preferred channels, so that I have the full picture in one place.
 - As a client, I want to see the tasks currently being worked on for my campaign, so that I know what's actively being done.
 
-> 📸 _Screenshot: the My Campaigns table and a campaign detail page with its tasks —_ `src/assets/screenshots/client-campaigns.png`
+<p align="center">
+  <img src="./src/assets/camps.png" alt="My Campaigns table" width="500" /><br/>
+  <sub>My Campaigns table</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/camp-details.png" alt="Campaign detail page with tasks" width="500" /><br/>
+  <sub>Campaign detail page with tasks</sub>
+</p>
 
 **Boundaries**
 - As a client, I want my data isolated from other clients, so that I never see requests or campaigns that aren't mine.
@@ -148,7 +180,7 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 - MongoDB Atlas (database hosting)
 
 ## ERD
-![MarkAura ERD](docs/diagrams//MarkAura_ERD.png)
+![MarkAura ERD](src/assets/MarkAura_ERD.png)
 
 ## Routing Tables
 
@@ -202,7 +234,7 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 ### Client Components
 
 <div align="center">
-  <img src="./docs/diagrams/client_pages_full_hierarchy.png" alt="client pages full hierarchy" width="700">
+  <img src="./src/assets/client_pages_full_hierarchy.png" alt="client pages full hierarchy" width="700">
 </div>
 
 ### Agency Components
