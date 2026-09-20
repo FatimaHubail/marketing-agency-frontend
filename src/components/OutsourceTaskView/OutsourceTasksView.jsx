@@ -36,6 +36,7 @@ const OutsourceTasksView = () => {
     const [isRejecting, setIsRejecting] = useState(false);
     const [rejectionReason, setRejectionReason] = useState('');
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
         const fetchTaskData = async () => {
@@ -106,6 +107,32 @@ const OutsourceTasksView = () => {
             navigate('/outsource-tasks');
         } catch (err) {
             setError(err.message || 'Failed to reject task');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleAccept = async () => {
+        try {
+            setIsSubmitting(true);
+            setError('');
+            setSuccessMessage('');
+
+            const newUpdate = {
+                authorId: user?._id,
+                content: 'Task accepted',
+            };
+
+            const payload = {
+                status: 'accepted',
+                updates: [...(task?.updates || []), newUpdate],
+            };
+
+            const updatedTask = await updateOutsourceTask(currentTaskId, payload);
+            setTask(updatedTask);
+            setSuccessMessage('Task accepted successfully.');
+        } catch (err) {
+            setError(err.message || 'Failed to accept task');
         } finally {
             setIsSubmitting(false);
         }
@@ -207,8 +234,13 @@ const OutsourceTasksView = () => {
                 </button> 
                 */}
                 {task.status !== 'rejected' && (
-                    <button type="button" className="btn-accept">
-                        Accept
+                    <button
+                        type="button"
+                        className="btn-accept"
+                        onClick={handleAccept}
+                        disabled={task.status === 'accepted' || isSubmitting}
+                    >
+                        {task.status === 'accepted' ? 'Accepted' : (isSubmitting ? 'Accepting...' : 'Accept')}
                     </button>
                 )}
                 <button
@@ -216,14 +248,17 @@ const OutsourceTasksView = () => {
                     className="btn-reject"
                     onClick={() => {
                         setError('');
+                        setSuccessMessage('');
                         setIsRejecting(true);
                     }}
-                    disabled={task.status === 'rejected'}
+                    disabled={task.status === 'rejected' || task.status === 'accepted' || isSubmitting}
                 >
                     Reject
                 </button>
             </div>
             <section className="task-info-section">
+                {error && <p role="alert" className="error-message">{error}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
                 <h2>{task.title}</h2>
                 <p><strong>Campaign: </strong>{getCampaignTitle(task)}</p>
                 <p><strong>Type of Service: </strong>{formatLabel(task.serviceType)}</p>
