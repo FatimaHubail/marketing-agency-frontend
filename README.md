@@ -18,7 +18,7 @@
 
 MarkAura is a marketing agency management platform that manages the full lifecycle of a campaign from a client's initial request, through planning and execution by agency staff, to coordination with outsourced partners. Instead of managing this back-and-forth over emails and spreadsheets, MarkAura gives each party (clients, agency staff, and outsource partners) a role-based view of exactly what they need to act on next: clients submit and track campaign requests, staff review requests and manage active campaigns, and outsource agencies handle delegated tasks, all through a single, status-driven workflow.
 
-This repository contains the **React client** for MarkAura. The API is a separate Node/Express app; see [`marketing-agency-backend`](https://github.com/FatimaHubail/marketing-agency-backend).
+This repository contains the **React client** for MarkAura. The API is a separate Node/Express app; see [`marketing-agency-backend`](https://github.com/mo-durazi/marketing-agency-backend).
 
 ## Deployment
 
