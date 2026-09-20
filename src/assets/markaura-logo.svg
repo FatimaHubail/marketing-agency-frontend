@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 90" width="360" height="90">
+  <style>
+    .wordmark { fill: #1c1524; }
+    @media (prefers-color-scheme: dark) {
+      .wordmark { fill: #f2eefa; }
+    }
+  </style>
+  <rect x="0" y="0" width="28" height="28" rx="9" fill="#e63946" />
+  <rect x="38" y="0" width="28" height="28" rx="9" fill="#f4a623" />
+  <rect x="0" y="38" width="28" height="28" rx="9" fill="#457b9d" />
+  <rect x="38" y="38" width="28" height="28" rx="9" fill="#2a9d8f" />
+  <text x="100" y="52" font-family="Fraunces, Georgia, serif" font-weight="700" font-size="48" class="wordmark">MarkAura</text>
+</svg>
