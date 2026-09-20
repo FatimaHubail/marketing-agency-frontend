@@ -125,6 +125,49 @@ This repository contains the **React client** for MarkAura. The API is a separat
 
 ### Outsource partners
 
+**Account & Profile**
+- As an outsource partner, I want to sign in securely, so that I can access my assigned work and manage my agency profile.
+- As an outsource partner, I want to view and update my company profile and service types, so that agency staff know what I can deliver and whether I’m currently available.
+- As an outsource partner, I want to update my availability status, so I can indicate when I’m open for new work.
+
+**Managing Assigned Tasks**
+- As an outsource partner, I want to see all tasks assigned to my agency, so that I can plan workload and deadlines.
+- As an outsource partner, I want to view task details, including campaign context, service type, due date, and payment, so that I understand the scope of the work.
+- As an outsource partner, I want to accept or reject a task, so that I can confirm whether I can complete it.
+- As an outsource partner, I want to update task progress and add notes, so that agency staff stay informed as work moves forward.
+- As an outsource partner, I want to see whether a task is pending, accepted, in progress, delivered, completed, or rejected, so that I can track the full lifecycle of each assignment.
+
+<p align="center">
+  <img src="./src/assets/outsoruceDashboard.png" alt="Outsource dashboard" width="500" /><br/>
+  <sub>Outsource dashboard overview</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/outsourceTasks.png" alt="Outsource tasks page" width="500" /><br/>
+  <sub>Assigned tasks list</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/outsourceProfile.png" alt="Outsource profile page" width="500" /><br/>
+  <sub>Outsource profile and service availability</sub>
+</p>
+
+
+<p align="center">
+  <img src="./src/assets/outsrouceTaskDetails.png" alt="Outsource task details page" width="500" /><br/>
+  <sub>Outsource task details page</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/outsrouceTaskUpdate.png" alt="Outsource task update page" width="500" /><br/>
+  <sub>Outsource task update page</sub>
+</p>
+
+<p align="center">
+  <img src="./src/assets/outsourceEditAccount.png" alt="Outsource Edit account page" width="500" /><br/>
+  <sub>Outsource Edit account page</sub>
+</p>
+
 ## Wireframes
 
 Check out the wireframes sketching out layout and flow of the app covering the screens for clients, agency staff, and outsource partners across the request → campaign → task lifecycle.
@@ -230,6 +273,16 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 
 ### Outsource partners routes
 
+| Path | Component | Access | Notes |
+|---|---|---|---|
+| `/outsource-dashboard` | `OutsourceDashboard` | outsource | Dashboard with task overview, search, earnings, and deadlines |
+| `/profile` | `OutsourceProfile` | outsource | View/edit agency profile and service availability |
+| `/outsource/profile` | `OutsourceProfile` | outsource | Alternate route for outsource profile |
+| `/outsource-tasks` | `OutsourceAllTasks` | outsource | View all assigned tasks |
+| `/outsource/tasks` | `OutsourceAllTasks` | outsource | Alias route for task list |
+| `/outsource-tasks/:taskId` | `OutsourceTasksView` | outsource | View task details, accept or reject work |
+| `/outsource-tasks/:taskId/updates` | `OutsourceTaskUpdates` | outsource | Add and review task updates |
+
 ## Component hierarchy
 ### Client Components
 
@@ -249,6 +302,9 @@ Check out the wireframes sketching out layout and flow of the app covering the s
 - In-app notifications when a request is accepted/rejected, a task is assigned, or a campaign is completed
 - File/asset uploads on campaign requests and tasks (briefs, deliverables)
 - Search and filtering across requests, campaigns, and tasks on the staff dashboard
+- Payment and payout tracking for outsourced work, including due amounts, completed payouts, and outstanding invoices
+- A formal task lifecycle and QA review flow, where outsourced work can move from accepted to in progress to delivered and then be reviewed before final completion
+- Partner performance analytics to track completion rates, turnaround times, rejection trends, and overall contribution across campaigns
 
 ## Attributions
 
