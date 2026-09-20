@@ -63,13 +63,15 @@
     transform: translateY(-1px);
 }
 
-.outsource-task-view .task-view-actions .btn-accept {
+.outsource-task-view .task-view-actions .btn-accept,
+.outsource-task-view .task-view-actions .btn-update-status {
     background: #4bbfae;
     color: #ffffff;
     border: none;
 }
 
-.outsource-task-view .task-view-actions .btn-accept:hover:not(:disabled) {
+.outsource-task-view .task-view-actions .btn-accept:hover:not(:disabled),
+.outsource-task-view .task-view-actions .btn-update-status:hover:not(:disabled) {
     background: var(--teal);
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(42, 157, 143, 0.35);

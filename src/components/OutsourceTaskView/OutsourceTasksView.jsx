@@ -82,6 +82,12 @@ const OutsourceTasksView = () => {
 
     const handleReject = async (e) => {
         e.preventDefault();
+
+        if (['accepted', 'in_progress', 'delivered', 'completed'].includes(task?.status)) {
+            setError('This task has already been accepted and cannot be rejected.');
+            return;
+        }
+
         const trimmedReason = rejectionReason.trim();
         if (!trimmedReason) {
             setError('Please provide a reason for rejection.');
@@ -217,6 +223,8 @@ const OutsourceTasksView = () => {
         );
     }
 
+    const isAccepted = ['accepted', 'in_progress', 'delivered', 'completed'].includes(task.status);
+
     return (
         <main className="outsource-task-view">
             <h1>Outsource Task Details</h1>
@@ -225,36 +233,41 @@ const OutsourceTasksView = () => {
                 <button type="button" onClick={() => navigate('/outsource-tasks')}>
                     Back to Tasks
                 </button>
-                {/* 
-                <button
-                    type="button"
-                    onClick={() => navigate(`/outsource-tasks/${currentTaskId}/updates`)}
-                >
-                    Update Status
-                </button> 
-                */}
-                {task.status !== 'rejected' && (
+
+                {isAccepted ? (
                     <button
                         type="button"
-                        className="btn-accept"
-                        onClick={handleAccept}
-                        disabled={task.status === 'accepted' || isSubmitting}
+                        className="btn-update-status"
+                        onClick={() => navigate(`/outsource-tasks/${currentTaskId}/updates`)}
                     >
-                        {task.status === 'accepted' ? 'Accepted' : (isSubmitting ? 'Accepting...' : 'Accept')}
+                        Update Status
                     </button>
+                ) : (
+                    <>
+                        {task.status !== 'rejected' && (
+                            <button
+                                type="button"
+                                className="btn-accept"
+                                onClick={handleAccept}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Accepting...' : 'Accept'}
+                            </button>
+                        )}
+                        <button
+                            type="button"
+                            className="btn-reject"
+                            onClick={() => {
+                                setError('');
+                                setSuccessMessage('');
+                                setIsRejecting(true);
+                            }}
+                            disabled={task.status === 'rejected' || isSubmitting}
+                        >
+                            {task.status === 'rejected' ? 'Rejected' : 'Reject'}
+                        </button>
+                    </>
                 )}
-                <button
-                    type="button"
-                    className="btn-reject"
-                    onClick={() => {
-                        setError('');
-                        setSuccessMessage('');
-                        setIsRejecting(true);
-                    }}
-                    disabled={task.status === 'rejected' || task.status === 'accepted' || isSubmitting}
-                >
-                    Reject
-                </button>
             </div>
             <section className="task-info-section">
                 {error && <p role="alert" className="error-message">{error}</p>}

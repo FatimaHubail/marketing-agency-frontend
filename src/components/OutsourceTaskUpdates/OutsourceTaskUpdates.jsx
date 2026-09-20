@@ -67,12 +67,39 @@ const OutsourceTaskUpdates = () => {
         }
     }, [currentTaskId]);
 
+    const getDisallowedStatuses = (currentStatus) => {
+        if (currentStatus === 'completed') {
+            return ['in_progress', 'accepted', 'pending', 'rejected'];
+        }
+        if (currentStatus === 'in_progress') {
+            return ['accepted', 'pending', 'rejected'];
+        }
+        if (currentStatus === 'accepted' || currentStatus === 'delivered') {
+            return ['pending', 'rejected'];
+        }
+        return [];
+    };
+
+    const disallowedStatuses = getDisallowedStatuses(task?.status);
+
+    const availableStatusOptions = STATUS_OPTIONS.filter(
+        (opt) => !disallowedStatuses.includes(opt.value)
+    );
+
     const handleSave = async (e) => {
         e.preventDefault();
         try {
             setIsSubmitting(true);
             setError('');
             setSuccessMessage('');
+
+            if (disallowedStatuses.includes(status)) {
+                setError(
+                    `Once a task is '${formatLabel(task?.status)}', it cannot be changed to '${formatLabel(status)}'.`
+                );
+                setIsSubmitting(false);
+                return;
+            }
 
             const trimmedComment = comment.trim();
             const payload = {
@@ -155,7 +182,7 @@ const OutsourceTaskUpdates = () => {
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}
                         >
-                            {STATUS_OPTIONS.map((opt) => (
+                            {availableStatusOptions.map((opt) => (
                                 <option key={opt.value} value={opt.value}>
                                     {opt.label}
                                 </option>
